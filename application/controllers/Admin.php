@@ -16,9 +16,13 @@ class Admin extends CI_Controller
         $this->load->helper('url');
         $this->load->model('Influencer_model');
         $this->load->model('Publisher_model');
+        $this->load->model('Domain_model');
     }
 
-    public function index( $content = null)
+    public function show($a, $b, $c){
+        echo "show" . $a . " " . $b. " " .$c;
+    }
+    public function index( $content = null,$id=null)
     {
         //echo "hello";
         $this->load->helper('url');
@@ -31,6 +35,11 @@ class Admin extends CI_Controller
         else if ($content == 'pub')
         {
         $data['content'] = $this->admin_publisher();
+        //$this->load->view('admin/index',$data);
+        }
+         else if ($content == 'dom')
+        {
+        $data['content'] = $this->admin_domain($id);
         //$this->load->view('admin/index',$data);
         }
         else
@@ -47,8 +56,16 @@ class Admin extends CI_Controller
     }
     private function admin_publisher()
     {
-        $data['Publisher'] = $this->Publisher_model->get_publisher();
+        $data['publisher'] = $this->Publisher_model->get_publisher();
         $string = $this->load->view('admin/template/pub', $data, TRUE);
+        return $string;
+        
+    }
+    
+      private function admin_domain($id)
+    {
+        $data['domain'] = $this->Domain_model->get_domain($id);
+        $string = $this->load->view('admin/template/dom', $data, TRUE);
         return $string;
         
     }
