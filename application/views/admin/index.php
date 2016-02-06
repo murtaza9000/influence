@@ -246,8 +246,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <ul class="sidebar-menu">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+            <li class="active"><a href="<?php echo base_url();?>admin/index/inf"><i class="fa fa-link"></i> <span>List of Influencer</span></a></li>
+            <li><a href="<?php echo base_url();?>admin/index/pub"><i class="fa fa-link"></i> <span>List of Publisher</span></a></li>
             <li class="treeview">
               <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
@@ -276,9 +276,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main content -->
         <section class="content">
-
-          <!-- Your Page Content Here -->
-
+            </pre>
+        <?php echo "<pre>";
+                print_r($content);
+                echo "</pre>";?>
+        
+        </br>
+     
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
