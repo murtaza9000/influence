@@ -69,4 +69,11 @@ class Admin extends CI_Controller
         return $string;
         
     }
+    
+    public function ban($id,$unban = null)
+    {
+         $this->Influencer_model->ban_influencer($id,$unban);
+          $data['content'] = $this->admin_influencer();
+          $this->index('inf');
+    }
 }
