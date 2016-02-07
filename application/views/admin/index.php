@@ -246,8 +246,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <ul class="sidebar-menu">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            <li  <?php echo (current_url() == base_url()."admin/index/inf") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/index/inf"><i class="fa fa-link"></i> <span>List of Influencer</span></a></li>
-            <li   <?php echo (current_url() == base_url()."admin/index/pub") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/index/pub"><i class="fa fa-link"></i> <span>List of Publisher</span></a></li>
+            <li  <?php echo (current_url() == base_url()."admin/inf") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/inf"><i class="fa fa-link"></i> <span>List of Influencer</span></a></li>
+            <li   <?php echo (current_url() == base_url()."admin/pub") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/pub"><i class="fa fa-link"></i> <span>List of Publisher</span></a></li>
+            <li   <?php echo (current_url() == base_url()."admin/pub") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/viral"><i class="fa fa-link"></i> <span>List of Viral Links</span></a></li>
             <li class="treeview">
               <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
