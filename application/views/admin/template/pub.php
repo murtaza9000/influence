@@ -13,7 +13,7 @@
    </div>
    
    <div class ="col-md-4">
-       <a href="<?php echo base_url();?>admin/index/dom/<?php echo $pub['id']?>">
+       <a href="<?php echo base_url();?>admin/dom/no/<?php echo $pub['id']?>">
    <button type="button" class="btn btn-info">Domains</button>
    </a>
    </br>
