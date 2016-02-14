@@ -56,6 +56,13 @@ class Admin extends CI_Controller
          $this->load->view('admin/index',$data);
     }
     
+    public function inf_detail($id)
+    {
+         $data['content'] = $this->admin_influencer_detail($id);
+         $data['active'] ='inf';
+         $this->load->view('admin/index',$data);
+    }
+    
     
     public function index( $content = null,$id=null)
     {
@@ -208,4 +215,19 @@ class Admin extends CI_Controller
         //  $data['content'] = $this->admin_influencer();
           $this->dom($all,$pub_id);
     }  
+    
+    
+      private function admin_influencer_detail($id)
+    {
+        $data['influencer'] = $this->Influencer_model->get_influencer($id);
+        $string = $this->load->view('admin/template/inf_detail', $data, TRUE);
+        return $string;
+        
+    }
+    
+      public function payment_clear($id)
+      {
+          $this->Influencer_model->payment_clear($id);
+          $this->inf_detail($id);
+      }
 }

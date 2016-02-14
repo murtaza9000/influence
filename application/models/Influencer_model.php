@@ -9,8 +9,11 @@ class Influencer_model extends CI_Model
         
         
         
-  public function get_influencer()
+  public function get_influencer($id =null)
   {
+       if (isset($id))
+       $query = $this->db->get_where('influencer',array('id'=>$id));
+       else
        $query = $this->db->get('influencer');
        return $query->result_array();
   }
@@ -29,5 +32,12 @@ class Influencer_model extends CI_Model
           $this->db->where('id', $id);
           $this->db->update('influencer');
       }
-  }
+   }   
+      public function payment_clear($id)
+      {
+          $this->db->set('payment', '0');
+          $this->db->where('id', $id);
+          $this->db->update('influencer');
+      }
+  
 }
