@@ -12,9 +12,17 @@ class Domain_model extends CI_Model
   public function get_domain($id = null)
   {
       if (isset($id))
+      {
+      $this->db->distinct();
        $query = $this->db->get_where('domain',array('id'=>$id));
-       else
-       $query = $this->db->get('domain');
+      }
+       else{
+           
+           $this->db->distinct();
+       $query = $this->db->get('domain'); 
+       
+       }
+      
        return $query->result_array();
   }
   
@@ -44,8 +52,10 @@ class Domain_model extends CI_Model
       $data = array(
                 'url' => $this->input->post('url'),
                 'click_rate'=>$this->input->post('click_rate'),
-                'publisher_id'=>$this->input->post('publisher_id')
+                'publisher_id'=>$this->input->post('publisher_id'),
+                'priority'=>$this->input->post('priority')
                  );
+              
      $this->db->insert('domain',$data);
       
   }

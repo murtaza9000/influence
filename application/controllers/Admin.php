@@ -193,14 +193,18 @@ class Admin extends CI_Controller
         public function editdomain($all=null)
         {
             
-            $this->Domain_model->edit_domain();
-            $this->dom($this->input->post('all'),$this->input->post('publisher_id'));
+           // $this->domainformsubit("edit");
+            //$this->dom($this->input->post('all'),$this->input->post('publisher_id'));
+            if($this->input->post('all') == 'all')
+          $this->dom($this->input->post('all'));
+          else
+              $this->dom($this->input->post('all'),$this->input->post('publisher_id'));
         }
         
      public function adddomain()
-    {
-         $this->Domain_model->add_domain();
-        //  $data['content'] = $this->admin_influencer();
+    {   
+        
+     //  $this->domainformsubit("add");
         if($this->input->post('all') == 'all')
           $this->dom($this->input->post('all'));
           else
@@ -229,5 +233,43 @@ class Admin extends CI_Controller
       {
           $this->Influencer_model->payment_clear($id);
           $this->inf_detail($id);
+      }
+      
+      public function domainformsubit($type)
+      {
+           $this->form_validation->set_rules('priority', 'Priority', 'required|is_unique[domain.priority]');
+          if ($this->form_validation->run() === FALSE)
+                {
+                     
+                     if($this->input->post('all') == 'all') 
+                        {  
+                           
+                                $this->dom($this->input->post('all'));
+                           
+                        }
+                     else
+                        {
+                                 $this->dom($this->input->post('all'),$this->input->post('publisher_id'));
+                        
+                        }
+                          
+                      
+                }
+          else 
+          {
+            if($type === "add")
+                {
+                 $this->Domain_model->add_domain();
+                 $this->adddomain();
+                }
+            else
+                {
+                    $this->Domain_model->edit_domain();
+                    $this->editdomain();
+                }
+                 
+          }
+           
+            
       }
 }
