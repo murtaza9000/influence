@@ -1,43 +1,58 @@
 
-<?php foreach ($influencer as $inf){?>
 
-    <div class ="row">
-     <div class ="col-md-4">   
+ <?php $index = 1;
+foreach ($rss as $inf){?>
+
+<div class ="row">
     <ol>
-<?php if ( $inf['ban'] == "1") 
-        {
-            echo"<li style=\"text-decoration: line-through;\">". $inf['name']."</li>";
-?>
+    <div class ="col-md-8">   
+        
+<?php echo $index.".   ";?>
+      &nbsp;&nbsp;  <textarea class="js-copytextarea" rows="2" cols="100"><?php echo $inf['links'] ?></textarea>
+
+        
+    </div>
+        <div class ="col-md-2">
+            
+            <button class="js-textareacopybtn btn btn-block btn-primary btn-xs">Copy Link!</button>
+            
+        </div>
         </ol>
-          </div>
-             <div class ="col-md-4">
-                 <a href="<?php echo base_url();?>admin/ban/<?php echo $inf['id']?>/unban">
-                 <button type="button" class="btn btn-info">unban</button>
-                 </a>
-        
-              </div>  
+</div>
+         
+    <?php  $index++;}  ?>
+    
             
             
             
-            
-<?php    }
-       else
-       {
-        echo"<li>". $inf['name']."</li>"; 
- ?>
-   
-   </ol>
-          </div>
-             <div class ="col-md-4">
-                 <a href="<?php echo base_url();?>admin/ban/<?php echo $inf['id']?>">
-                 <button type="button" class="btn btn-info">ban</button>
-                 </a>
-        
-              </div> 
-   
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<SCRIPT LANGUAGE="JavaScript">
+ var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
 
-<?php }
-echo "</div>";
-} ?>
+copyTextareaBtn.addEventListener('click', function(event) {
+  var copyTextarea = document.querySelector('.js-copytextarea');
+  copyTextarea.select();
 
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.log('Oops, unable to copy');
+  }
+});
+
+</SCRIPT>

@@ -23,23 +23,25 @@
                 echo form_label("CLick Rate: ","click_rate");
                 // echo form_input("click_rate","","class = form-control required");
                 ?>
-
-                <input type="hidden" name="publisher_id" value="<?php echo $domain[0]['publisher_id'];?>" />
+              
+                <!--input type="hidden" name="publisher_id" value="<?php echo (isset($domain[0])) ? $domain[0]['publisher_id'] : '' ;?>" class = "form-control required"  /-->
                 <input type="number" step="any" name="click_rate" value="$" class = "form-control required" />
-                <?php echo form_label("Publisher: ","Publisher");?>
-                <select class="form-control" name="publisher_id">
-                 <?php 
-                  $index = 0;
-                        foreach($publisher as $pub)
+                
+                     <?php echo form_label("Publisher: ","Publisher");?>      
+                   <select class="form-control" name="publisher_id">     
+                         <?php 
+                  
+                    foreach($publisher as $pub)
                         { 
-                        echo '<option value="'.$domain[$index]['publisher_id'].'">'.$pub['name'].'</option>';
-                        $index++;
+                        echo '<option value="'.$pub['id'].'">'.$pub['name'].'</option>';
+                    
                         }
-                        ?>
+                    ?>
                 </select>
                 <?php echo form_label("Priority: ","Priority");?>
-                <input type="number"  name="priority" value="<?php echo $domain[0]['priority'];?>" class = "form-control required" />
-
+                    <input type="number" name="priority" value="<?php echo (isset($domain[0])) ? $domain[0]['priority'] : '' ;?>" class = "form-control required"/>
+            
+           
                 <input type="hidden" name="all" value="all" />
 
 
@@ -168,23 +170,25 @@ foreach ($domain as $dom){?>
 
             // echo form_input("click_rate","","class = form-control required");
             ?>
-            <input type="hidden" name="publisher_id" value="<?php echo $domain[0]['publisher_id'];?>" />
+          
+          
+          
             <input type="number" step="any" name="click_rate" value="0" class = "form-control required" />
             <?php echo form_label("Publisher: ","Publisher");?>
             <select class="form-control" name="publisher_id">
                     <?php 
                     $index = 0;
-                    foreach($publisher as $pub)
+                    foreach($publishers as $pub)
                         { 
-                        echo '<option value="'.$domain[$index]['publisher_id'].'">'.$pub['name'].'</option>';
+                        echo '<option value="'.$pub['id'].'">'.$pub['name'].'</option>';
                         $index++;
                         }
                     ?>
             </select>
 
             <?php echo form_label("Priority: ","Priority");?>
-            <input type="number"  name="priority" value="<?php echo $domain[0]['priority'];?>" class = "form-control required" />
-
+             <input type="number" name="priority" value="<?php echo (isset($domain[0])) ? $domain[0]['priority'] : '' ;?>" class = "form-control required"  />
+            
             <input type="hidden" name="all" value="no" />
 
 
