@@ -35,7 +35,7 @@
  * @since	Version 1.0.0
  * @filesource
  */
-
+include __DIR__."/vendor/autoload.php";
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

@@ -48,7 +48,8 @@
         </div>
 
         <?php echo form_open('register'); ?>
-
+          <input type="hidden" name="pagelinks" value="<?=(isset($pagelinks)) ? $pagelinks : set_value('pagelinks')?>"/>
+          <input type="hidden" name="facebook_token" value="<?=(isset($facebook_token)) ? $facebook_token : set_value('facebook_token')?>"/>
 
           <div class="form-group has-feedback">
             <input type="text" name="displayname" value="<?=set_value('displayname')?>"
@@ -56,12 +57,12 @@
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="text" name="fullname" value="<?=set_value('fullname')?>"
+            <input type="text" name="fullname" value="<?=(isset($fullname)) ? $fullname : set_value('fullname')?>"
                    class="form-control" placeholder="Full name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="email" name="email"  value="<?=set_value('email')?>"
+            <input type="email" name="email"  value="<?=(isset($email)) ? $email : set_value('email')?>"
                    class="form-control" placeholder="Email">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
@@ -99,7 +100,7 @@
 
         <div class="social-auth-links text-center">
           <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using Facebook</a>
+          <a href="<?=$facebook?>" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using Facebook</a>
           <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using Google+</a>
         </div>
 

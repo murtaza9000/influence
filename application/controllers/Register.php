@@ -5,6 +5,7 @@
  * Date: 2/13/16
  * Time: 2:29 PM
  */
+use Facebook\FacebookRequest;
 class Register extends CI_Controller
 {
     public function __construct()
@@ -34,7 +35,16 @@ class Register extends CI_Controller
         $data = array('token' => 'P6KzcCwRVTUOiGru');
         $this->load->view('admin/confirmemail',$data);
     }
-    public function index(){
+
+    public function index($loginData = null){
+        $fb = new Facebook\Facebook([
+            'app_id' => '1509104876060790',
+            'app_secret' => '977e891176e8e1e9e6b626323f01d8bb',
+            'default_graph_version' => 'v2.5',
+        ]);
+        $helper = $fb->getRedirectLoginHelper();
+        $permissions = ['email', 'user_likes','pages_show_list']; // optional
+        $loginUrl = $helper->getLoginUrl('http://influence.local/register/logincallback', $permissions);
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules(
@@ -55,7 +65,18 @@ class Register extends CI_Controller
 
         if ($this->form_validation->run() == FALSE)
         {
-            $this->load->view('admin/register');
+            $data = array();
+            $data['facebook'] = $loginUrl;
+
+            //Check logindata
+            if ($loginData){
+                $data['fullname'] = (isset($loginData['name'])) ? $loginData['name'] : null;
+                $data['email'] = (isset($loginData['email'])) ? $loginData['email'] : null;
+                $data['pagelinks'] = (isset($loginData['pages'])) ? $loginData['pages'] : null;
+
+                $data['facebook_token'] = (isset($loginData['facebook_token'])) ? $loginData['facebook_token'] : null;
+            }
+            $this->load->view('admin/register',$data);
         }
         else
         {
@@ -72,6 +93,83 @@ class Register extends CI_Controller
 
         }
 
+    }
+
+    public function logincallback(){
+        $fb = new Facebook\Facebook([
+            'app_id' => '1509104876060790',
+            'app_secret' => '977e891176e8e1e9e6b626323f01d8bb',
+            'default_graph_version' => 'v2.5',
+        ]);
+        //$fbApp = new Facebook\FacebookApp('1509104876060790','977e891176e8e1e9e6b626323f01d8bb');
+
+        $helper = $fb->getRedirectLoginHelper();
+        try {
+            $accessToken = $helper->getAccessToken();
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+            // When Graph returns an error
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+            // When validation fails or other local issues
+            echo 'Facebook SDK returned an error1 : ' . $e->getMessage();
+            exit;
+        }
+
+        if (isset($accessToken)) {
+
+            // Logged in!
+            $_SESSION['facebook_access_token'] = (string) $accessToken;
+            // Sets the default fallback access token so we don't have to pass it to each request
+            $fb->setDefaultAccessToken($accessToken);
+            // Now you can redirect to another page and use the
+            // access token from $_SESSION['facebook_access_token']
+            try {
+                //Get pages
+                $request = $fb->request('GET', '/me/accounts');
+                $response = $fb->getClient()->sendRequest($request);
+                $graphEdge = $response->getGraphEdge();
+                // Iterate over all the GraphNode's returned from the edge
+                $json = "" ;
+                foreach ($graphEdge as $key => $value) {
+                    $json .= $value['id'] . ":" . $value['name'] . ",";
+                }
+
+                //Get name and email
+                $request = $fb->request('GET', '/me');
+                $response = $fb->getClient()->sendRequest($request);
+                $graphNode = $response->getGraphNode();
+
+                $name = $graphNode['name'];
+                $email = isset($graphNode['email']) ? $graphNode['email'] : '';
+
+                //Get long token
+                // OAuth 2.0 client handler
+                $oAuth2Client = $fb->getOAuth2Client();
+
+                // Exchanges a short-lived access token for a long-lived one
+                $longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+
+                $loginData = array();
+                $loginData['pages'] = $json;
+                $loginData['name'] = $name;
+                $loginData['email'] = $email;
+                $loginData['facebook_token'] = $longLivedAccessToken;
+
+                $this->index($loginData);
+
+            } catch(Facebook\Exceptions\FacebookResponseException $e) {
+                // When Graph returns an error
+                echo 'Graph returned an error: ' . $e->getMessage();
+                exit;
+            } catch(Facebook\Exceptions\FacebookSDKException $e) {
+                // When validation fails or other local issues
+                echo 'Facebook SDK returned an error1 : ' . $e->getMessage();
+                exit;
+            }
+
+            //echo 'Logged in as ' . $userNode->getName();
+        }
     }
     public function send_confirmation_email($confirmationToken){
         $this->load->library('email');
@@ -105,6 +203,8 @@ class Register extends CI_Controller
             'country' => $this->input->post('country'),
             'confirmation_token' => $confirmationToken,
             'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+            'fb_page_links' => $this->input->post('pagelinks'),
+            'facebooktoken' => $this->input->post('facebook_token')
         );
 
         return $this->db->insert('influencer', $data);
