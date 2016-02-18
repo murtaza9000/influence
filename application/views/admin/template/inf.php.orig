@@ -7,7 +7,11 @@ foreach ($influencer as $inf){?>
     <ol>
 <?php if ( $inf['ban'] == "1") 
         {
+<<<<<<< HEAD
             echo $index.". <strike>". $inf['name']."</strike>"; 
+=======
+            echo"<li style=\"text-decoration: line-through;\">". $inf['name']."</li>";
+>>>>>>> 0fa7f088d0b4e2354e7e024097a1123e8016d38a
 ?>
         </ol>
           </div>
