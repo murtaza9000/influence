@@ -95,6 +95,14 @@ class Register extends CI_Controller
 
     }
 
+    public function loginbyreddit(){
+
+    }
+
+    public function redditcallback(){
+
+    }
+
     public function logincallback(){
         $fb = new Facebook\Facebook([
             'app_id' => '1509104876060790',
