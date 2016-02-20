@@ -99,6 +99,7 @@ class Admin extends CI_Controller
         {
         $data['domain'] = $this->Domain_model->get_domain_id($id_pub);
         $data['publisher'] = $this->Publisher_model->get_publisher($id_pub);
+        $data['publishers'] = $this->Publisher_model->get_publisher();
         }
         $data['all'] =$allcheck;
         $string = $this->load->view('admin/template/dom', $data, TRUE);
