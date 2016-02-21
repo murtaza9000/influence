@@ -247,12 +247,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
             <li  <?php echo (current_url() == base_url()."influencer/inf") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/inf"><i class="fa fa-link"></i> <span>List of Influencer</span></a></li>
-            <li   <?php echo (current_url() == base_url()."admin/index/pub") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/index/pub"><i class="fa fa-link"></i> <span>List of Publisher</span></a></li>
-            <li class="treeview">
-              <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+            <li   <?php echo (current_url() == base_url()."admin/index/pub") ? 'class="active"' : '' ;?>><a href="#"><i class="fa fa-link"></i> <span>List of Publisher</span></a></li>
+            
+            <li <?php echo ($active == 'inf' || $active == 'viral') ? 'class="treeview active"' : 'class="treeview"' ;?>>
+              <a href="#"><i class="fa fa-link"></i> <span>Content</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="#">Link in level 2</a></li>
-                <li><a href="#">Link in level 2</a></li>
+                <li <?php echo ($active == 'inf') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/inf"><i class="fa fa-link"></i>Latest Links</a></li>
+                <li <?php echo ($active == 'viral') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/viral"><i class="fa fa-link"></i> <span>Viral Links</span></a></li>
               </ul>
             </li>
           </ul><!-- /.sidebar-menu -->

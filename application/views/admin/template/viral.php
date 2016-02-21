@@ -1,9 +1,5 @@
 
 <div class="col-xs-12">
-</pre>
-<?php print_R($_POST) ?>
-</pre>
-<?php echo base_url()."admin/index/viral/";?>
 
 <?php if (!(isset($editmode))) {
     
