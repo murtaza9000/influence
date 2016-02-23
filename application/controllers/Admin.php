@@ -22,6 +22,7 @@ class Admin extends CI_Controller
         $this->load->library('form_validation');
         $this->load->library('session');                     
         $this->load->library('CI_input');
+         $this->load->library('opengraph');
     }
 
     public function show($a, $b, $c){
@@ -131,7 +132,16 @@ class Admin extends CI_Controller
         
      public function addviral()
     {
-         $this->Viral_model->add_viral();
+/////////////////////////////adding meta in database/////////////////////
+$trimmed=trim($this->input->post('url'));
+$graph = $this->opengraph->fetch(trim($this->input->post('url')));
+
+ foreach ($graph as $key => $value ) {
+   $meta[$key] =$value;
+ }
+///////////////////////////////////////////////////////////////   
+    
+            $this->Viral_model->add_viral($meta);
         //  $data['content'] = $this->admin_influencer();
           $this->viral();
     }  
@@ -237,8 +247,10 @@ class Admin extends CI_Controller
       }
       
       public function domainformsubit($type)
-      {
+      {      if($type === "add")
            $this->form_validation->set_rules('priority', 'Priority', 'required|is_unique[domain.priority]');
+           else
+            $this->form_validation->set_rules('priority', 'Priority', 'required');
           if ($this->form_validation->run() === FALSE)
                 {
                      
@@ -273,4 +285,26 @@ class Admin extends CI_Controller
            
             
       }
+      
+      public function test()
+      {
+          $graph = $this->opengraph->fetch('http://techcrunch.com/2016/02/20/japan-launches-observatory-to-study-black-holes-and-dying-stars/');
+        
+            //var_dump($graph->keys());
+            //  var_dump($graph);
+
+           //    echo "<pre>";print_r($graph);echo "</pre>";
+               foreach ($graph as $key => $value ) {
+    //  echo "$key => $value";
+ // $meta=  get_object_vars($key);
+ $meta[$key] =$value;
+ 
+     //print_r($value);
+        }
+      
+        echo "<pre>";print_r($meta);echo "</pre>";
+       // echo $graph=>_values["site_name"];
+      }
+      
+     
 }

@@ -17,10 +17,12 @@ class Rss_model extends CI_Model
        $query = $this->db->get('rss_links');
        return $query->num_rows();
   }
-   public function add_rss($link,$domain_id)
+   public function add_rss($rss,$domain_id)
   {     
+      
       $data = array(
-                'links' => $link,
+                'links' => $rss['link'],
+                'description' => $rss['description'],
                 'domain_id'=>$domain_id
                 
                  );
@@ -52,19 +54,19 @@ class Rss_model extends CI_Model
           $this->db->update('influencer');
       }
   
-      public function del_rss($id)
+      public function del_rss()
    {
                                    
-                return $this->db->delete('rss_links', array('domain_id' => $id));
+                return $this->db->empty_table('rss_links');
                 
    } 
    
     public function get_influencer($id =null)
   {
        if (isset($id))
-       $query = $this->db->get_where('rss_links',array('id'=>$id));
+       $query = $this->db->get_where('rss_links_view',array('id'=>$id));
        else
-       $query = $this->db->get('rss_links');
+       $query = $this->db->get('rss_links_view');
        return $query->result_array();
   }
 }
