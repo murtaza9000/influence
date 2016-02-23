@@ -144,11 +144,12 @@ class Register extends CI_Controller
                 }
 
                 //Get name and email
-                $request = $fb->request('GET', '/me');
+                $request = $fb->request('GET', '/me?fields=name,email');
                 $response = $fb->getClient()->sendRequest($request);
                 $graphNode = $response->getGraphNode();
 
                 $name = $graphNode['name'];
+                $id = $graphNode['id'];
                 $email = isset($graphNode['email']) ? $graphNode['email'] : '';
 
                 //Get long token
@@ -162,9 +163,12 @@ class Register extends CI_Controller
                 $loginData['pages'] = $json;
                 $loginData['name'] = $name;
                 $loginData['email'] = $email;
+                $loginData['id'] = $id;
                 $loginData['facebook_token'] = $longLivedAccessToken;
+                $loginData['login_provider'] = 'facebook';
 
-                $this->index($loginData);
+                $this->save_and_login($loginData);
+                //$this->index($loginData);
 
             } catch(Facebook\Exceptions\FacebookResponseException $e) {
                 // When Graph returns an error
@@ -179,6 +183,29 @@ class Register extends CI_Controller
             //echo 'Logged in as ' . $userNode->getName();
         }
     }
+
+    public function save_and_login($loginData){
+        $data = array(
+            'name' => $loginData['name'],
+            //'display_name' => $this->input->post('displayname'),
+            'email' => $loginData['email'],
+            'fb_page_links' => $loginData['pages'],
+            'facebooktoken' => $loginData['facebook_token'],
+            'facebook_id' => $loginData['id'],
+            'login_provider' => $loginData['login_provider']
+        );
+        if ($this->db->insert('influencer', $data)){
+            $this->session->set_flashdata('message', 'You have successfully logged in from Facebook');
+            $this->session->set_userdata('logged_in',true);
+            $this->session->set_userdata('user_id',$this->db->insert_id());
+            redirect('/influencer/');
+        }else{
+            $data = array('error' => 'Some error occurred while creating User.');
+            $this->load->view('admin/register',$data);
+        };
+
+    }
+
     public function send_confirmation_email($confirmationToken){
         $this->load->library('email');
         $config['mailtype'] = 'html';
@@ -198,10 +225,7 @@ class Register extends CI_Controller
 
     public function set_influencer($confirmationToken)
     {
-
         $this->load->helper('url');
-
-
 
         $data = array(
             'name' => $this->input->post('fullname'),

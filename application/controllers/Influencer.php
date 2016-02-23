@@ -11,12 +11,15 @@ class Influencer extends CI_Controller
     {
         parent::__construct();
         $this->load->library('rssparser');
+        $this->load->library('user');
          $this->load->model('Rss_model');
          $this->load->model('Domain_model');
     }
 
     public function index(){
-        $this->load->view('influencer/index');
+        $data = array();
+        $data = $this->user->add_user_data($data);
+        $this->load->view('influencer/index',$data);
     }
     
     public function rss_done(){
