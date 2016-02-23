@@ -39,12 +39,15 @@ class Domain_model extends CI_Model
       public function edit_domain()
   {     
       $data = array(
-                'id' => $this->input->post('id'),
+                
                 'url' => $this->input->post('url'),
                 'click_rate'=>$this->input->post('click_rate'),
+                'click_ratepre'=>$this->input->post('click_ratepre'),
+                'priority'=>$this->input->post('priority'),
                 'publisher_id'=>$this->input->post('publisher_id')
                  );
-     $this->db->replace('domain',$data);
+     $this->db->where('id',$this->input->post('id'));
+     $this->db->update('domain',$data);
       
   }
   
@@ -53,6 +56,7 @@ class Domain_model extends CI_Model
       $data = array(
                 'url' => $this->input->post('url'),
                 'click_rate'=>$this->input->post('click_rate'),
+                'click_ratepre'=>$this->input->post('click_ratepre'),
                 'publisher_id'=>$this->input->post('publisher_id'),
                 'priority'=>$this->input->post('priority')
                  );

@@ -247,8 +247,10 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
       }
       
       public function domainformsubit($type)
-      {
+      {      if($type === "add")
            $this->form_validation->set_rules('priority', 'Priority', 'required|is_unique[domain.priority]');
+           else
+            $this->form_validation->set_rules('priority', 'Priority', 'required');
           if ($this->form_validation->run() === FALSE)
                 {
                      

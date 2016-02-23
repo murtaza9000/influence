@@ -19,12 +19,13 @@
 
  <?php $index = 1;
 foreach ($rss as $inf){?>
-
+<div>
 <div class ="row">
         <div class ="col-md-8">   
         
-<?php //echo $index.".   ";?>
-     <textarea class="js-copytextarea" rows="2" cols="100"><?php echo $inf['links'] ?></textarea>
+
+     <textarea class="js-copytextarea" rows="1" cols="100"><?php echo $inf['links'] ?></textarea>
+<?php    echo "<p><b>Click-Rate</b>: $".$inf['click_rate']."   <b>Click-Rate(Premium-Rate)</b>: $".$inf['click_ratepre']."</p>";  ?>
 
         
     </div>
@@ -34,15 +35,21 @@ foreach ($rss as $inf){?>
             
         </div>
  </div>
+ <div class ="row">
         <div class="box">
-            
-                <div class="image_latest  img-responsive ">
+            <div class="box-body">
+                <div class="col-md-8">
+                    <div class="image_latest  img-responsive ">
                 <?php      echo $inf['description'];
 
                 ?>
+                    </div>
                 </div>
-            
+            </div>
         </div>  
+  </div>
+  
+  </div>
     <?php  $index++;}  
    ?>
     

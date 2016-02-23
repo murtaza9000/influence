@@ -23,7 +23,7 @@ class Viral_model extends CI_Model
       $data = array(
                 'url' => $this->input->post('url'),
                 'click_rate'=>$this->input->post('click_rate'),
-                            
+                'click_ratepre'=>$this->input->post('click_ratepre'),           
                 'site_name'=>( isset($meta['site_name']) ? $meta['site_name'] : null),
                 'title'=>( isset($meta['title']) ? $meta['title'] : null),
                 'description'=>( isset($meta['description']) ? $meta['description'] : null),
@@ -44,7 +44,8 @@ class Viral_model extends CI_Model
       $data = array(
                 'id' => $this->input->post('id'),
                 'url' => $this->input->post('url'),
-                'click_rate'=>$this->input->post('click_rate')
+                'click_rate'=>$this->input->post('click_rate'),
+                'click_ratepre'=>$this->input->post('click_ratepre')
                  );
      $this->db->replace('viral_links',$data);
       

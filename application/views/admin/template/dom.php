@@ -9,9 +9,10 @@
 <?php } if ($all=='all')
                     { ?>
 
-<div class="col-xs-12">
 
 
+<div class="row">
+     <div class="col-md-12"> 
 <?php if (!(isset($editmode))) 
           {
     
@@ -41,9 +42,11 @@
                 <?php echo form_label("Priority: ","Priority");?>
                     <input type="number" name="priority" value="<?php echo (isset($domain[0])) ? $domain[0]['priority'] : '' ;?>" class = "form-control required"/>
             
-           
+                        <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
+                <input type="number" step="any" name="click_ratepre" value="0"
+                class = "form-control required" />
                 <input type="hidden" name="all" value="all" />
-
+                
 
                 <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Add domain Link</button>
             </form>
@@ -64,28 +67,25 @@
                 class = "form-control required" />
 
                 <label for="Publisher">Publisher: </label>
-                <input type="noinput" name="id" value="<?php echo $publisher[0]['name'];?>" readonly="readonly" class = "form-control"/>
+                <input type="noinput" name="publisher_name" value="<?php echo $publisher[0]['name'];?>" readonly="readonly" class = "form-control"/>
                 <input type="hidden" name="all" value="all" />
                 <br>
                 <?php echo form_label("Priority: ","Priority");?>
                 <input type="number"  name="priority" value="<?php echo $editdomain[0]['priority'];?>" class = "form-control required" />
-                <select class="form-control" name="priority">
-                    <?php 
-                    $index = 0;
-                    foreach($domain as $dom)
-                    { 
-                    echo '<option value="'.$dom['priority'].'">'.$dom['priority'].'</option>';
-                    $index++;
-                    }
-                    ?>
-                </select>
+               
+                        <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
+                <input type="number" step="any" name="click_ratepre" value="<?php echo $editdomain[0]['click_ratepre'];?>"
+                class = "form-control required" />
                 <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Edit domain Link</button>
                 <a href="<?php echo site_url('admin/dom/all');?>" >
                 <button type="button" class="btn btn-danger">Cancel</button>
                 </a>
         </form>
-
+</div>
+</div>
 <?php } ?>
+    <div class="row">
+        <div class="col-md-12"> 
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Responsive Hover Table</h3>
@@ -108,6 +108,7 @@
                   <th>Link</th>
                   <th>Priority</th>
                   <th>Click Rate</th>
+                  <th>Click Rate(Premium)</th>
                   <th>Delete</th>
                   <th>Edit</th>
                 </tr></thead>
@@ -121,7 +122,8 @@ foreach ($domain as $dom){?>
 <?php echo "<td>".$index."</td>"; 
       echo "<td>".$dom['url']."</td>" ;
       echo "<td>".$dom['priority']."</td>"; 
-      echo "<td>".$dom['click_rate']."</td>"; ?>
+      echo "<td>".$dom['click_rate']."</td>";
+      echo "<td>".$dom['click_ratepre']."</td>"; ?>
 
 
                       <td>
@@ -146,7 +148,8 @@ foreach ($domain as $dom){?>
           </div>
           <!-- /.box -->
         </div>
-
+       </div>
+  
 
 
 <?php }else {
@@ -155,8 +158,8 @@ foreach ($domain as $dom){?>
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// ?>
 
     
-    <div class="col-xs-12">
-
+<div class="row">
+     <div class="col-md-12"> 
 
 <?php if (!(isset($editmode))) 
         {
@@ -191,7 +194,9 @@ foreach ($domain as $dom){?>
             
             <input type="hidden" name="all" value="no" />
 
-
+             <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
+        <input type="number" step="any" name="click_ratepre" value="0"
+        class = "form-control required" />
             <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Add domain Link</button>
         </form>
  <?php }else { 
@@ -214,15 +219,20 @@ foreach ($domain as $dom){?>
         <br>
           <?php echo form_label("Priority: ","Priority");?>
            <input type="number"  name="priority" value="<?php echo $editdomain[0]['priority'];?>" class = "form-control required" />
-       
+             <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
+        <input type="number" step="any" name="click_ratepre" value="<?php echo $editdomain[0]['click_ratepre'];?>"
+        class = "form-control required" />
       
  <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Edit domain Link</button>
  <a href="<?php echo base_url();?>admin/dom/no/<?php echo $editdomain[0]['publisher_id']?>" >
  <button type="button" class="btn btn-danger">Cancel</button>
  </a>
  </form>
-
+</div>
+</div>
 <?php } ?>
+ <div class="row">
+        <div class="col-md-12"> 
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Responsive Hover Table</h3>
@@ -245,6 +255,7 @@ foreach ($domain as $dom){?>
                   <th>Link</th>
                   <th>Priority</th>
                   <th>Click Rate</th>
+                  <th>Click Rate(Premium)</th>
                   <th>Delete</th>
                   <th>Edit</th>
                 </tr></thead>
@@ -256,7 +267,8 @@ foreach ($domain as $dom){?>
 <?php echo "<td>".$index."</td>"; 
       echo "<td>".$dom['url']."</td>" ;
       echo "<td>".$dom['priority']."</td>"; 
-      echo "<td>".$dom['click_rate']."</td>";?> 
+      echo "<td>".$dom['click_rate']."</td>";
+      echo "<td>".$dom['click_ratepre']."</td>";?> 
       
       
                       <td>
@@ -280,6 +292,7 @@ foreach ($domain as $dom){?>
           </div>
           <!-- /.box -->
         </div>
+       </div>
     
     
 <?php       } ?>

@@ -64,9 +64,9 @@ class Rss_model extends CI_Model
     public function get_influencer($id =null)
   {
        if (isset($id))
-       $query = $this->db->get_where('rss_links',array('id'=>$id));
+       $query = $this->db->get_where('rss_links_view',array('id'=>$id));
        else
-       $query = $this->db->get('rss_links');
+       $query = $this->db->get('rss_links_view');
        return $query->result_array();
   }
 }

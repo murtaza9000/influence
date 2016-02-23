@@ -8,10 +8,13 @@
        echo form_label("Url: ","url");
        echo form_input("url","","class = form-control required");
        
-       echo form_label("CLick Rate: ","click_rate");
+       echo form_label("Click Rate: ","click_rate");
         // echo form_input("click_rate","","class = form-control required");
 ?>
        <input type="number" step="any" name="click_rate" value="$" class = "form-control required" />
+       <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
+        <input type="number" step="any" name="click_ratepre" value="0"
+        class = "form-control required" />
      
        
 
@@ -24,11 +27,14 @@
        echo form_label("Url: ","url");
        echo form_input("url",$editviral[0]['url'],"class = form-control required");
        
-       echo form_label("CLick Rate: ","click_rate");
+       echo form_label("Click Rate: ","click_rate");
         // echo form_input("click_rate","","class = form-control required");
 ?>      
         <input type="hidden" name="id" value="<?php echo $editviral[0]['id'];?>" />
        <input type="number" step="any" name="click_rate" value="<?php echo $editviral[0]['click_rate'];?>"
+        class = "form-control required" />
+<?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
+        <input type="number" step="any" name="click_ratepre" value="<?php echo $editviral[0]['click_ratepre'];?>"
         class = "form-control required" />
      
        
@@ -55,15 +61,16 @@
               </div>
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
-                <tbody><tr>
+            <div class="box-body ">
+              <table id="viral" class="table table-bordered table-hover dataTable">
+                <thead><tr>
                   <th>ID</th>
                   <th>Link</th>
                   <th>Click Rate</th>
+                  <th>Click Rate(Premium)</th>
                   <th>Delete</th>
                   <th>Edit</th>
-                </tr>
+                </tr></thead>
                 
                     
 <?php $index = 1;
@@ -71,7 +78,8 @@ foreach ($viral as $vir){?>
 <tr>
 <?php echo "<td>".$index."</td>"; 
       echo "<td>".$vir['url']."</td>" ;
-      echo "<td>".$vir['click_rate']."</td>"; ?>
+      echo "<td>".$vir['click_rate']."</td>";
+      echo "<td>".$vir['click_ratepre']."</td>"; ?>
 
                       <td>
                        <a href="<?php echo site_url('admin/delviral/'.$vir['id']);?>" onclick="return confirm('Are you sure?');">

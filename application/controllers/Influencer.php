@@ -18,7 +18,10 @@ class Influencer extends CI_Controller
     }
 
     public function index(){
-        $this->load->view('influencer/index');
+        
+        $data['content'] = "Hello";
+        $data['active'] = "Hello";
+        $this->load->view('influencer/index',$data);
     }
     
     public function rss_done(){
@@ -33,8 +36,9 @@ class Influencer extends CI_Controller
            
            echo $values['url'];
        echo "<br>";
-       
-        $this->rssparser->set_feed_url(trim($values['url']));  // get feed
+      
+     //  urlencode(trim($values['url']))
+        $this->rssparser->set_feed_url(urldecode(trim($values['url'])));  // get feed
         $this->rssparser->set_cache_life(30);                       // Set cache life time in minutes
         $rss = $this->rssparser->getFeed(25);
        
