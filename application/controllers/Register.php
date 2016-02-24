@@ -5,7 +5,7 @@
  * Date: 2/13/16
  * Time: 2:29 PM
  */
-use Facebook\FacebookRequest;
+
 class Register extends CI_Controller
 {
     public function __construct()
@@ -36,7 +36,36 @@ class Register extends CI_Controller
         $this->load->view('admin/confirmemail',$data);
     }
 
-    public function index($loginData = null){
+    public function login(){
+
+        //load validation rules
+        $this->login_validation_rules();
+
+        //This is the first time we're viewing this page, or we're coming here after the validations fail
+        if ($this->form_validation->run() == FALSE){
+            $this->load->view('admin/login');
+        }else{
+            $password = $this->input->post('password');
+            $email = $this->input->post('email');
+            $row = $this->db->get_where('influencer',array('email' => $email))->row();
+            if ($row == null){
+                $data = array('error' => 'User does not exist');
+                $this->load->view('admin/login',$data);
+            }else if($row->confirmed == 0){
+                $data = array('error' => 'You have not confirmed your account from your email');
+                $this->load->view('admin/login',$data);
+            }
+            else if (!password_verify($password,$row->password)){
+                $data = array('error' => 'Incorrect password');
+                $this->load->view('admin/login',$data);
+            }else{
+                echo "Correct Password";
+            }
+
+        }
+    }
+
+    public function get_facebook_url($callback_url){
         $fb = new Facebook\Facebook([
             'app_id' => '1509104876060790',
             'app_secret' => '977e891176e8e1e9e6b626323f01d8bb',
@@ -44,57 +73,65 @@ class Register extends CI_Controller
         ]);
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email', 'user_likes','pages_show_list']; // optional
-        $loginUrl = $helper->getLoginUrl('http://influence.local/register/logincallback', $permissions);
-
+        $loginUrl = $helper->getLoginUrl(base_url() . $callback_url, $permissions);
+        return $loginUrl;
+    }
+    public function login_validation_rules(){
         $this->load->library('form_validation');
-        $this->form_validation->set_rules(
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+    }
+
+    public function load_validation_rules(){
+        $this->load->library('form_validation');
+        /*$this->form_validation->set_rules(
             'displayname', 'Display Name',
             'trim|required|min_length[5]|max_length[12]|is_unique[influencer.display_name]',
             array(
                 'required'      => 'You have not provided %s.',
                 'is_unique'     => 'This %s already exists.'
             )
-        );
-        $this->form_validation->set_rules('fullname', 'Full Name', 'trim|required');
+        );*/
+        //$this->form_validation->set_rules('fullname', 'Full Name', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[influencer.email]',
             array(
                 'is_unique'     => 'This %s already exists.'
             ));
-
-        if ($this->form_validation->run() == FALSE)
-        {
-            $data = array();
-            $data['facebook'] = $loginUrl;
-
-            //Check logindata
-            if ($loginData){
-                $data['fullname'] = (isset($loginData['name'])) ? $loginData['name'] : null;
-                $data['email'] = (isset($loginData['email'])) ? $loginData['email'] : null;
-                $data['pagelinks'] = (isset($loginData['pages'])) ? $loginData['pages'] : null;
-
-                $data['facebook_token'] = (isset($loginData['facebook_token'])) ? $loginData['facebook_token'] : null;
-            }
-            $this->load->view('admin/register',$data);
-        }
-        else
-        {
-            //Save Influencer
-            $confirmationToken = random_string('alnum', 16);
-            if ($this->set_influencer($confirmationToken)){
-                $this->send_confirmation_email($confirmationToken);
-                $this->load->view('admin/confirmfirst');
-            }else{
-                $data = array('error' => 'Some error occurred while creating User.');
-                $this->load->view('admin/register',$data);
-            }
-
-
-        }
-
     }
 
+    //Main index function
+    public function index(){
+        //load validation rules
+        $this->load_validation_rules();
+
+        //This is the first time we're viewing this page, or we're coming here after the validations fail
+        if ($this->form_validation->run() == FALSE)
+        {
+            //If validations are correct load facebook login url and show it on the page
+            $data = array();
+            $data['facebook'] = $this->get_facebook_url('/register/logincallback');
+            $this->load->view('admin/register',$data);
+        }
+        //The data is A-OK, lets log in.
+        else
+        {
+            $this->generate_confirmation_token_and_save();
+        }
+    }
+
+    public function generate_confirmation_token_and_save(){
+        //Save Influencer
+        $confirmationToken = random_string('alnum', 16);
+        if ($this->set_influencer($confirmationToken)){
+            $this->send_confirmation_email($confirmationToken);
+            $this->load->view('admin/confirmfirst');
+        }else{
+            $data = array('error' => 'Some error occurred while creating User.');
+            $this->load->view('admin/register',$data);
+        }
+    }
     public function loginbyreddit(){
 
     }
@@ -240,5 +277,15 @@ class Register extends CI_Controller
         );
 
         return $this->db->insert('influencer', $data);
+    }
+
+    private function set_login_data($data)
+    {
+        $data['fullname'] = (isset($loginData['name'])) ? $loginData['name'] : null;
+        $data['email'] = (isset($loginData['email'])) ? $loginData['email'] : null;
+        $data['pagelinks'] = (isset($loginData['pages'])) ? $loginData['pages'] : null;
+
+        $data['facebook_token'] = (isset($loginData['facebook_token'])) ? $loginData['facebook_token'] : null;
+        return $data;
     }
 }

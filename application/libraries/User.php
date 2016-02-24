@@ -17,14 +17,23 @@ class User
     }
     public function add_user_data($data)
     {
-        if ($this->CI->session->has_userdata('id')){
-            $id = $this->CI->session->userdata('id');
-            $row = $this->CI->db->get('influencer')->where('id', $id)->row();
+
+        if ($this->CI->session->has_userdata('user_id')){
+            $id = $this->CI->session->userdata('user_id');
+            $row = $this->CI->db->get_where('influencer', array('id' => $id))->row();
             $data['full_name'] = $row->name;
 
         }else{
             $data['full_name'] = 'dog';
         }
         return $data;
+    }
+
+    public function is_logged_in(){
+        if ($this->CI->session->has_userdata('user_id')){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

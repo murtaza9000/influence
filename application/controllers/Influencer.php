@@ -12,16 +12,18 @@ class Influencer extends CI_Controller
         parent::__construct();
         $this->load->library('rssparser');
         $this->load->library('user');
-         $this->load->model('Rss_model');
-         $this->load->model('Domain_model');
-            $this->load->model('Viral_model');
-             $this->load->library('opengraph');
+        $this->load->model('Rss_model');
+        $this->load->model('Domain_model');
+        $this->load->model('Viral_model');
+        $this->load->library('opengraph');
     }
 
     public function index(){
+        if (!$this->user->is_logged_in()){
+            redirect('/register/login');
+        }
         $data = array();
         $data = $this->user->add_user_data($data);
-
         $data['content'] = "Hello";
         $data['active'] = "Hello";
         $this->load->view('influencer/index',$data);
