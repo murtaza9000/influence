@@ -50,8 +50,12 @@
         <?php echo form_open('register'); ?>
           <input type="hidden" name="pagelinks" value="<?=(isset($pagelinks)) ? $pagelinks : set_value('pagelinks')?>"/>
           <input type="hidden" name="facebook_token" value="<?=(isset($facebook_token)) ? $facebook_token : set_value('facebook_token')?>"/>
-
           <div class="form-group has-feedback">
+            <input type="email" name="email"  value="<?=(isset($email)) ? $email : set_value('email')?>"
+                   class="form-control" placeholder="Email">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+          <!-- div class="form-group has-feedback">
             <input type="text" name="displayname" value="<?=set_value('displayname')?>"
                    class="form-control" placeholder="Display Name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -75,7 +79,7 @@
               <input type="text" name="country" value="<?=set_value('country')?>"
                      class="form-control" placeholder="Country">
 
-          </div>
+          </div -->
           <div class="form-group has-feedback">
             <input type="password" name="password" class="form-control" placeholder="Password">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>

@@ -5,7 +5,7 @@
  * Date: 2/13/16
  * Time: 2:29 PM
  */
-use Facebook\FacebookRequest;
+
 class Register extends CI_Controller
 {
     public function __construct()
@@ -13,6 +13,7 @@ class Register extends CI_Controller
         parent::__construct();
         $this->load->helper(['url','string']);
         $this->load->model('Influencer_model');
+        $this->load->library('facebook');
 
     }
     public function confirmpassword($token){
@@ -46,55 +47,62 @@ class Register extends CI_Controller
         $permissions = ['email', 'user_likes','pages_show_list']; // optional
         $loginUrl = $helper->getLoginUrl(base_url('/register/logincallback'), $permissions);
 
+    public function login_validation_rules(){
         $this->load->library('form_validation');
-        $this->form_validation->set_rules(
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+    }
+
+    public function load_validation_rules(){
+        $this->load->library('form_validation');
+        /*$this->form_validation->set_rules(
             'displayname', 'Display Name',
             'trim|required|min_length[5]|max_length[12]|is_unique[influencer.display_name]',
             array(
                 'required'      => 'You have not provided %s.',
                 'is_unique'     => 'This %s already exists.'
             )
-        );
-        $this->form_validation->set_rules('fullname', 'Full Name', 'trim|required');
+        );*/
+        //$this->form_validation->set_rules('fullname', 'Full Name', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[influencer.email]',
             array(
                 'is_unique'     => 'This %s already exists.'
             ));
-
-        if ($this->form_validation->run() == FALSE)
-        {
-            $data = array();
-            $data['facebook'] = $loginUrl;
-
-            //Check logindata
-            if ($loginData){
-                $data['fullname'] = (isset($loginData['name'])) ? $loginData['name'] : null;
-                $data['email'] = (isset($loginData['email'])) ? $loginData['email'] : null;
-                $data['pagelinks'] = (isset($loginData['pages'])) ? $loginData['pages'] : null;
-
-                $data['facebook_token'] = (isset($loginData['facebook_token'])) ? $loginData['facebook_token'] : null;
-            }
-            $this->load->view('admin/register',$data);
-        }
-        else
-        {
-            //Save Influencer
-            $confirmationToken = random_string('alnum', 16);
-            if ($this->set_influencer($confirmationToken)){
-                $this->send_confirmation_email($confirmationToken);
-                $this->load->view('admin/confirmfirst');
-            }else{
-                $data = array('error' => 'Some error occurred while creating User.');
-                $this->load->view('admin/register',$data);
-            }
-
-
-        }
-
     }
 
+    //Main index function
+    public function index(){
+        //load validation rules
+        $this->load_validation_rules();
+
+        //This is the first time we're viewing this page, or we're coming here after the validations fail
+        if ($this->form_validation->run() == FALSE)
+        {
+            //If validations are correct load facebook login url and show it on the page
+            $data = array();
+            $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
+            $this->load->view('admin/register',$data);
+        }
+        //The data is A-OK, lets log in.
+        else
+        {
+            $this->generate_confirmation_token_and_save();
+        }
+    }
+
+    public function generate_confirmation_token_and_save(){
+        //Save Influencer
+        $confirmationToken = random_string('alnum', 16);
+        if ($this->set_influencer($confirmationToken)){
+            $this->send_confirmation_email($confirmationToken);
+            $this->load->view('admin/confirmfirst');
+        }else{
+            $data = array('error' => 'Some error occurred while creating User.');
+            $this->load->view('admin/register',$data);
+        }
+    }
     public function loginbyreddit(){
 
     }
@@ -144,11 +152,12 @@ class Register extends CI_Controller
                 }
 
                 //Get name and email
-                $request = $fb->request('GET', '/me');
+                $request = $fb->request('GET', '/me?fields=name,email');
                 $response = $fb->getClient()->sendRequest($request);
                 $graphNode = $response->getGraphNode();
 
                 $name = $graphNode['name'];
+                $id = $graphNode['id'];
                 $email = isset($graphNode['email']) ? $graphNode['email'] : '';
 
                 //Get long token
@@ -162,9 +171,12 @@ class Register extends CI_Controller
                 $loginData['pages'] = $json;
                 $loginData['name'] = $name;
                 $loginData['email'] = $email;
+                $loginData['id'] = $id;
                 $loginData['facebook_token'] = $longLivedAccessToken;
+                $loginData['login_provider'] = 'facebook';
 
-                $this->index($loginData);
+                $this->save_and_login($loginData);
+                //$this->index($loginData);
 
             } catch(Facebook\Exceptions\FacebookResponseException $e) {
                 // When Graph returns an error
@@ -179,6 +191,29 @@ class Register extends CI_Controller
             //echo 'Logged in as ' . $userNode->getName();
         }
     }
+
+    public function save_and_login($loginData){
+        $data = array(
+            'name' => $loginData['name'],
+            //'display_name' => $this->input->post('displayname'),
+            'email' => $loginData['email'],
+            'fb_page_links' => $loginData['pages'],
+            'facebooktoken' => $loginData['facebook_token'],
+            'facebook_id' => $loginData['id'],
+            'login_provider' => $loginData['login_provider']
+        );
+        if ($this->db->insert('influencer', $data)){
+            $this->session->set_flashdata('message', 'You have successfully logged in from Facebook');
+            $this->session->set_userdata('logged_in',true);
+            $this->session->set_userdata('user_id',$this->db->insert_id());
+            redirect('/influencer/');
+        }else{
+            $data = array('error' => 'Some error occurred while creating User.');
+            $this->load->view('admin/register',$data);
+        };
+
+    }
+
     public function send_confirmation_email($confirmationToken){
         $this->load->library('email');
         $config['mailtype'] = 'html';
@@ -198,10 +233,7 @@ class Register extends CI_Controller
 
     public function set_influencer($confirmationToken)
     {
-
         $this->load->helper('url');
-
-
 
         $data = array(
             'name' => $this->input->post('fullname'),
@@ -216,5 +248,15 @@ class Register extends CI_Controller
         );
 
         return $this->db->insert('influencer', $data);
+    }
+
+    private function set_login_data($data)
+    {
+        $data['fullname'] = (isset($loginData['name'])) ? $loginData['name'] : null;
+        $data['email'] = (isset($loginData['email'])) ? $loginData['email'] : null;
+        $data['pagelinks'] = (isset($loginData['pages'])) ? $loginData['pages'] : null;
+
+        $data['facebook_token'] = (isset($loginData['facebook_token'])) ? $loginData['facebook_token'] : null;
+        return $data;
     }
 }
