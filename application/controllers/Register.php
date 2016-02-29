@@ -13,6 +13,7 @@ class Register extends CI_Controller
         parent::__construct();
         $this->load->helper(['url','string']);
         $this->load->model('Influencer_model');
+        $this->load->library('facebook');
 
     }
     public function confirmpassword($token){
@@ -36,46 +37,7 @@ class Register extends CI_Controller
         $this->load->view('admin/confirmemail',$data);
     }
 
-    public function login(){
 
-        //load validation rules
-        $this->login_validation_rules();
-
-        //This is the first time we're viewing this page, or we're coming here after the validations fail
-        if ($this->form_validation->run() == FALSE){
-            $this->load->view('admin/login');
-        }else{
-            $password = $this->input->post('password');
-            $email = $this->input->post('email');
-            $row = $this->db->get_where('influencer',array('email' => $email))->row();
-            if ($row == null){
-                $data = array('error' => 'User does not exist');
-                $this->load->view('admin/login',$data);
-            }else if($row->confirmed == 0){
-                $data = array('error' => 'You have not confirmed your account from your email');
-                $this->load->view('admin/login',$data);
-            }
-            else if (!password_verify($password,$row->password)){
-                $data = array('error' => 'Incorrect password');
-                $this->load->view('admin/login',$data);
-            }else{
-                echo "Correct Password";
-            }
-
-        }
-    }
-
-    public function get_facebook_url($callback_url){
-        $fb = new Facebook\Facebook([
-            'app_id' => '1509104876060790',
-            'app_secret' => '977e891176e8e1e9e6b626323f01d8bb',
-            'default_graph_version' => 'v2.5',
-        ]);
-        $helper = $fb->getRedirectLoginHelper();
-        $permissions = ['email', 'user_likes','pages_show_list']; // optional
-        $loginUrl = $helper->getLoginUrl(base_url() . $callback_url, $permissions);
-        return $loginUrl;
-    }
     public function login_validation_rules(){
         $this->load->library('form_validation');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -111,7 +73,7 @@ class Register extends CI_Controller
         {
             //If validations are correct load facebook login url and show it on the page
             $data = array();
-            $data['facebook'] = $this->get_facebook_url('/register/logincallback');
+            $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
             $this->load->view('admin/register',$data);
         }
         //The data is A-OK, lets log in.
