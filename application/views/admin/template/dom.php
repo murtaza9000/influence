@@ -1,5 +1,24 @@
 
-<?php if(validation_errors()) { ?>
+<?php if($all=='no')
+        {
+            $this->breadcrumbs->push('Publishers List', 'admin/pub');
+            $this->breadcrumbs->push('Publisher\'s Domains', 'admin/dom/no/'.$publisher[0]['id']);
+            if(isset($editmode))
+             $this->breadcrumbs->push('Edit', 'admin/domainedit');
+            echo $this->breadcrumbs->show();
+             
+        }
+       else
+        {
+            $this->breadcrumbs->push('Domains List', 'admin/dom/all');
+             if(isset($editmode))
+             $this->breadcrumbs->push('Edit', 'admin/domainedit');
+            echo $this->breadcrumbs->show();
+        }
+
+if(validation_errors()) { ?>
+           
+           
             <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-ban"></i> Error!</h4>
@@ -87,19 +106,7 @@
     <div class="row">
         <div class="col-md-12"> 
           <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
-
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          
             <!-- /.box-header -->
             <div class="box-body">
               <table id="domain" class="table table-bordered table-hover dataTable">
@@ -149,6 +156,7 @@ foreach ($domain as $dom){?>
           <!-- /.box -->
         </div>
        </div>
+    
   
 
 
@@ -163,7 +171,7 @@ foreach ($domain as $dom){?>
 
 <?php if (!(isset($editmode))) 
         {
-
+           
         echo form_open('admin/domainformsubit/add');
 
             echo form_label("Url: ","url");
@@ -181,7 +189,7 @@ foreach ($domain as $dom){?>
             <select class="form-control" name="publisher_id">
                     <?php 
                     $index = 0;
-                    foreach($publishers as $pub)
+                    foreach($publisher as $pub)
                         { 
                         echo '<option value="'.$pub['id'].'">'.$pub['name'].'</option>';
                         $index++;
@@ -234,20 +242,8 @@ foreach ($domain as $dom){?>
  <div class="row">
         <div class="col-md-12"> 
           <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
-
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.box-header -->
+            
+          
             <div class="box-body ">
              <table id="domain" class="table table-bordered table-hover dataTable">
                 <thead><tr>

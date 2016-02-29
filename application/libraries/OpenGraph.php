@@ -18,7 +18,7 @@
    
 */
 
-class OpenGraph implements Iterator
+class Opengraph implements Iterator
 {
   /**
    * There are base schema's based on type, this is just

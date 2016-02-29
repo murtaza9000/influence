@@ -44,7 +44,7 @@ class Register extends CI_Controller
         ]);
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email', 'user_likes','pages_show_list']; // optional
-        $loginUrl = $helper->getLoginUrl('http://influence.local/register/logincallback', $permissions);
+        $loginUrl = $helper->getLoginUrl(base_url('/register/logincallback'), $permissions);
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules(

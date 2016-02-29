@@ -2,13 +2,18 @@
 
 
 
-<?php foreach ($publisher as $pub){?>
+<?php        $this->breadcrumbs->push('Publisher Lists', 'admin/pub');
+          
+            echo $this->breadcrumbs->show();
+            
+ $index =1;           
+foreach ($publisher as $pub){?>
     
 <div class ="row">
      <div class ="col-md-4">   
     <ol>
- <?php  echo"<li>".$pub['name']; ?>
-   </li>
+ <?php  echo $index.". ".$pub['name']; ?>
+   
    </ol>
    </div>
    
@@ -21,4 +26,4 @@
    
 </div>
 
-<?php } ?>
+<?php $index++;} ?>

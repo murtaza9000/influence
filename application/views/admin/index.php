@@ -54,6 +54,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   |---------------------------------------------------------|
   -->
   <body class="hold-transition skin-purple sidebar-mini">
+      <?php require_once APPPATH. '/libraries/analyticstracking.php'; ?>
     <div class="wrapper">
 
       <!-- Main Header -->

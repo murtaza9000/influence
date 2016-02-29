@@ -3,6 +3,10 @@
       <div class ="box-body">
          
 <?php 
+$this->breadcrumbs->push('Influencer List', 'admin/inf');
+$this->breadcrumbs->push('Influencer Detail', 'admin/inf_detail');
+      echo   $this->breadcrumbs->show();
+        // echo site_url('/inf');
 foreach ($influencer as $inf){
 
 echo "Name: ".$inf['name'];

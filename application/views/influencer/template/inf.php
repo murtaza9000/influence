@@ -24,14 +24,14 @@ foreach ($rss as $inf){?>
         <div class ="col-md-8">   
         
 
-     <textarea class="js-copytextarea" rows="1" cols="100"><?php echo $inf['links'] ?></textarea>
+     <textarea class="js-copytextarea" id="<?php echo $index;?>"  rows="1" cols="100"><?php echo $inf['links'] ?></textarea>
 <?php    echo "<p><b>Click-Rate</b>: $".$inf['click_rate']."   <b>Click-Rate(Premium-Rate)</b>: $".$inf['click_ratepre']."</p>";  ?>
 
         
     </div>
         <div class ="col-md-2">
             
-            <button class="js-textareacopybtn btn btn-block btn-primary btn-xs">Copy Link!</button>
+            <button id="<?php echo $index;?>" class="js-textareacopybtn btn btn-block btn-primary btn-xs">Copy Link!</button>
             
         </div>
  </div>
@@ -70,7 +70,7 @@ foreach ($rss as $inf){?>
  
  
  
-<SCRIPT LANGUAGE="JavaScript">
+<SCRIPT LANGUAGE="javascript">
  var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
 
 copyTextareaBtn.addEventListener('click', function(event) {

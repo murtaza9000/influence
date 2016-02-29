@@ -1,6 +1,15 @@
+<?php 
+ $this->breadcrumbs->push('Viral Lists', 'admin/viral');
+    if (isset($editmode))
+   $this->breadcrumbs->push('Edit Link', 'admin/edit');        
+            echo $this->breadcrumbs->show();
 
-<div class="col-xs-12">
+?>
 
+
+
+<div class="row">
+     <div class="col-md-12"> 
 <?php if (!(isset($editmode))) {
     
        echo form_open('admin/addviral');
@@ -46,20 +55,13 @@
  </form>
 
 <?php } ?>
+</div>
+</div>
+  <div class="row">
+        <div class="col-md-12"> 
           <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
-
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
+            
             <!-- /.box-header -->
             <div class="box-body ">
               <table id="viral" class="table table-bordered table-hover dataTable">
@@ -105,7 +107,8 @@ foreach ($viral as $vir){?>
 
 
 
-
+</div>
+       </div>
 
 
 

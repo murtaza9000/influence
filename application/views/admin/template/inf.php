@@ -1,5 +1,11 @@
 
-<?php $index = 1;
+<?php 
+$this->breadcrumbs->push('Influencer List', 'admin/inf');
+
+      echo   $this->breadcrumbs->show();
+
+
+$index = 1;
 foreach ($influencer as $inf){?>
 
     <div class ="row">

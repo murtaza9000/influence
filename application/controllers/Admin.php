@@ -23,6 +23,7 @@ class Admin extends CI_Controller
         $this->load->library('session');                     
         $this->load->library('CI_input');
          $this->load->library('opengraph');
+         $this->load->library('breadcrumbs');
     }
 
     public function show($a, $b, $c){
@@ -38,9 +39,12 @@ class Admin extends CI_Controller
     }
     
     public function dom($allcheck,$id=null)
-    {
+    {   
+       
+        
         $data['content'] = $this->admin_domain($allcheck,$id);
         $data['active'] ='dom';
+        
         $this->load->view('admin/index',$data);
     }
     public function pub()
@@ -58,7 +62,8 @@ class Admin extends CI_Controller
     }
     
     public function inf_detail($id)
-    {
+    {   
+         
          $data['content'] = $this->admin_influencer_detail($id);
          $data['active'] ='inf';
          $this->load->view('admin/index',$data);
