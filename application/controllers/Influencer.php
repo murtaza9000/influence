@@ -16,16 +16,18 @@ class Influencer extends CI_Controller
         $this->load->model('Domain_model');
         $this->load->model('Viral_model');
         $this->load->library('opengraph');
+             $this->load->helper('url');
     }
 
     public function index(){
         if (!$this->user->is_logged_in()){
-            redirect('/register/login');
+            redirect('/register');
         }
         $data = array();
         $data = $this->user->add_user_data($data);
         $data['content'] = "Hello";
         $data['active'] = "Hello";
+      //  print_r($data);
         $this->load->view('influencer/index',$data);
     }
     
@@ -46,11 +48,13 @@ class Influencer extends CI_Controller
         $this->rssparser->set_feed_url(urldecode(trim($values['url'])));  // get feed
         $this->rssparser->set_cache_life(30);                       // Set cache life time in minutes
         $rss = $this->rssparser->getFeed(25);
-       
+         echo "<pre>";
+       print_r($rss);
+        echo "</pre>";
          foreach($rss as $rs)
             { 
          echo $rs['link'];
-            $this->Rss_model->add_rss($rs,$values['id']);
+        //    $this->Rss_model->add_rss($rs,$values['id']);
            echo "<br>";
           $num++;
             }
@@ -68,19 +72,26 @@ class Influencer extends CI_Controller
 
                     var _confirm = confirm("Proceed?")
                     if (_confirm){
-                    window.location = 'http://localhost/influence/influencer/rss_done'                   }
+                    window.location = "<?php echo base_url('influencer/rss_done') ;?>"                }
                     </script>
  <?php           }
  
   public function inf()
-    {
+  
+    {     
+          if (!$this->user->is_logged_in()){
+            redirect('/register');
+        }
+        $data = array();
+         $data = $this->user->add_user_data($data);
          $data['content'] = $this->inf_influencer();
          $data['active'] ='inf';
          $this->load->view('influencer/index',$data);
     }
     
       private function inf_influencer()
-    {
+    {       
+        
         $data['rss'] = $this->Rss_model->get_influencer();
         $string = $this->load->view('influencer/template/inf', $data, TRUE);
         return $string;
@@ -90,7 +101,12 @@ class Influencer extends CI_Controller
      
       
       public function viral($id=null)
-    {
+    {   
+          if (!$this->user->is_logged_in()){
+            redirect('/register');
+        }
+          $data = array();
+         $data = $this->user->add_user_data($data);
         $data['content'] = $this->influencer_viral($id);
         $data['active'] ='viral';
         $this->load->view('influencer/index',$data);

@@ -16,11 +16,12 @@ class User
         $this->CI->load->library('session');
     }
     public function add_user_data($data)
-    {
+    { 
 
         if ($this->CI->session->has_userdata('user_id')){
             $id = $this->CI->session->userdata('user_id');
             $row = $this->CI->db->get_where('influencer', array('id' => $id))->row();
+          
             $data['full_name'] = $row->name;
 
         }else{

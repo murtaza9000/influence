@@ -179,7 +179,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <li class="user-header">
                     <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     <p>
-                      <?=$full_name?> - Web Developer
+                       - Web Developer
                       <small>Member since Nov. 2012</small>
                     </p>
                   </li>
@@ -201,7 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?=base_url();?>register/logout" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>

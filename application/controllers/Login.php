@@ -41,7 +41,11 @@ class Login extends CI_Controller
                 $data = array('error' => 'Incorrect password');
                 $this->load->view('admin/login',$data);
             }else{
-                echo "Correct Password";
+               // echo "Correct Password";
+                $row = $this->db->get_where('influencer',array('email'=>$email))->row();
+                $this->session->set_userdata('user_id',$row->id);
+                $this->session->set_userdata('logged_in',true);
+                redirect('/influencer/');
             }
 
         }

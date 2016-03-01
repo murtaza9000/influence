@@ -25,6 +25,9 @@ class Register extends CI_Controller
             $this->db->where('id', $result->id);
             if ($this->db->update('influencer')){
                 $this->session->set_flashdata('message', 'You have been successfully verified your account');
+                  $this->session->set_userdata('logged_in',true);
+                 
+            
                 redirect('/influencer/');
             }
         }else{
@@ -37,15 +40,6 @@ class Register extends CI_Controller
         $this->load->view('admin/confirmemail',$data);
     }
 
-    public function index($loginData = null){
-        $fb = new Facebook\Facebook([
-            'app_id' => '1509104876060790',
-            'app_secret' => '977e891176e8e1e9e6b626323f01d8bb',
-            'default_graph_version' => 'v2.5',
-        ]);
-        $helper = $fb->getRedirectLoginHelper();
-        $permissions = ['email', 'user_likes','pages_show_list']; // optional
-        $loginUrl = $helper->getLoginUrl(base_url('/register/logincallback'), $permissions);
 
     public function login_validation_rules(){
         $this->load->library('form_validation');
@@ -74,7 +68,7 @@ class Register extends CI_Controller
 
     //Main index function
     public function index(){
-        //load validation rules
+         //load validation rules
         $this->load_validation_rules();
 
         //This is the first time we're viewing this page, or we're coming here after the validations fail
@@ -100,6 +94,9 @@ class Register extends CI_Controller
             $this->load->view('admin/confirmfirst');
         }else{
             $data = array('error' => 'Some error occurred while creating User.');
+            
+            $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
+        
             $this->load->view('admin/register',$data);
         }
     }
@@ -236,6 +233,7 @@ class Register extends CI_Controller
         $this->load->helper('url');
 
         $data = array(
+            
             'name' => $this->input->post('fullname'),
             'display_name' => $this->input->post('displayname'),
             'email' => $this->input->post('email'),
@@ -246,8 +244,9 @@ class Register extends CI_Controller
             'fb_page_links' => $this->input->post('pagelinks'),
             'facebooktoken' => $this->input->post('facebook_token')
         );
-
-        return $this->db->insert('influencer', $data);
+             $query=   $this->db->insert('influencer', $data);
+          $this->session->set_userdata('user_id',$this->db->insert_id());
+        return $query;
     }
 
     private function set_login_data($data)
@@ -258,5 +257,10 @@ class Register extends CI_Controller
 
         $data['facebook_token'] = (isset($loginData['facebook_token'])) ? $loginData['facebook_token'] : null;
         return $data;
+    }
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect(base_url('register'));
     }
 }
