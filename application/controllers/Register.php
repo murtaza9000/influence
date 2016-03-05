@@ -212,12 +212,14 @@ class Register extends CI_Controller
     }
 
     public function send_confirmation_email($confirmationToken){
+
         $this->load->library('email');
         $config['mailtype'] = 'html';
 
         $this->email->initialize($config);
-        $this->email->from('your@example.com', 'Your Name');
-        $this->email->to('icemelt7@gmail.com');
+        $this->email->from('dontreply@acquire.social', 'Acquire Social');
+        $email = trim($this->input->post('email'));
+        $this->email->to($email);
 
 
         $this->email->subject('Verify Mail');
