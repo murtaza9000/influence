@@ -1,5 +1,6 @@
 <?php
 
+           
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
@@ -24,6 +25,9 @@ class Admin extends CI_Controller
         $this->load->library('CI_input');
          $this->load->library('opengraph');
          $this->load->library('breadcrumbs');
+          $this->load->library('user');
+       
+           
     }
 
     public function show($a, $b, $c){
@@ -33,6 +37,10 @@ class Admin extends CI_Controller
     
     public function viral($id=null)
     {
+        if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
+             $data = array();
+        $data = $this->user->add_user_data_ad('admin');
         $data['content'] = $this->admin_viral($id);
         $data['active'] ='viral';
         $this->load->view('admin/index',$data);
@@ -40,8 +48,10 @@ class Admin extends CI_Controller
     
     public function dom($allcheck,$id=null)
     {   
-       
-        
+        $data = array();
+        $data = $this->user->add_user_data_ad('admin');
+         if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
         $data['content'] = $this->admin_domain($allcheck,$id);
         $data['active'] ='dom';
         
@@ -49,6 +59,10 @@ class Admin extends CI_Controller
     }
     public function pub()
     {
+         $data = array();
+        $data = $this->user->add_user_data_ad('admin');
+         if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
           $data['content'] = $this->admin_publisher();
           $data['active'] ='pub';
           $this->load->view('admin/index',$data);
@@ -56,14 +70,20 @@ class Admin extends CI_Controller
     
     public function inf()
     {
+             $data = array();
+        $data = $this->user->add_user_data_ad('admin');
+         if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
          $data['content'] = $this->admin_influencer();
          $data['active'] ='inf';
          $this->load->view('admin/index',$data);
     }
     
     public function inf_detail($id)
-    {   
-         
+    {    $data = array();
+        $data = $this->user->add_user_data_ad('admin');
+          if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
          $data['content'] = $this->admin_influencer_detail($id);
          $data['active'] ='inf';
          $this->load->view('admin/index',$data);
@@ -72,6 +92,10 @@ class Admin extends CI_Controller
     
     public function index( $content = null,$id=null)
     {
+         $data = array();
+        $data = $this->user->add_user_data_ad('admin');
+         if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
         //echo "hello";
         $this->load->helper('url');
         $data['content'] = "Test";
@@ -154,7 +178,11 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
         
         
      public function delviral($id)
-    {
+    {   
+        if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
+         $data = array();
+        $data = $this->user->add_user_data_ad('admin');
          $this->Viral_model->del_viral($id);
         //  $data['content'] = $this->admin_influencer();
           $this->viral();
@@ -169,7 +197,11 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
         return $string;
     }
     public function viraledit($id=null)
-    {
+    {   
+         $data = array();
+        $data = $this->user->add_user_data_ad('admin');
+         if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
         $data['content'] = $this->admin_viral_edit($id);
         $data['active'] ='viral';
         $this->load->view('admin/index',$data);
@@ -199,7 +231,12 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
         return $string;
     }
     public function domainedit($all=null,$id=null,$id_pub=null,$e=null)
-    {
+    {   
+        
+       if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
+         $data = array();
+        $data = $this->user->add_user_data_ad('admin');
         $data['content'] = $this->admin_domain_edit($all,$id,$id_pub,$e);
         $data['active'] ='dom';
        // $data['all'] =$all;
@@ -230,12 +267,22 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
         
         
      public function deldomain($all=null,$id,$pub_id=null)
-    {
+    {   
+         if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
          $this->Domain_model->del_domain($id);
         //  $data['content'] = $this->admin_influencer();
           $this->dom($all,$pub_id);
     }  
     
+      public function del_inf($id)
+    {   
+         if (!$this->user->is_loggedad_in())
+            redirect('/registeradmin');
+         $this->Influencer_model->del_inf($id);
+        //  $data['content'] = $this->admin_influencer();
+          $this->inf();
+    }  
     
       private function admin_influencer_detail($id)
     {

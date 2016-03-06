@@ -17,6 +17,8 @@ echo "Email: ".$inf['email'];
 echo "<br>";
 echo "Account#: ".$inf['account_no'];
 echo "<br>";
+echo "Login Provider: ".$inf['login_provider'];
+echo "<br>";
 echo "Country: ".$inf['country'];
 echo "<br>";
 

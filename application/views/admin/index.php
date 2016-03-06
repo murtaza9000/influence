@@ -174,14 +174,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- The user image in the navbar-->
                   <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs"><?=$full_name?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- The user image in the menu -->
                   <li class="user-header">
                     <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     <p>
-                      Alexander Pierce - Web Developer
+                      <?=$full_name?>
                       <small>Member since Nov. 2012</small>
                     </p>
                   </li>
@@ -203,7 +203,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?=base_url();?>registeradmin/logout" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>
@@ -228,7 +228,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Alexander Pierce</p>
+              <p><?=$full_name?></p>
               <!-- Status -->
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>

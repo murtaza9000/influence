@@ -244,7 +244,8 @@ class Register extends CI_Controller
             'confirmation_token' => $confirmationToken,
             'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
             'fb_page_links' => $this->input->post('pagelinks'),
-            'facebooktoken' => $this->input->post('facebook_token')
+            'facebooktoken' => $this->input->post('facebook_token'),
+            'login_provider'=> "local portal"
         );
              $query=   $this->db->insert('influencer', $data);
           $this->session->set_userdata('user_id',$this->db->insert_id());
@@ -262,7 +263,8 @@ class Register extends CI_Controller
     }
     public function logout()
     {
-        $this->session->sess_destroy();
+         $this->session->unset_userdata('user_id');
+        $this->session->set_userdata('logged_in',false);
         redirect(base_url('register'));
     }
 }

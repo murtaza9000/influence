@@ -24,7 +24,7 @@ class Influencer extends CI_Controller
             redirect('/register');
         }
         $data = array();
-        $data = $this->user->add_user_data($data);
+        $data = $this->user->add_user_data('influencer');
         $data['content'] = "Hello";
         $data['active'] = "Hello";
       //  print_r($data);
@@ -83,7 +83,7 @@ class Influencer extends CI_Controller
             redirect('/register');
         }
         $data = array();
-         $data = $this->user->add_user_data($data);
+         $data = $this->user->add_user_data('influencer');
          $data['content'] = $this->inf_influencer();
          $data['active'] ='inf';
          $this->load->view('influencer/index',$data);
@@ -106,7 +106,7 @@ class Influencer extends CI_Controller
             redirect('/register');
         }
           $data = array();
-         $data = $this->user->add_user_data($data);
+         $data = $this->user->add_user_data('influencer');
         $data['content'] = $this->influencer_viral($id);
         $data['active'] ='viral';
         $this->load->view('influencer/index',$data);

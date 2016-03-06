@@ -55,7 +55,13 @@ foreach ($influencer as $inf){?>
     if ($inf['ban']!= 0)
     echo "<i class=\"fa fa-fw fa-ban\"></i>";
     ?>
-    </div> <!-- end of button div -->
+    
+    </div> 
+    <div class ="col-md-4">   
+    <a href="<?php echo base_url();?>admin/del_inf/<?php echo $inf['id']?>">
+                 <button type="button" class="btn btn-danger">Delete</button>
+                 </a>
+       </div>      <!-- end of button div -->     
     </div>  <!-- end of row div -->
                         
 <?php $index++; 

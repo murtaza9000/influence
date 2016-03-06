@@ -39,5 +39,10 @@ class Influencer_model extends CI_Model
           $this->db->where('id', $id);
           $this->db->update('influencer');
       }
-  
+   public function del_inf($id)
+   {
+                       //  $this->Rss_model->del_rss($id);            
+                return $this->db->delete('influencer', array('id' => $id));
+                
+   }  
 }
