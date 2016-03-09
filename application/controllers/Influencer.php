@@ -21,7 +21,7 @@ class Influencer extends CI_Controller
 
     public function index(){
         if (!$this->user->is_logged_in()){
-            redirect('/register');
+            redirect('/landing');
         }
         $data = array();
         $data = $this->user->add_user_data('influencer');
@@ -80,7 +80,7 @@ class Influencer extends CI_Controller
   
     {     
           if (!$this->user->is_logged_in()){
-            redirect('/register');
+            redirect('/landing');
         }
         $data = array();
          $data = $this->user->add_user_data('influencer');
@@ -103,7 +103,7 @@ class Influencer extends CI_Controller
       public function viral($id=null)
     {   
           if (!$this->user->is_logged_in()){
-            redirect('/register');
+            redirect('/landing');
         }
           $data = array();
          $data = $this->user->add_user_data('influencer');

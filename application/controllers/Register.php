@@ -215,7 +215,12 @@ class Register extends CI_Controller
 
         $this->load->library('email');
         $config['mailtype'] = 'html';
-
+        
+    $config['smtp_host'] = 'ssl://smtp.acquire.social';
+    $config['smtp_port'] = 465;
+    $config['smtp_user'] = 'emailaddress';
+    $config['smtp_pass'] = 'xxx';
+   
         $this->email->initialize($config);
         $this->email->from('dontreply@acquire.social', 'Acquire Social');
         $email = trim($this->input->post('email'));
@@ -266,5 +271,62 @@ class Register extends CI_Controller
          $this->session->unset_userdata('user_id');
         $this->session->set_userdata('logged_in',false);
         redirect(base_url('register'));
+    }
+    public function publisher(){
+        
+        $this->load_validation_rules_pub();
+
+        //This is the first time we're viewing this page, or we're coming here after the validations fail
+        if ($this->form_validation->run() == FALSE)
+        {
+            //If validations are correct load facebook login url and show it on the page
+            $data = array();
+         
+            $this->load->view('admin/publogin',$data);
+        }
+        //The data is A-OK, lets log in.
+        else
+        {
+            $this->insert_data();
+        }
+    }    
+    
+    public function insert_data()
+    { 
+        $this->load->helper('url');
+      
+        $data = array(
+            
+            'name' => $this->input->post('fullname'),
+            'email' => $this->input->post('email'),
+            'country' => $this->input->post('country'),
+            'city' => $this->input->post('city'),
+            'contact' => $this->input->post('phone')
+        );
+             $query=   $this->db->insert('publisher', $data);
+             if($query)
+             {
+                  $this->session->set_flashdata('message', 'You have been successfully signup');
+                
+                   redirect('/register/publisher');
+             }
+             else 
+             {
+             $this->session->set_flashdata('message', 'Error try again');
+           
+              redirect('/register/publisher');
+             }
+    }
+    
+     public function load_validation_rules_pub(){
+        $this->load->library('form_validation');
+         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[publisher.email]',
+           array(
+                'is_unique'     => 'This %s already exists.'
+            ));
+           $this->form_validation->set_rules('fullname', 'Name', 'trim|required');
+             $this->form_validation->set_rules('country', 'country', 'trim|required');
+               $this->form_validation->set_rules('city', 'city', 'trim|required');
+          
     }
 }

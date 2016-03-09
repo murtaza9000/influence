@@ -47,6 +47,7 @@ class User
 
     public function is_logged_in(){
         if ($this->CI->session->has_userdata('user_id')){
+            
             return true;
         }else{
             return false;
