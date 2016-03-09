@@ -36,6 +36,10 @@ class Login extends CI_Controller
             }else if($row->confirmed == 0){
                 $data = array('error' => 'You have not confirmed your account from your email');
                 $this->load->view('admin/login',$data);
+          
+              }else if($row->ban == 1){
+                $data = array('error' => 'You are ban contact administrator');
+                $this->load->view('admin/login',$data);
             }
             else if (!password_verify($password,$row->password)){
                 $data = array('error' => 'Incorrect password');

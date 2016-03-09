@@ -387,6 +387,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
       });
     </script>
+    <script>
+      $( document ).ready(function() {
+        <?php if ($this->session->flashdata('message')){
+          echo 'alert("' . $this->session->flashdata('message') . '");';
+        }?>
+      });
+    </script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the

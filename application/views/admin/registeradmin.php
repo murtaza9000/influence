@@ -45,6 +45,8 @@
         <div class="text-red">
             <?=isset($error)?$error : ''; ?>
             <?php echo validation_errors(); ?>
+            <?=isset($pin)?$pin : ''; ?>
+            
         </div>
 
         <?php echo form_open('registeradmin'); ?>
@@ -67,6 +69,10 @@
           <div class="form-group has-feedback">
             <input type="password" name="passconf" class="form-control" placeholder="Retype password">
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password" name="pin" class="form-control" placeholder="Admin pin">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
             <div class="col-xs-8">

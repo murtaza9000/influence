@@ -7,7 +7,8 @@
  */
 
 class Registeradmin extends CI_Controller
-{
+{   
+    var $master = true;
     public function __construct()
     {
         parent::__construct();
@@ -17,6 +18,18 @@ class Registeradmin extends CI_Controller
 
     }
     
+    public function pin_check($pin)
+        {
+                if ($pin !== '9201')
+                {
+                        $this->form_validation->set_message('pin_check', 'The {field} is wrong');
+                        return FALSE;
+                }
+                else
+                {
+                        return TRUE;
+                }
+        }
     
     
     public function login_validation_rules(){
@@ -38,10 +51,16 @@ class Registeradmin extends CI_Controller
         //$this->form_validation->set_rules('fullname', 'Full Name', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
+         $this->form_validation->set_rules('pin', 'Pin', 'callback_pin_check');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[admin.email]',
             array(
                 'is_unique'     => 'This %s already exists.'
             ));
+        /*    if($this->input->post('pin')==='9201' && isset($_POST['pin'])){
+               $this->master =true;
+            }else{
+                $this->master =false;
+            }*/
     }
 
     //Main index function
@@ -50,17 +69,19 @@ class Registeradmin extends CI_Controller
         $this->load_validation_rules();
 
         //This is the first time we're viewing this page, or we're coming here after the validations fail
-        if ($this->form_validation->run() == FALSE)
-        {
+        if ($this->form_validation->run() == FALSE )
+        {   
+         
             //If validations are correct load facebook login url and show it on the page
             $data = array();
-          
+           
           
             $this->load->view('admin/registeradmin',$data);
         }
         //The data is A-OK, lets log in.
         else
-        {
+        {   
+            
             $this->loadadminpage();
         }
     }
