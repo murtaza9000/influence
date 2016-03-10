@@ -2,7 +2,7 @@
 <?php 
 $this->breadcrumbs->push('Influencer List', 'admin/inf');
 
-      echo   $this->breadcrumbs->show();
+      $_POST['breadcrumb']=   $this->breadcrumbs->show();
 
 
 $index = 1;

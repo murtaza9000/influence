@@ -4,7 +4,7 @@
 
 <?php        $this->breadcrumbs->push('Publisher Lists', 'admin/pub');
           
-            echo $this->breadcrumbs->show();
+            $_POST['breadcrumb']=$this->breadcrumbs->show();
             
  $index =1;           
 foreach ($publisher as $pub){?>
