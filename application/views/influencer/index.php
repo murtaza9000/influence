@@ -179,28 +179,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <li class="user-header">
                     <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     <p>
-                       - Web Developer
-                      <small>Member since Nov. 2012</small>
-                    </p>
+                        <?=$full_name?>
+                     </p
                   </li>
                   <!-- Menu Body -->
                   <li class="user-body">
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Followers</a>
+                   
+                    <div class="col-xs-12 text-center">
+                      <a href="#">Profile</a>
                     </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
-                    </div>
+                    
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                    <div class="pull-right">
+                     <div class="col-xs-12 text-center">
+                     
                       <a href="<?=base_url();?>register/logout" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>

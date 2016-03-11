@@ -6,13 +6,13 @@
  * Date: 2/25/16
  * Time: 12:25 AM
  */
-class Login extends CI_Controller
+class Adminlogin extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->helper(['url', 'string']);
-        $this->load->model('Influencer_model');
+        $this->load->model('Admin_model');
         $this->load->library('facebook');
     }
 
@@ -24,32 +24,26 @@ class Login extends CI_Controller
         //This is the first time we're viewing this page, or we're coming here after the validations fail
         if ($this->form_validation->run() == FALSE){
             $data = [];
-            $data['facebook'] = $this->facebook->get_facebook_url('/login/logincallback');
-            $this->load->view('admin/login');
+           
+            $this->load->view('admin/adminlogin');
         }else{
             $password = $this->input->post('password');
             $email = $this->input->post('email');
-            $row = $this->db->get_where('influencer',array('email' => $email))->row();
+            $row = $this->db->get_where('admin',array('email' => $email))->row();
             if ($row == null){
                 $data = array('error' => 'User does not exist');
-                $this->load->view('admin/login',$data);
-            }else if($row->confirmed == 0){
-                $data = array('error' => 'You have not confirmed your account from your email');
-                $this->load->view('admin/login',$data);
-          
-              }else if($row->ban == 1){
-                $data = array('error' => 'You are ban contact administrator');
-                $this->load->view('admin/login',$data);
+                $this->load->view('admin/adminlogin',$data);
+           
             }
             else if (!password_verify($password,$row->password)){
                 $data = array('error' => 'Incorrect password');
-                $this->load->view('admin/login',$data);
+                $this->load->view('admin/adminlogin',$data);
             }else{
                // echo "Correct Password";
-                $row = $this->db->get_where('influencer',array('email'=>$email))->row();
-                $this->session->set_userdata('user_id',$row->id);
+                $row = $this->db->get_where('admin',array('email'=>$email))->row();
+                $this->session->set_userdata('user_id_ad',$row->id);
                 $this->session->set_userdata('logged_in',true);
-                redirect('/influencer/');
+                redirect('/admin/');
             }
 
         }
