@@ -23,9 +23,11 @@ class User
             $row = $this->CI->db->get_where($controller, array('id' => $id))->row();
           
             $data['full_name'] = $row->name;
+            $data['timestamp'] = $row->timestamp;
 
         }else{
-            $data['full_name'] = 'dog';
+            $data['full_name'] = 'By passed';
+            $data['timestamp'] = 'By passed';
         }
         return $data;
     }
@@ -38,9 +40,11 @@ class User
             $row = $this->CI->db->get_where($controller, array('id' => $id))->row();
           
             $data['full_name'] = $row->name;
+            $data['timestamp'] = $row->timestamp;
 
         }else{
-            $data['full_name'] = 'dog';
+            $data['full_name'] = 'By passed';
+            $data['timestamp'] ='By passed';
         }
         return $data;
     }

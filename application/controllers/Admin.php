@@ -106,7 +106,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
         //echo "hello";
         $this->load->helper('url');
-        $data['content'] = "Test";
+       
         $data['active'] ='';
         $this->load->view('admin/index',$data);
     }

@@ -3,6 +3,7 @@
       <div class ="box-body">
          
 <?php 
+$this->breadcrumbs->push('Home', 'admin');
 $this->breadcrumbs->push('Influencer List', 'admin/inf');
 $this->breadcrumbs->push('Influencer Detail', 'admin/inf_detail');
         $_POST['breadcrumb']=  $this->breadcrumbs->show();

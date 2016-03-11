@@ -2,7 +2,8 @@
 
 
 
-<?php        $this->breadcrumbs->push('Publisher Lists', 'admin/pub');
+<?php   $this->breadcrumbs->push('Home', 'admin');    
+         $this->breadcrumbs->push('Publisher Lists', 'admin/pub');
           
             $_POST['breadcrumb']=$this->breadcrumbs->show();
             

@@ -136,6 +136,6 @@ class Registeradmin extends CI_Controller
     {
         $this->session->unset_userdata('user_id_ad');
         $this->session->set_userdata('logge_in',false);
-        redirect(base_url('registeradmin'));
+        redirect(base_url('adminlogin'));
     }
 }
