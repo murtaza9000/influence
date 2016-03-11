@@ -14,9 +14,11 @@ class Influencer extends CI_Controller
         $this->load->library('user');
         $this->load->model('Rss_model');
         $this->load->model('Domain_model');
+        $this->load->model('Influencer_model');
         $this->load->model('Viral_model');
         $this->load->library('opengraph');
              $this->load->helper('url');
+                  
     }
 
     public function index(){
@@ -25,7 +27,10 @@ class Influencer extends CI_Controller
         }
         $data = array();
         $data = $this->user->add_user_data('influencer');
-        $data['content'] = "Hello";
+         if(!(is_null($this->input->post('search'))))
+             $data['content'] =$this->search();
+        else
+             $data['content'] = "Hello";
         $data['active'] = "Hello";
       //  print_r($data);
         $this->load->view('influencer/index',$data);
@@ -54,7 +59,7 @@ class Influencer extends CI_Controller
          foreach($rss as $rs)
             { 
          echo $rs['link'];
-        //    $this->Rss_model->add_rss($rs,$values['id']);
+           $this->Rss_model->add_rss($rs,$values['id']);
            echo "<br>";
           $num++;
             }
@@ -91,7 +96,9 @@ class Influencer extends CI_Controller
     
       private function inf_influencer()
     {       
-        
+        if(!(is_null($this->input->post('search'))))
+       $data['rss'] =$this->search();
+       else
         $data['rss'] = $this->Rss_model->get_influencer();
         $string = $this->load->view('influencer/template/inf', $data, TRUE);
         return $string;
@@ -111,12 +118,82 @@ class Influencer extends CI_Controller
         $data['active'] ='viral';
         $this->load->view('influencer/index',$data);
     }
-    
+  
     private function influencer_viral($id =null)
     {
+        if(!(is_null($this->input->post('search'))))
+       $data['viral'] =$this->search();
+   else
         $data['viral'] = $this->Viral_model->get_viral($id);
         $string = $this->load->view('influencer/template/viral', $data, TRUE);
         return $string;
         
     }
+    
+    public function search()
+        {
+            $search=  $this->input->post('search');
+            
+            if($this->input->post('page') == 'inf')
+              return  $query = $this->Rss_model->search($search);
+            else if ($this->input->post('page') == 'viral') 
+              return  $query = $this->Viral_model->search($search);
+            else
+              return  "Invalid Entry";
+		 
+		     
+        }
+        
+     public function profile(){
+         
+          if (!$this->user->is_logged_in()){
+            redirect('/landing');
+        }
+        $data = array();
+         $data = $this->user->add_user_data('influencer');
+         $data['content'] = $this->inf_profile();
+         $data['active'] ='inf';
+         $this->load->view('influencer/index',$data);
+         
+     }
+        private function inf_profile()
+        {
+                $id = $this->session->userdata('user_id');
+                $data['profile'] = $this->Influencer_model->get_influencer($id);
+                $string = $this->load->view('influencer/profile', $data, TRUE);
+                return $string;
+        
+        
+        }
+        
+      public function submitprofile()
+      {  
+                  $this->load->helper('url');
+                      $id = $this->session->userdata('user_id');
+                    $data = array(
+                        
+                        'name' => $this->input->post('name'),
+                        'country' => $this->input->post('country'),
+                        'city' => $this->input->post('city'),
+                        'contact' => $this->input->post('phone'),
+                        'experience' => $this->input->post('experience'),
+                        'account_no' => $this->input->post('account_no')
+                    );  
+                        $this->db->where('id',$id);
+                        $query=  $this->db->update('influencer',$data);
+                        if($query)
+                        {
+                            $this->session->set_flashdata('message', 'You have been successfully update your profile');
+                            
+                            redirect('/influencer/profile');
+                        }
+                        else 
+                        {
+                        $this->session->set_flashdata('message', 'Error try again');
+                    
+                        redirect('/influencer/profile');
+                        }
+      
+      
+      }
 }

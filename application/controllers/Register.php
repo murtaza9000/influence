@@ -216,10 +216,10 @@ class Register extends CI_Controller
         $this->load->library('email');
         $config['mailtype'] = 'html';
         
-    $config['smtp_host'] = 'ssl://smtp.acquire.social';
-    $config['smtp_port'] = 465;
-    $config['smtp_user'] = 'emailaddress';
-    $config['smtp_pass'] = 'xxx';
+  //  $config['smtp_host'] = 'ssl://smtp.acquire.social';
+    //$config['smtp_port'] = 465;
+    //$config['smtp_user'] = 'emailaddress';
+    //$config['smtp_pass'] = 'xxx';
    
         $this->email->initialize($config);
         $this->email->from('dontreply@acquire.social', 'Acquire Social');

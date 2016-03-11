@@ -69,4 +69,15 @@ class Rss_model extends CI_Model
        $query = $this->db->get('rss_links_view');
        return $query->result_array();
   }
+  
+   public function search($search)
+    {
+        
+         
+         $this->db->like('links', $search);
+        $this->db->or_like('description', $search); 
+      
+          $query =$this->db->get('rss_links_view');
+       return $query->result_array();
+    }
 }

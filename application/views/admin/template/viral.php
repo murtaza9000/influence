@@ -1,9 +1,8 @@
-<?php 
- $this->breadcrumbs->push('Viral Lists', 'admin/viral');
-    if (isset($editmode))
-   $this->breadcrumbs->push('Edit Link', 'admin/edit');        
-            echo $this->breadcrumbs->show();
-
+<?php   $this->breadcrumbs->push('Home', 'admin');
+        $this->breadcrumbs->push('Viral Lists', 'admin/viral');
+        if (isset($editmode))
+             $this->breadcrumbs->push('Edit Link', 'admin/edit');        
+         $_POST['breadcrumb']= $this->breadcrumbs->show();
 ?>
 
 

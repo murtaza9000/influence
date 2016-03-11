@@ -181,28 +181,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <li class="user-header">
                     <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     <p>
-                      <?=$full_name?>
-                      <small>Member since Nov. 2012</small>
-                    </p>
+                        <?php echo $full_name;
+                        echo "<small>Member since: " ;
+                        $date = date_create($timestamp);
+                        echo date_format($date, 'jS F Y');
+                        echo"</small>";
+                        ?>
+                     </p>
                   </li>
                   <!-- Menu Body -->
-                  <li class="user-body">
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Followers</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
-                    </div>
-                  </li>
+                 
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                      <div class="pull-left">
+                      <a href="#" class='btn btn-default'>Profile</a>
                     </div>
-                    <div class="pull-right">
+                     <div class="pull-right">
+                     
                       <a href="<?=base_url();?>registeradmin/logout" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
@@ -269,20 +264,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Page Header
-            <small>Optional description</small>
+            Admin <small> Panel </small>
+         
           </h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
+         
+         <?php if (isset($_POST['breadcrumb']))
+       echo  $_POST['breadcrumb'];
+            else { ?>
+               
+               <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Home</a></li>
+            
           </ol>
+                
+        <?php    }
+       ?>
+         
         </section>
 
         <!-- Main content -->
         <section class="content">
             </pre>
-        <?php echo $content;?>
+            
+        <?php if(isset($content))
+        {
+                 echo $content;
+                 
+        } else {
+    ?>
         
+       <h3>
+           Welcome to Admin Panel
+           
+           </h3>
+           
+           </br>
+           <p> click on menu to browse </p>
+        
+        
+        
+                <?php }
+                ?>
         </br>
      
         </section><!-- /.content -->

@@ -1,11 +1,11 @@
 
 <?php if($all=='no')
-        {
+        {   $this->breadcrumbs->push('Home', 'admin');
             $this->breadcrumbs->push('Publishers List', 'admin/pub');
             $this->breadcrumbs->push('Publisher\'s Domains', 'admin/dom/no/'.$publisher[0]['id']);
             if(isset($editmode))
              $this->breadcrumbs->push('Edit', 'admin/domainedit');
-            echo $this->breadcrumbs->show();
+           $_POST['breadcrumb']= $this->breadcrumbs->show();
              
         }
        else
@@ -13,9 +13,11 @@
             $this->breadcrumbs->push('Domains List', 'admin/dom/all');
              if(isset($editmode))
              $this->breadcrumbs->push('Edit', 'admin/domainedit');
-            echo $this->breadcrumbs->show();
+             $_POST['breadcrumb']= $this->breadcrumbs->show();
         }
+   ?>     
 
+ <?php         
 if(validation_errors()) { ?>
            
            

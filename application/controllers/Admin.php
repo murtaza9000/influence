@@ -40,9 +40,14 @@ class Admin extends CI_Controller
         if (!$this->user->is_loggedad_in())
             redirect('/registeradmin');
              $data = array();
+      
+    
+        
         $data = $this->user->add_user_data_ad('admin');
         $data['content'] = $this->admin_viral($id);
         $data['active'] ='viral';
+   
+    
         $this->load->view('admin/index',$data);
     }
     
@@ -52,6 +57,9 @@ class Admin extends CI_Controller
         $data = $this->user->add_user_data_ad('admin');
          if (!$this->user->is_loggedad_in())
             redirect('/registeradmin');
+            
+            
+            
         $data['content'] = $this->admin_domain($allcheck,$id);
         $data['active'] ='dom';
         
@@ -98,7 +106,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
         //echo "hello";
         $this->load->helper('url');
-        $data['content'] = "Test";
+       
         $data['active'] ='';
         $this->load->view('admin/index',$data);
     }
