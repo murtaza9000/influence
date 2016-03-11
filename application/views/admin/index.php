@@ -194,7 +194,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- Menu Footer-->
                   <li class="user-footer">
                       <div class="pull-left">
-                      <a href="#" class='btn btn-default'>Profile</a>
+                      <a href="<?=base_url();?>admin/profile" class='btn btn-default'>Profile</a>
                     </div>
                      <div class="pull-right">
                      
@@ -242,7 +242,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
-            <li class="header">HEADER</li>
+            <li class="header">Main Menu</li>
             <!-- Optionally, you can add icons to the links -->
             <li  <?php echo ($active == 'inf') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/inf"><i class="fa fa-link"></i> <span>List of Influencer</span></a></li>
             <!--li   <?php //echo ($active == 'pub' || $active == 'dom') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/pub"><i class="fa fa-link"></i> <span>List of Publisher</span></a></li-->
@@ -287,7 +287,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </pre>
             
         <?php if(isset($content))
-        {
+        {       
+                echo "<h4><strong>".$header."</strong></h4>";
                  echo $content;
                  
         } else {

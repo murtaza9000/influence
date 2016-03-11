@@ -18,6 +18,11 @@
  </style>
 
  <?php $index = 1;
+            $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'influencer');
+            $this->breadcrumbs->push('Latest links', 'influencer/inf');
+            $_POST['breadcrumb']= $this->breadcrumbs->show();
+           
+           
 if((empty($rss)))
 
 echo "<div><h2> No result </h2><div>";

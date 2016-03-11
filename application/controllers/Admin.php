@@ -18,6 +18,7 @@ class Admin extends CI_Controller
         $this->load->model('Influencer_model');
         $this->load->model('Publisher_model');
         $this->load->model('Domain_model');
+        $this->load->model('Admin_model');
         $this->load->model('Viral_model');
         $this->load->helper('form');
         $this->load->library('form_validation');
@@ -46,6 +47,7 @@ class Admin extends CI_Controller
         $data = $this->user->add_user_data_ad('admin');
         $data['content'] = $this->admin_viral($id);
         $data['active'] ='viral';
+        $data['header']='Viral List';
    
     
         $this->load->view('admin/index',$data);
@@ -62,6 +64,7 @@ class Admin extends CI_Controller
             
         $data['content'] = $this->admin_domain($allcheck,$id);
         $data['active'] ='dom';
+        $data['header']='Domains List';
         
         $this->load->view('admin/index',$data);
     }
@@ -73,6 +76,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
           $data['content'] = $this->admin_publisher();
           $data['active'] ='pub';
+          $data['header']='Publishers List';
           $this->load->view('admin/index',$data);
     }
     
@@ -84,6 +88,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
          $data['content'] = $this->admin_influencer();
          $data['active'] ='inf';
+         $data['header']='Influencer List';
          $this->load->view('admin/index',$data);
     }
     
@@ -94,6 +99,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
          $data['content'] = $this->admin_influencer_detail($id);
          $data['active'] ='inf';
+         $data['header']='Influencer\'s details';
          $this->load->view('admin/index',$data);
     }
     
@@ -212,6 +218,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
             redirect('/registeradmin');
         $data['content'] = $this->admin_viral_edit($id);
         $data['active'] ='viral';
+        $data['header']='Viral Edit';
         $this->load->view('admin/index',$data);
     }
     
@@ -247,6 +254,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
         $data = $this->user->add_user_data_ad('admin');
         $data['content'] = $this->admin_domain_edit($all,$id,$id_pub,$e);
         $data['active'] ='dom';
+        $data['header']='Domains List';
        // $data['all'] =$all;
         $this->load->view('admin/index',$data);
     }
@@ -366,5 +374,57 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
        // echo $graph=>_values["site_name"];
       }
       
+       public function profile(){
+         
+          if (!$this->user->is_logged_in()){
+            redirect('/adminlogin');
+        }
+        $data = array();
+         $data = $this->user->add_user_data_ad('admin');
+         $data['content'] = $this->inf_profile();
+         $data['active'] ='';
+         $data['header']='Profile';
+         $this->load->view('admin/index',$data);
+         
+     }
+        private function inf_profile()
+        {
+                $id = $this->session->userdata('user_id_ad');
+                $data['profile'] = $this->Admin_model->get_admin($id);
+                $string = $this->load->view('admin/profile', $data, TRUE);
+                return $string;
+        
+        
+        }
+        
+      public function submitprofile()
+      {  
+                  $this->load->helper('url');
+                      $id = $this->session->userdata('user_id_ad');
+                    $data = array(
+                        
+                        'name' => $this->input->post('name'),
+                        'country' => $this->input->post('country'),
+                        'city' => $this->input->post('city')
+                      
+                        
+                    );  
+                        $this->db->where('id',$id);
+                        $query=  $this->db->update('admin',$data);
+                        if($query)
+                        {
+                            $this->session->set_flashdata('message', 'You have been successfully update your profile');
+                            
+                            redirect('/admin/profile');
+                        }
+                        else 
+                        {
+                        $this->session->set_flashdata('message', 'Error try again');
+                    
+                        redirect('/admin/profile');
+                        }
+      
+      
+      }
      
 }
