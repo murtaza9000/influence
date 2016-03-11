@@ -59,6 +59,6 @@ class Viral_model extends CI_Model
         $this->db->or_like('site_name', $search); 
        $this->db->or_like('title', $search);
           $query =$this->db->get('viral_links');
-       
+        return $query->result_array();
     }
 }

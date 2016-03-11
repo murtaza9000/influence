@@ -18,7 +18,7 @@
  </style>
 
  <?php $index = 1;
-if((!isset($rss)))
+if((empty($rss)))
 
 echo "<div><h2> No result </h2><div>";
 else

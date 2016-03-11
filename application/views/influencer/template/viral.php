@@ -3,8 +3,7 @@
 
 <?php $index = 1;
 
-
-if((!isset($viral)))
+if((empty($viral)))
 
 echo "<div><h2> No result </h2><div>";
 else
