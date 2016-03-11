@@ -1,8 +1,7 @@
 
+<?php 
 
-
-
-<?php foreach ($publisher as $pub){?>
+foreach ($publisher as $pub){?>
     
 <div class ="row">
      <div class ="col-md-4">   

@@ -18,6 +18,11 @@
  </style>
 
  <?php $index = 1;
+if((!isset($rss)))
+
+echo "<div><h2> No result </h2><div>";
+else
+{
 foreach ($rss as $inf){?>
 <div>
 <div class ="row">
@@ -50,7 +55,7 @@ foreach ($rss as $inf){?>
   </div>
   
   </div>
-    <?php  $index++;}  
+    <?php  $index++;}  }
    ?>
     
             

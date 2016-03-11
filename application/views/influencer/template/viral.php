@@ -1,8 +1,15 @@
 
 
-<div class="box">
+
 <?php $index = 1;
 
+
+if((!isset($viral)))
+
+echo "<div><h2> No result </h2><div>";
+else
+{
+    echo "<div class=\"box\">";
 foreach ($viral as $vir){?>
 <tr>
 <?php echo "<h3>Site Name: ".$vir['site_name']."</h1>" ;
@@ -15,7 +22,7 @@ foreach ($viral as $vir){?>
 
                  
 <?php $index++;
-} 
+} }
 ?>
 </div>
 
