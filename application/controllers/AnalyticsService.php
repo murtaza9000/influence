@@ -18,10 +18,12 @@ class AnalyticsService extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('googleAnalytics');
+
     }
 
     public function index(){
-        echo "Hello World";
+        $this->load->library('googleanalytics');
+
+        $this->googleanalytics->execute();
     }
 }

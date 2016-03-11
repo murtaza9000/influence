@@ -15,6 +15,7 @@ class GoogleAnalytics
     {
         // Do something with $params
         $this->CI =& get_instance();
+        echo "hello";
 
     }
 
@@ -23,7 +24,8 @@ class GoogleAnalytics
         // Creates and returns the Analytics service object.
 
         // Load the Google API PHP Client Library.
-        require_once __DIR__.'../vendor/google-api-php-client/src/Google/autoload.php';
+        $path  = dirname(__DIR__) . '/vendor/google-api-php-client/src/Google/autoload.php' . PHP_EOL;
+        require_once $path;
 
         // Use the developers console and replace the values with your
         // service account email, and relative location of your key file.
@@ -121,5 +123,12 @@ class GoogleAnalytics
         } else {
             print "No results found.\n";
         }
+    }
+
+    public function execute(){
+        $analytics = $this->getService();
+        $profile = $this->getFirstProfileId($analytics);
+        $results = $this->getResults($analytics, $profile);
+        $this->printResults($results);
     }
 }
