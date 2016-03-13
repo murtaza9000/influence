@@ -25,11 +25,7 @@
                     
                   </p>
                     
-                    
-                  <strong><i class="fa fa-book margin-r-5"></i>  Experience</strong>
-                  <p class="text-muted">
-                   <?=$inf["experience"]?>
-                  </p>
+                 
 
                   <hr>
 
@@ -46,11 +42,7 @@
 
                   <hr>
 
-                  <strong><i class="fa fa-file-text-o margin-r-5"></i> Account Number</strong>
-                  <p><?=$inf["account_no"]?></p>
-                  </br>
-                  <strong> Payment Status</strong>
-                  <p><?=$inf["payment"]?></p>
+                 
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
             </div><!-- /.col -->
@@ -85,24 +77,9 @@
                           <input type="text" class="form-control" name="city" placeholder="City" value="<?=$inf["city"]?>">
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-                        <div class="col-sm-10">
-                          <textarea class="form-control" name="experience" placeholder="Experience"  value="<?=$inf["experience"]?>"><?=$inf["experience"]?></textarea>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="Phone" class="col-sm-2 control-label">Contact Number</label>
-                        <div class="col-sm-10">
-                          <input type="tel" class="form-control" name="phone" placeholder="Contact Number" value="<?=$inf["contact"]?>">
-                        </div>
-                      </div>
-                       <div class="form-group">
-                        <label for="Account" class="col-sm-2 control-label">Account Number</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" name="account_no"  value="<?=$inf["account_no"]?>">
-                        </div>
-                      </div>
+                      
+                      
+                       
                      
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">

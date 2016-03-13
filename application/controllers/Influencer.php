@@ -18,6 +18,7 @@ class Influencer extends CI_Controller
         $this->load->model('Viral_model');
         $this->load->library('opengraph');
              $this->load->helper('url');
+             $this->load->library('breadcrumbs');
                   
     }
 
@@ -29,10 +30,8 @@ class Influencer extends CI_Controller
         $data = $this->user->add_user_data('influencer');
          if(!(is_null($this->input->post('search'))))
              $data['content'] =$this->search();
-        else
-             $data['content'] = "Hello";
-        $data['active'] = "Hello";
-      //  print_r($data);
+       
+     
         $this->load->view('influencer/index',$data);
     }
     
@@ -91,6 +90,7 @@ class Influencer extends CI_Controller
          $data = $this->user->add_user_data('influencer');
          $data['content'] = $this->inf_influencer();
          $data['active'] ='inf';
+         $data['header']='Latest Link';
          $this->load->view('influencer/index',$data);
     }
     
@@ -116,15 +116,22 @@ class Influencer extends CI_Controller
          $data = $this->user->add_user_data('influencer');
         $data['content'] = $this->influencer_viral($id);
         $data['active'] ='viral';
+         $data['header']='Viral Link';
         $this->load->view('influencer/index',$data);
     }
   
     private function influencer_viral($id =null)
     {
-        if(!(is_null($this->input->post('search'))))
+        if(!(is_null($this->input->post('search')))){
+         $infid = $this->session->userdata('user_id');  
+        $data['influencer'] = $this->Influencer_model->get_influencer($infid); 
        $data['viral'] =$this->search();
-   else
+        }
+   else{
+       $infid = $this->session->userdata('user_id');
         $data['viral'] = $this->Viral_model->get_viral($id);
+         $data['influencer'] = $this->Influencer_model->get_influencer($infid); 
+   }
         $string = $this->load->view('influencer/template/viral', $data, TRUE);
         return $string;
         
@@ -153,6 +160,7 @@ class Influencer extends CI_Controller
          $data = $this->user->add_user_data('influencer');
          $data['content'] = $this->inf_profile();
          $data['active'] ='inf';
+          $data['header']='Profile';
          $this->load->view('influencer/index',$data);
          
      }

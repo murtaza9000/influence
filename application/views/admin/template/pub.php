@@ -2,7 +2,7 @@
 
 
 
-<?php   $this->breadcrumbs->push('Home', 'admin');    
+<?php   $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'admin');    
          $this->breadcrumbs->push('Publisher Lists', 'admin/pub');
           
             $_POST['breadcrumb']=$this->breadcrumbs->show();

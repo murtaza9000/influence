@@ -262,22 +262,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>
-            Page Header
-            <small>Optional description</small>
+          <h1> 
+            Influencer
+            <small>panel</small>
           </h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
+           <?php if (isset($_POST['breadcrumb']))
+       echo  $_POST['breadcrumb'];
+            else { ?>
+               
+               <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Home</a></li>
+            
           </ol>
+                
+        <?php    }
+       ?>
         </section>
 
         <!-- Main content -->
         <section class="content">
             </pre>
             
-         
-        <?php echo $content;?>
+          <?php if(isset($content))
+        {        
+             echo "<h4><strong>".$header."</strong></h4>";
+                 echo $content;
+                 
+        } else {
+    ?>
+        
+       <h3>
+           Welcome to Admin Panel
+           
+           </h3>
+           
+           </br>
+           <p> click on menu to browse </p>
+        
+        
+        
+                <?php }
+                ?>
+       
       
         </br>
      

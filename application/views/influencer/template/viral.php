@@ -1,25 +1,44 @@
 
 
-<div class="box">
-<?php $index = 1;
 
+<?php $index = 1;
+        
+          $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'influencer');
+            $this->breadcrumbs->push('Viral links', 'influencer/viral');
+            $_POST['breadcrumb']= $this->breadcrumbs->show();
+        
+if((empty($viral)))
+
+echo "<div><h2> No result </h2><div>";
+else
+{
+   
+    $name=str_replace(" ", "", $influencer['0']['name']);
+  $name=  strtolower($name);
+  $id=$influencer['0']['id'];
 foreach ($viral as $vir){?>
-<tr>
-<?php echo "<h3>Site Name: ".$vir['site_name']."</h1>" ;
-      echo "<p>Site URL: <a href=\"".$vir['url']."\" target=\"blank\">".$vir['url']."</a></p>"; 
-      echo "<p><b>Click-Rate</b>: $".$vir['click_rate']."   <b>Click-Rate(Premium-Rate)</b>: $".$vir['click_ratepre']."</p>"; 
-      echo "<h1>".$vir['title']."</h1>"; 
-      echo "<img class=\"img-thumbnail .img-responsive\" src=\"".$vir['image']."\"/>";
-      echo "<p>".$vir['description']."</p>";  
-      ?>
+<tr>            
+    </br>
+                 <?php    echo "<p><b>Click-Rate</b>: $".$vir['click_rate']."   <b>Click-Rate(Premium-Rate)</b>: $".$vir['click_ratepre']."</p>";  ?>
+                <div class="attachment-block clearfix">
+                    <img class="attachment-img" src="<?=$vir['image']?>" alt="attachment image">
+                    <div class="attachment-pushed">
+                       
+                      <h4 class="attachment-heading">
+                         
+                       <b>   <?=$vir['title']?> </b></br>
+                         <a href="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" style="font-size: 15px;"><?=$vir['url']?></a>
+                         
+                         </h4>
+                      <div class="attachment-text">
+                        <?=$vir['description']?>
+                      </div><!-- /.attachment-text -->
+                    </div><!-- /.attachment-pushed -->
+                </div>
 
                  
 <?php $index++;
-} 
+} }
 ?>
-</div>
-
-
-
 
 

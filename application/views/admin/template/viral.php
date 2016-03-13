@@ -1,4 +1,4 @@
-<?php   $this->breadcrumbs->push('Home', 'admin');
+<?php   $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'admin');
         $this->breadcrumbs->push('Viral Lists', 'admin/viral');
         if (isset($editmode))
              $this->breadcrumbs->push('Edit Link', 'admin/edit');        
