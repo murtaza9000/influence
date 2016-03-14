@@ -24,8 +24,9 @@ class Login extends CI_Controller
         //This is the first time we're viewing this page, or we're coming here after the validations fail
         if ($this->form_validation->run() == FALSE){
             $data = [];
-            $data['facebook'] = $this->facebook->get_facebook_url('/login/logincallback');
-            $this->load->view('admin/login');
+
+            $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
+            $this->load->view('admin/login',$data);
         }else{
             $password = $this->input->post('password');
             $email = $this->input->post('email');

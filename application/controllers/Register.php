@@ -100,12 +100,78 @@ class Register extends CI_Controller
             $this->load->view('admin/register',$data);
         }
     }
-    public function loginbyreddit(){
+
+    public function twittercallback(){
+        $request_token = [];
+        $request_token['oauth_token'] = $_SESSION['oauth_token'];
+        $request_token['oauth_token_secret'] = $_SESSION['oauth_token_secret'];
+
+        if (isset($_REQUEST['oauth_token']) && $request_token['oauth_token'] !== $_REQUEST['oauth_token']) {
+            // Abort! Something is wrong.
+            die("Some Thing went wrong");
+        }
+        $connection = new Abraham\TwitterOAuth\TwitterOAuth('5Gd9l295ZAkm6TP9HbTApXYb6',
+            'y7rXUAv2aqszUsn1O4t3SCmDlcJnWUuXqpj3kmgs3c10W9QIKV', $request_token['oauth_token'], $request_token['oauth_token_secret']);
+
+
+        $access_token = $connection->oauth("oauth/access_token", ["oauth_verifier" => $_REQUEST['oauth_verifier']]);
+        $_SESSION['access_token'] = $access_token;
+        $connection = new Abraham\TwitterOAuth\TwitterOAuth('5Gd9l295ZAkm6TP9HbTApXYb6',
+            'y7rXUAv2aqszUsn1O4t3SCmDlcJnWUuXqpj3kmgs3c10W9QIKV', $access_token['oauth_token'], $access_token['oauth_token_secret']);
+        $user = $connection->get("account/verify_credentials");
+
+        //login callback
+        $loginData = array();
+        $loginData['name'] = $user->screen_name;
+        $loginData['login_provider'] = 'twitter';
+
+        $this->save_and_login($loginData);
 
     }
 
-    public function redditcallback(){
+    public function loginbytwitter(){
 
+        $connection = new Abraham\TwitterOAuth\TwitterOAuth('5Gd9l295ZAkm6TP9HbTApXYb6',
+                'y7rXUAv2aqszUsn1O4t3SCmDlcJnWUuXqpj3kmgs3c10W9QIKV',
+                '908751325-nW0w5sfktt4yzXlJ6ZoZTU9INTCKqsA78WWw8lON',
+                'jc9VcvyFDpYl9lxFpw4s44wv2dMpWEntIMNhsHS7UpYhQ');
+
+        $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => 'http://acquire.social/register/twittercallback'));
+        $_SESSION['oauth_token'] = $request_token['oauth_token'];
+        $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
+        $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token['oauth_token']));
+        redirect($url);
+
+    }
+    public function loginbyreddit(){
+
+        require_once dirname(__DIR__) . '/vendor/reddit/config.php';
+        require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
+        $reddit = new reddit();
+        if ($reddit){
+            $userData = $reddit->getUser();
+            $userName = $userData->name;
+
+            $loginData = array();
+
+            $loginData['name'] = $userName;
+            $loginData['login_provider'] = 'reddit';
+            $this->save_and_login($loginData);
+        }
+    }
+
+    public function redditcallback(){
+        require_once dirname(__DIR__) . '/vendor/reddit/config.php';
+        require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
+        $reddit = new reddit();
+        $userData = $reddit->getUser();
+        $userName = $userData->name;
+
+        $loginData = array();
+
+        $loginData['name'] = $userName;
+        $loginData['login_provider'] = 'reddit';
+        $this->save_and_login($loginData);
     }
 
     public function logincallback(){
@@ -190,6 +256,7 @@ class Register extends CI_Controller
     }
 
     public function save_and_login($loginData){
+
         $data = array(
             'name' => $loginData['name'],
             //'display_name' => $this->input->post('displayname'),
@@ -199,8 +266,31 @@ class Register extends CI_Controller
             'facebook_id' => $loginData['id'],
             'login_provider' => $loginData['login_provider']
         );
+
+        //Check if its a login call
+        if ($loginData['login_provider'] == 'facebook'){
+            $result = $this->db->get_where('influencer', array('email' => $loginData['email']));
+            if ($result->row()){
+                $this->session->set_flashdata('message', 'You have successfully logged in from ' . $loginData['login_provider']);
+                $this->session->set_userdata('user_id',$result->row()->id);
+                $this->session->set_userdata('logged_in',true);
+                redirect('/influencer/');
+                return;
+            }
+        }else if($loginData['login_provider'] == 'reddit' || $loginData['login_provider'] == 'twitter'){
+            $result = $this->db->get_where('influencer', array('name' => $loginData['name']));
+            if ($result->row()){
+                $this->session->set_flashdata('message', 'You have successfully logged in from ' . $loginData['login_provider']);
+                $this->session->set_userdata('user_id',$result->row()->id);
+                $this->session->set_userdata('logged_in',true);
+                redirect('/influencer/');
+                return;
+            }
+        }
+
+        //
         if ($this->db->insert('influencer', $data)){
-            $this->session->set_flashdata('message', 'You have successfully logged in from Facebook');
+            $this->session->set_flashdata('message', 'You have successfully logged in from ' . $loginData['login_provider']);
             $this->session->set_userdata('logged_in',true);
             $this->session->set_userdata('user_id',$this->db->insert_id());
             redirect('/influencer/');

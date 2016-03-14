@@ -61,8 +61,9 @@
 
         <div class="social-auth-links text-center">
           <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
-          <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>
+          <a href="<?=$facebook?>" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
+          <a href="<?php echo base_url() . 'register/loginbyreddit/'; ?>" class="btn btn-block bg-red btn-flat"><i class="fa"></i> Sign in using Reddit</a>
+          <a href="<?php echo base_url() . 'register/loginbytwitter/'; ?>" class="btn btn-block bg-info btn-flat"><i class="fa"></i> Sign in using Twitter</a>
         </div><!-- /.social-auth-links -->
 
         <a href="#">I forgot my password</a><br>

@@ -12,7 +12,8 @@
 	},
 	"require": {
 		"php": ">=5.2.4",
-		"facebook/php-sdk-v4" : "~5.0"
+		"facebook/php-sdk-v4" : "~5.0",
+		"abraham/twitteroauth": "^0.6.2"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*"
