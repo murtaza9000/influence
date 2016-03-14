@@ -28,26 +28,13 @@ class Influencer extends CI_Controller
         }
         $data = array();
         $data = $this->user->add_user_data('influencer');
-        if(!(is_null($this->input->post('search'))))
+         if(!(is_null($this->input->post('search'))))
              $data['content'] =$this->search();
-        $data['header']=' ';
+       $data['header']=' ';
         $data['active'] ='';
         $this->load->view('influencer/index',$data);
     }
-
-    public function payment_history(){
-        if (!$this->user->is_logged_in()){
-            redirect('/landing');
-        }
-        $data = array();
-        $data = $this->user->add_user_data('influencer');
-        if(!(is_null($this->input->post('search'))))
-            $data['content'] =$this->search();
-        $data['header']=' ';
-        $data['active'] ='';
-        $this->load->view('influencer/payment_history',$data);
-    }
-
+    
     public function rss_done(){
             // $this->Rss_model->del_rss();
           $data=$this->Domain_model->get_rss();
@@ -115,66 +102,33 @@ class Influencer extends CI_Controller
          $this->load->view('influencer/latest',$data);
     }
     
-      private function inf_influencer()
+      private function inf_influencer($offset)
     {       
-      if(!(is_null($this->input->post('search')))){
-          
-            $data['rss'] =$this->search();
-             for($i=0;$i<sizeof($data['rss']);$i++)
-               {
-                    $data['rss'][$i]['copied'] = $this->isLinkCopied( $data['rss'][$i]['links'], $this->session->userdata('user_id'));
-               }
-          
-            
-      }
-       else
+      //  if(!(is_null($this->input->post('search'))))
+        //     $data['rss'] =$this->search();
+       //else{
+     //       if ($this->Rss_model->get_influencer_lim(10,$offset)) {
        
-               $data['rss'] = $this->Rss_model->get_influencer_lim(10,0);
-              for($i=0;$i<sizeof($data['rss']);$i++)
-               {
-                    $data['rss'][$i]['copied'] = $this->isLinkCopied( $data['rss'][$i]['links'], $this->session->userdata('user_id'));
-               }
+               $data['rss'] = $this->Rss_model->get_influencer_lim(3,$offset);
                
-            
               $string = $this->load->view('influencer/template/inf', $data, TRUE);
               return $string;
-                   
+     ///                                                          }
+            
+     ///  else 
+       // $string = $this->load->view('influencer/template/inf', $data, TRUE);
+       // return "end";
         
     }
-    public function isLinkCopied($link,$inf_id,$page=null){
-        if($page=='viral'){ 
-               $query=   $this->db->get_where('viralcopy', 
-                  array('inf_id' => $this->session->userdata('user_id'), 'link' => $link));
-        }else{
-            $query=   $this->db->get_where('linkcopy', 
-                  array('inf_id' => $this->session->userdata('user_id'), 'link' => $link));
-        }
-              if ($query->num_rows() > 0)
-                {
-                     $row =$query->row_array();
-                     return $row['link'];
-                }
-              return "copied";
-             }
     
     public function inf_ajax($offset){
-         if((is_null($this->input->post('search'))))
-       if( $this->Rss_model->get_influencer_lim(10,$offset))
+       if( $this->Rss_model->get_influencer_lim(3,1))
        {
-         
-        $data['rss'] = $this->Rss_model->get_influencer_lim(10,$offset);
-         for($i=0;$i<sizeof($data['rss']);$i++)
-               {
-                    $data['rss'][$i]['copied'] = $this->isLinkCopied( $data['rss'][$i]['links'], $this->session->userdata('user_id'));
-               }
-        
+        $data['rss'] = $this->Rss_model->get_influencer_lim(3,1);
          $this->load->view('influencer/template/inf', $data);
        }
-          
        else 
-       {
-           echo "end";
-        }
+       return "end";
     }
       
       public function viral($id=null)
@@ -196,19 +150,11 @@ class Influencer extends CI_Controller
          $infid = $this->session->userdata('user_id');  
         $data['influencer'] = $this->Influencer_model->get_influencer($infid); 
        $data['viral'] =$this->search();
-       for($i=0;$i<sizeof($data['viral']);$i++)
-               {
-                    $data['viral'][$i]['copied'] = $this->isLinkCopied( $data['viral'][$i]['id'], $this->session->userdata('user_id'),$page);
-               }
         }
    else{
        $infid = $this->session->userdata('user_id');
         $data['viral'] = $this->Viral_model->get_viral($id);
          $data['influencer'] = $this->Influencer_model->get_influencer($infid); 
-          for($i=0;$i<sizeof($data['viral']);$i++)
-               {
-                    $data['viral'][$i]['copied'] = $this->isLinkCopied( $data['viral'][$i]['id'], $this->session->userdata('user_id'),'viral');
-               }
    }
         $string = $this->load->view('influencer/template/viral', $data, TRUE);
         return $string;
@@ -223,10 +169,7 @@ class Influencer extends CI_Controller
               return  $query = $this->Rss_model->search($search);
             else if ($this->input->post('page') == 'viral') 
               return  $query = $this->Viral_model->search($search);
-            
-            else if ($this->input->post('page') == 'inf') 
-              return  $query = $this->Rss_model->search($search);
-              else
+            else
               return  "Invalid Entry";
 		 
 		     
@@ -310,107 +253,4 @@ class Influencer extends CI_Controller
                                 }
                      }  
           }
-
-     public function    copy(){
-    
-    
-    
-    
 }
-        public function docopy($page){
-          if($page=='viral'){   
-             $data = array(
-                'link' => $this->input->post('id'),
-               'inf_id' => $this->session->userdata('user_id'),
-               'flag' => $this->input->post('flag')
-
-                 );
-    
-    $this->db->insert('viralcopy',$data);
-    
-    redirect('influencer/viral');
-          }else{
-               $data = array(
-                'link' => $this->input->post('link'),
-               'inf_id' => $this->session->userdata('user_id'),
-               'flag' => $this->input->post('flag')
-
-                 );
-    
-    $this->db->insert('linkcopy',$data);
-    redirect('influencer/inf');
-        }
-        }
-         public function contact(){
-         
-          if (!$this->user->is_logged_in()){
-            redirect('/landing');
-        }
-        $data = array();
-         $data = $this->user->add_user_data('influencer');
-         $data['content'] = $this->inf_contact();
-         $data['active'] ='inf';
-          $data['header']='Contact us';
-         $this->load->view('influencer/index',$data);
-         
-     }
-        private function inf_contact()
-        {
-                $id = $this->session->userdata('user_id');
-                $data['contact'] = $this->Influencer_model->get_influencer($id);
-                $data['title']='Contact us form';
-                $string = $this->load->view('influencer/contact', $data, TRUE);
-                return $string;
-        
-        
-        }
-        
-      public function sendcontact()
-      {  
-                  
-                  
-                       
-                        
-                         $this->load->library('email');
-                        $config['mailtype'] = 'html';
-                        
-                //  $config['smtp_host'] = 'ssl://smtp.acquire.social';
-                    //$config['smtp_port'] = 465;
-                    //$config['smtp_user'] = 'emailaddress';
-                    //$config['smtp_pass'] = 'xxx';
-                
-                        $this->email->initialize($config);
-                       
-                        $this->email->from('no-reply@acquire.social','Acquire');
-                        
-                        $this->email->to('no-reply@acquire.social');
-                
-                        $this->email->subject($this->input->post('subject'));
-                        
-                        $email_body = $this->input->post('message');
-                        $this->email->message($email_body);
-
-                     
-                     if ( $this->email->send()){
-            $this->session->set_flashdata('message', 'Your message is send ');
-            redirect('influencer/contact');
-                     }else{
-                          $this->session->set_flashdata('message', 'Your message is not send ');
-            redirect('influencer/contact');
-                     }
-                     
-      
-      }
-
-
-
-
-}
-
-
-
-
-
-
-
-

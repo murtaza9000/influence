@@ -1,4 +1,4 @@
-
+ 
 
 <style>
   
@@ -8,6 +8,7 @@
       width :104px;
       margin-left: 10px;
       float:left;
+          margin-right: 10px;
   }
   
   .image_latest p
@@ -16,7 +17,17 @@
       margin-left: 10px;
    
   }
-    
+  textarea {
+                background-color: #fff;
+                
+                
+                
+                
+                
+                opacity: .50; /* Standard opacity property */
+                filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50); /* IE opacity property */
+                /* reducing the opacity will also make the textarea text become transparent */
+            }
  </style>
  
  <?php   
@@ -33,15 +44,31 @@ echo "<div><h2> No result </h2><div>";
 
 else
 {
+   $data['full_name']=  $this->user->add_user_data('influencer');
    
+ foreach($data as $temp){
+     $name=$temp['full_name'];
+    }
+  
+     $name=str_replace(" ", "",$name );
+  $name=  strtolower($name);
+  $id=$this->session->userdata('user_id');
 foreach ($rss as $inf){?>
 <div>
 <div class ="row" id="latest">
         <div class ="col-md-8">   
         
-
-     <textarea class="js-copytextarea" id="<?php echo $index;?>"  rows="1" cols="100"><?php echo $inf['links'] ?></textarea>
-<?php    echo "<p><b>Click-Rate</b>: $".$inf['click_rate']."   <b>Click-Rate(Premium-Rate)</b>: $".$inf['click_ratepre']."</p>";  ?>
+<?php if( $inf['copied'] == "copied"){ ?>
+   
+     <textarea id="utm<?php echo $index;?>"  rows="1" cols="100"><?php echo $inf['links'] ?></textarea>
+     
+    <?php }  else  { ?>
+   
+   <textarea id="utm<?php echo $index;?>"  rows="1" cols="100"><?php echo $inf['links'] ?></textarea>
+   
+    <?php }?>
+  </br><span class="label label-success"><b>Click-Rate</b>: $<?=$inf['click_rate']?></span>
+            <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$inf['click_ratepre']?></span>
 
         
     </div>
@@ -49,33 +76,31 @@ foreach ($rss as $inf){?>
             
             <?php if( $inf['copied'] == "copied"){ ?>
             <form action="docopy" method="post">
-                <input type="hidden" name="link" value="<?php echo $inf['links'] ?>">
+                <input type="hidden" name="link" value="<?=$inf['links']?>">
                
                 <input type="hidden" name="flag" value="1">
                 
-            <button type="submit" id="<?php echo $index;?>" class="js-textareacopybtn btn btn-block btn-primary btn-xs">Copy Link!</button>
+           <button class="copyit btn btn-block btn-primary btn-xs"   data-clipboard-action="copy" data-clipboard-target="#utm<?php echo $index;?>" > Copy Link</button>
             </form>
             <?php } else{ ?>
                 
-                 <button id="copy-button" data-clipboard-text="Copy Me!" >Link is copied</button>
-                
+                 <!--button  class="btn btn-block btn-info btn-xs" >Link is copied</button-->
+                    
+                   
+                    <button class=" btn btn-block btn-info btn-xs">Link is copied</button>
+                   
             <?php } ?>
         </div>
  </div>
  <div class ="row">
-        <div class="box">
-            <div class="box-body">
-                <div class="col-md-8">
-                    <div class="image_latest  img-responsive ">
-                <?php      echo $inf['description'];
-
-                ?>
-                    </div>
+       <div class ="col-md-12"> 
+        <div class="attachment-block clearfix  image_latest">
+             
+               <?=$inf['description']?>
                 </div>
-            </div>
-        </div>  
+       
   </div>
-  
+   </div>
   </div>
     <?php  $index++;}  }
   
@@ -88,8 +113,9 @@ foreach ($rss as $inf){?>
    ?>
     
             
+        
+      
             
-            
  
  
  
@@ -104,34 +130,3 @@ foreach ($rss as $inf){?>
  
  
  
-<SCRIPT LANGUAGE="javascript">
- var copyTextareaBtn = document.querySelector('button.js-textareacopybtn')
-
-copyTextareaBtn.addEventListener('click', function(event) {
-  var copyTextarea = document.querySelector('textarea.js-copytextarea');
-  copyTextarea.select();
-
- try {
-   var successful = document.execCommand('copy');
-  var msg = successful ? 'successful' : 'unsuccessful';
-   console.log('Copying text command was ' + msg);
-} catch (err) {
-   console.log('Oops, unable to copy');
- }
-});
-
-
-var client = new ZeroClipboard( document.getElementById("copy-button") );
-
-client.on( "ready", function( readyEvent ) {
-  // alert( "ZeroClipboard SWF is ready!" );
-
-  client.on( "aftercopy", function( event ) {
-    // `this` === `client`
-    // `event.target` === the element that was clicked
-    event.target.style.display = "none";
-    alert("Copied text to clipboard: " + event.data["text/plain"] );
-  } );
-} );
-
-</SCRIPT >

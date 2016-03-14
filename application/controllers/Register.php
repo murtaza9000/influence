@@ -14,6 +14,7 @@ class Register extends CI_Controller
         $this->load->helper(['url','string']);
         $this->load->model('Influencer_model');
         $this->load->library('facebook');
+        $this->load->library('user');
 
     }
     public function confirmpassword($token){
@@ -68,7 +69,9 @@ class Register extends CI_Controller
 
     //Main index function
     public function index(){
-         //load validation rules
+      
+         if ($this->user->is_logged_in())
+            redirect('/influencer');
         $this->load_validation_rules();
 
         //This is the first time we're viewing this page, or we're coming here after the validations fail

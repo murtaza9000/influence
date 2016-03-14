@@ -17,10 +17,13 @@ else
   $name=  strtolower($name);
   $id=$influencer['0']['id'];
 foreach ($viral as $vir){?>
-<tr>            
+<tr>   
+    
+                
     </br><span class="label label-success"><b>Click-Rate</b>: $<?=$vir['click_rate']?></span>
             <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$vir['click_ratepre']?></span>
-               
+            
+            
                 <div class="attachment-block clearfix">
                     <img class="attachment-img" src="<?=$vir['image']?>" alt="attachment image">
                     <div class="attachment-pushed">
@@ -36,8 +39,38 @@ foreach ($viral as $vir){?>
                       </div><!-- /.attachment-text -->
                     </div><!-- /.attachment-pushed -->
                 </div>
-
-                 
+                
+    <?php if( $vir['copied'] == "copied"){ ?>     
+    
+     <form action="docopy/viral" method="post">
+                <input type="hidden" name="id" value="<?=$vir['id']?>">
+               
+                <input type="hidden" name="flag" value="1">
+    
+             
+        <div class ="row">
+            <div class ="col-md-8">       
+                <textarea id="utm<?php echo $index;?>"  rows="1" cols="100"><?php echo $vir['url'] ?></textarea>
+            </div>
+            <div class ="col-md-2">
+                <button class="copyit btn btn-block btn-primary btn-xs"   data-clipboard-action="copy" data-clipboard-target="#utm<?php echo $index;?>" > Copy Link</button>
+            </div>
+        </div>
+        
+        </form>
+                     <?php }  else  { ?>
+                     
+  <div class ="row">
+            <div class ="col-md-8">       
+                <textarea id="utm<?php echo $index;?>"  rows="1" cols="100"><?php echo $vir['url'] ?></textarea>
+            </div>
+            <div class ="col-md-2">
+                <button class="copyit btn btn-block btn-info btn-xs"   data-clipboard-action="copy" data-clipboard-target="#utm<?php echo $index;?>" > Link is copied</button>
+            </div>
+        </div>
+            <?php }?>
+                            
+                     
 <?php $index++;
 } }
 ?>

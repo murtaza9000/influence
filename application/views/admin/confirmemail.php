@@ -22,7 +22,7 @@
 </head>
 <body>
 <header>
-    <p>Please click on the following link to verify your account</p>
+    <p>Hi,</br>Please click on the following link to to complete the verification of email</p>
     <aside><a href="<?=base_url().'register/confirmpassword/'.$token ?>">Verification Link</a></aside>
 </header>
 

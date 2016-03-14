@@ -14,10 +14,12 @@ class Login extends CI_Controller
         $this->load->helper(['url', 'string']);
         $this->load->model('Influencer_model');
         $this->load->library('facebook');
+          $this->load->library('user');
     }
 
     public function index(){
-
+ if ($this->user->is_logged_in())
+            redirect('/influencer');
         //load validation rules
         $this->login_validation_rules();
 
