@@ -14,9 +14,14 @@ class Influencer_model extends CI_Model
        if (isset($id))
        $query = $this->db->get_where('influencer',array('id'=>$id));
        else
+       {
+         
        $query = $this->db->get('influencer');
+       }
        return $query->result_array();
   }
+  
+  
   
    public function ban_influencer($id,$unban = null)
   {
@@ -45,4 +50,15 @@ class Influencer_model extends CI_Model
                 return $this->db->delete('influencer', array('id' => $id));
                 
    }  
+   
+    public function search($search)
+    {
+        
+         
+         $this->db->like('id', $search);
+        $this->db->or_like('name', $search); 
+       
+          $query =$this->db->get('influencer');
+        return $query->result_array();
+    }
 }

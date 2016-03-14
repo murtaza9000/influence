@@ -30,15 +30,15 @@ class Influencer extends CI_Controller
         $data = $this->user->add_user_data('influencer');
          if(!(is_null($this->input->post('search'))))
              $data['content'] =$this->search();
-       
-     
+       $data['header']=' ';
+        $data['active'] ='';
         $this->load->view('influencer/index',$data);
     }
     
     public function rss_done(){
-             $this->Rss_model->del_rss();
-           $data=$this->Domain_model->get_rss();
-             
+            // $this->Rss_model->del_rss();
+          $data=$this->Domain_model->get_rss();
+       //  $data=$this->Rss_model->get_influencer();
             $num =0; 
     
          foreach($data as $values)
@@ -47,25 +47,32 @@ class Influencer extends CI_Controller
            
            echo $values['url'];
        echo "<br>";
-      
+       
      //  urlencode(trim($values['url']))
         $this->rssparser->set_feed_url(urldecode(trim($values['url'])));  // get feed
+      
+      //  $this->rssparser->set_feed_url('http://buzztache.com/feed/');
         $this->rssparser->set_cache_life(30);                       // Set cache life time in minutes
         $rss = $this->rssparser->getFeed(25);
          echo "<pre>";
-       print_r($rss);
+    //   print_r($rss);
         echo "</pre>";
          foreach($rss as $rs)
             { 
-         echo $rs['link'];
-           $this->Rss_model->add_rss($rs,$values['id']);
+              if($this->rss_duplicate_check($rs)=="dup")
+              echo "duplicate entry not added: ".$rs['link'];
+              else{
+        echo $rs['link'];
+          $this->Rss_model->add_rss($rs,$values['id']);
+           $num++;
+              }
            echo "<br>";
-          $num++;
+         
             }
     
-      
-       
        }
+       
+       
        $data['num']=$num;
        $this->load->view('influencer/template/rss_service',$data);
     }
@@ -76,11 +83,12 @@ class Influencer extends CI_Controller
 
                     var _confirm = confirm("Proceed?")
                     if (_confirm){
-                    window.location = "<?php echo base_url('influencer/rss_done') ;?>"                }
+                    window.location = "<?php echo base_url('influencer/rss_done') ;?>"                
+                    }
                     </script>
  <?php           }
  
-  public function inf()
+  public function inf($offset=0)
   
     {     
           if (!$this->user->is_logged_in()){
@@ -88,24 +96,68 @@ class Influencer extends CI_Controller
         }
         $data = array();
          $data = $this->user->add_user_data('influencer');
-         $data['content'] = $this->inf_influencer();
+         $data['content'] = $this->inf_influencer($offset);
          $data['active'] ='inf';
          $data['header']='Latest Link';
-         $this->load->view('influencer/index',$data);
+         $this->load->view('influencer/latest',$data);
     }
     
       private function inf_influencer()
     {       
-        if(!(is_null($this->input->post('search'))))
-       $data['rss'] =$this->search();
+      if(!(is_null($this->input->post('search')))){
+          
+            $data['rss'] =$this->search();
+             for($i=0;$i<sizeof($data['rss']);$i++)
+               {
+                    $data['rss'][$i]['copied'] = $this->isLinkCopied( $data['rss'][$i]['links'], $this->session->userdata('user_id'));
+               }
+          
+            
+      }
        else
-        $data['rss'] = $this->Rss_model->get_influencer();
-        $string = $this->load->view('influencer/template/inf', $data, TRUE);
-        return $string;
+       
+               $data['rss'] = $this->Rss_model->get_influencer_lim(10,0);
+              for($i=0;$i<sizeof($data['rss']);$i++)
+               {
+                    $data['rss'][$i]['copied'] = $this->isLinkCopied( $data['rss'][$i]['links'], $this->session->userdata('user_id'));
+               }
+               
+            
+              $string = $this->load->view('influencer/template/inf', $data, TRUE);
+              return $string;
+                   
         
     }
+    public function isLinkCopied($link,$inf_id){
+               $query=   $this->db->get_where('linkcopy', 
+                  array('inf_id' => $this->session->userdata('user_id'), 'link' => $link));
+              if ($query->num_rows() > 0)
+                {
+                     $row =$query->row_array();
+                     return $row['link'];
+                }
+              return "copied";
+             }
     
-     
+    public function inf_ajax($offset){
+         if((is_null($this->input->post('search'))))
+       if( $this->Rss_model->get_influencer_lim(10,$offset))
+       {
+         
+        $data['rss'] = $this->Rss_model->get_influencer_lim(10,$offset);
+         for($i=0;$i<sizeof($data['rss']);$i++)
+               {
+                    $data['rss'][$i]['copied'] = $this->isLinkCopied( $data['rss'][$i]['links'], $this->session->userdata('user_id'));
+               }
+        
+         $this->load->view('influencer/template/inf', $data);
+       }
+          
+       else 
+       {
+           echo "end";
+        }
+    }
       
       public function viral($id=null)
     {   
@@ -204,4 +256,54 @@ class Influencer extends CI_Controller
       
       
       }
+      
+      
+      
+      public function rss_duplicate_check($rss){
+      
+         $data=$this->Rss_model->get_influencer();
+            
+        $db=array();
+         for($i=0;$i<sizeof($data) ;$i++)
+      
+       {  
+           
+           $db[$i]= $data[$i]['links'];
+           
+       }
+  
+    for($i=0;$i<sizeof($db) ;$i++)
+                   {
+                    if($db[$i]==$rss['link'])
+                                {
+                                    return "dup";
+                                    
+                                }
+                     }  
+          }
+
+     public function    copy(){
+    
+    
+    
+    
 }
+        public function docopy(){
+            
+             $data = array(
+                'link' => $this->input->post('link'),
+               'inf_id' => $this->session->userdata('user_id'),
+               'flag' => $this->input->post('flag')
+
+                 );
+    
+    $this->db->insert('linkcopy',$data);
+    
+    $this->inf();
+        }
+
+}
+
+
+
+

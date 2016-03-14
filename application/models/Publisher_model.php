@@ -17,4 +17,15 @@ class Publisher_model extends CI_Model
        $query = $this->db->get('publisher');
        return $query->result_array();
   }
+  
+    public function search($search)
+    {
+        
+         
+         $this->db->like('id', $search);
+        $this->db->or_like('name', $search); 
+       
+          $query =$this->db->get('publisher');
+        return $query->result_array();
+    }
 } 

@@ -225,14 +225,14 @@ class Register extends CI_Controller
         $this->email->from('dontreply@acquire.social', 'Acquire Social');
         $email = trim($this->input->post('email'));
         $this->email->to($email);
-
-
+  
         $this->email->subject('Verify Mail');
         $data = array('token' => $confirmationToken);
         $email_body = $this->load->view('admin/confirmemail', $data , TRUE);
         $this->email->message($email_body);
 
-        return $this->email->send();
+       return  $this->email->send();
+         
     }
 
     public function set_influencer($confirmationToken)

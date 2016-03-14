@@ -1,3 +1,5 @@
+
+
 <style>
   
   .image_latest img
@@ -16,8 +18,10 @@
   }
     
  </style>
-
- <?php $index = 1;
+ 
+ <?php   
+  
+        $index = 1;
             $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'influencer');
             $this->breadcrumbs->push('Latest links', 'influencer/inf');
             $_POST['breadcrumb']= $this->breadcrumbs->show();
@@ -26,11 +30,13 @@
 if((empty($rss)))
 
 echo "<div><h2> No result </h2><div>";
+
 else
 {
+   
 foreach ($rss as $inf){?>
 <div>
-<div class ="row">
+<div class ="row" id="latest">
         <div class ="col-md-8">   
         
 
@@ -39,10 +45,21 @@ foreach ($rss as $inf){?>
 
         
     </div>
-        <div class ="col-md-2">
+        <div class ="col-md-2"> 
             
-            <button id="<?php echo $index;?>" class="js-textareacopybtn btn btn-block btn-primary btn-xs">Copy Link!</button>
-            
+            <?php if( $inf['copied'] == "copied"){ ?>
+            <form action="docopy" method="post">
+                <input type="hidden" name="link" value="<?php echo $inf['links'] ?>">
+               
+                <input type="hidden" name="flag" value="1">
+                
+            <button type="submit" id="<?php echo $index;?>" class="js-textareacopybtn btn btn-block btn-primary btn-xs">Copy Link!</button>
+            </form>
+            <?php } else{ ?>
+                
+                 <button id="copy-button" data-clipboard-text="Copy Me!" >Link is copied</button>
+                
+            <?php } ?>
         </div>
  </div>
  <div class ="row">
@@ -61,6 +78,13 @@ foreach ($rss as $inf){?>
   
   </div>
     <?php  $index++;}  }
+  
+  
+  
+ 
+  
+  
+  
    ?>
     
             
@@ -81,19 +105,33 @@ foreach ($rss as $inf){?>
  
  
 <SCRIPT LANGUAGE="javascript">
- var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
+ var copyTextareaBtn = document.querySelector('button.js-textareacopybtn')
 
 copyTextareaBtn.addEventListener('click', function(event) {
-  var copyTextarea = document.querySelector('.js-copytextarea');
+  var copyTextarea = document.querySelector('textarea.js-copytextarea');
   copyTextarea.select();
 
-  try {
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Copying text command was ' + msg);
-  } catch (err) {
-    console.log('Oops, unable to copy');
-  }
+ try {
+   var successful = document.execCommand('copy');
+  var msg = successful ? 'successful' : 'unsuccessful';
+   console.log('Copying text command was ' + msg);
+} catch (err) {
+   console.log('Oops, unable to copy');
+ }
 });
 
-</SCRIPT>
+
+var client = new ZeroClipboard( document.getElementById("copy-button") );
+
+client.on( "ready", function( readyEvent ) {
+  // alert( "ZeroClipboard SWF is ready!" );
+
+  client.on( "aftercopy", function( event ) {
+    // `this` === `client`
+    // `event.target` === the element that was clicked
+    event.target.style.display = "none";
+    alert("Copied text to clipboard: " + event.data["text/plain"] );
+  } );
+} );
+
+</SCRIPT >

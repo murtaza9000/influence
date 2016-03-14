@@ -59,15 +59,32 @@ class Rss_model extends CI_Model
                                    
                 return $this->db->empty_table('rss_links');
                 
-   } 
-   
+   }  
     public function get_influencer($id =null)
   {
        if (isset($id))
        $query = $this->db->get_where('rss_links_view',array('id'=>$id));
-       else
+       else{
+           $this->db->distinct();
+           
        $query = $this->db->get('rss_links_view');
+       
+       }
        return $query->result_array();
+  }
+  
+    public function get_influencer_lim($limit, $offset=0)
+  {
+     
+               
+       $query = $this->db->get('rss_links_view',$limit, $offset);
+              
+                    if ($query->num_rows() > 0) {
+                return $query->result_array();
+                                         }
+                    else {
+                        return false;
+                    }
   }
   
    public function search($search)
@@ -80,4 +97,6 @@ class Rss_model extends CI_Model
           $query =$this->db->get('rss_links_view');
       return  $query->result_array();
     }
+    
+
 }

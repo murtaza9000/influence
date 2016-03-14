@@ -228,7 +228,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
 
           <!-- search form (Optional) -->
-          <form action="<?php echo (basename(current_url()) == 'influencer') ? 'index' : basename(current_url()) ;?>" method="post" class="sidebar-form">
+          <form action="<?php echo (basename(current_url()) == 'influencer') ? 'influencer/index' : basename(current_url()) ;?>" method="post" class="sidebar-form">
             <div class="input-group">
               <input type="text" name="search" class="form-control" placeholder="Search...">
               <input type="hidden" name="page" value="<?=basename(current_url());?>" class="form-control" placeholder="Search...">
@@ -292,7 +292,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     ?>
         
        <h3>
-           Welcome to Admin Panel
+           Welcome to Influencer Panel
            
            </h3>
            

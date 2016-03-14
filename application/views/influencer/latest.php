@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -24,7 +23,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
           apply the skin class to the body tag so the changes take effect.
     -->
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
-    <link rel="stylesheet" href="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,7 +52,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   |---------------------------------------------------------|
   -->
   <body class="hold-transition skin-purple sidebar-mini">
-      <?php require_once APPPATH. '/libraries/analyticstracking.php'; ?>
+        <?php require_once APPPATH. '/libraries/analyticstracking.php'; ?>
     <div class="wrapper">
 
       <!-- Main Header -->
@@ -194,11 +192,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- Menu Footer-->
                   <li class="user-footer">
                       <div class="pull-left">
-                      <a href="<?=base_url();?>admin/profile" class='btn btn-default'>Profile</a>
+                      <a href="<?=base_url();?>influencer/profile" class='btn btn-default btn-flat'>Profile</a>
                     </div>
                      <div class="pull-right">
                      
-                      <a href="<?=base_url();?>registeradmin/logout" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?=base_url();?>register/logout" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>
@@ -230,7 +228,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
 
           <!-- search form (Optional) -->
-           <form action="<?php echo (basename(current_url()) == 'influencer') ? 'index' : basename(current_url()) ;?>" method="post" class="sidebar-form">
+          <form action="<?php echo (basename(current_url()) == 'influencer') ? 'influencer/index' : basename(current_url()) ;?>" method="post" class="sidebar-form">
             <div class="input-group">
               <input type="text" name="search" class="form-control" placeholder="Search...">
               <input type="hidden" name="page" value="<?=basename(current_url());?>" class="form-control" placeholder="Search...">
@@ -243,16 +241,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
-            <li class="header">Main Menu</li>
+            <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            <li  <?php echo ($active == 'inf') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/inf"><i class="fa fa-link"></i> <span>List of Influencer</span></a></li>
-            <!--li   <?php //echo ($active == 'pub' || $active == 'dom') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/pub"><i class="fa fa-link"></i> <span>List of Publisher</span></a></li-->
-            <li   <?php echo ($active == 'viral') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/viral"><i class="fa fa-link"></i> <span>List of Viral Links</span></a></li>
-            <li <?php echo ($active == 'pub' || $active == 'dom') ? 'class="treeview active"' : 'class="treeview"' ;?>>
-              <a href="#"><i class="fa fa-link"></i> <span>Publisher</span> <i class="fa fa-angle-left pull-right"></i></a>
+            <li  <?php echo (current_url() == base_url()."influencer/inf") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/inf"><i class="fa fa-link"></i> <span>List of Influencer</span></a></li>
+           
+            
+            <li <?php echo ($active == 'inf' || $active == 'viral') ? 'class="treeview active"' : 'class="treeview"' ;?>>
+              <a href="#"><i class="fa fa-link"></i> <span>Content</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li <?php echo ($active == 'pub') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/pub">List of Publisher</a></li>
-                <li <?php echo ($active == 'dom') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/dom/all">List of Domains</a></li>
+                <li <?php echo ($active == 'inf') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/inf"><i class="fa fa-link"></i>Latest Links</a></li>
+                <li <?php echo ($active == 'viral') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/viral"><i class="fa fa-link"></i> <span>Viral Links</span></a></li>
               </ul>
             </li>
           </ul><!-- /.sidebar-menu -->
@@ -264,12 +262,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>
-            Admin <small> Panel </small>
-         
+          <h1> 
+            Influencer
+            <small>panel</small>
           </h1>
-         
-         <?php if (isset($_POST['breadcrumb']))
+           <?php if (isset($_POST['breadcrumb']))
        echo  $_POST['breadcrumb'];
             else { ?>
                
@@ -280,23 +277,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 
         <?php    }
        ?>
-         
         </section>
 
         <!-- Main content -->
         <section class="content">
             </pre>
             
-        <?php if(isset($content))
-        {       
-                echo "<h4><strong>".$header."</strong></h4>";
+          <?php if(isset($content))
+        {        
+             echo "<h4><strong>".$header."</strong></h4>";
                  echo $content;
                  
         } else {
     ?>
         
        <h3>
-           Welcome to Admin Panel
+           Welcome to Influencer Panel
            
            </h3>
            
@@ -307,6 +303,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         
                 <?php }
                 ?>
+       
+      
         </br>
      
         </section><!-- /.content -->
@@ -394,23 +392,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="<?=base_url()?>/bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?=base_url()?>/dist/js/app.min.js"></script>
-     <!-- Data table -->
-    <script src="<?=base_url()?>/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.min.js"></script>
-    <script>
-      $(function () {
-        $("#domain").DataTable();
-         $("#viral").DataTable();
-        $('#links').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": true
-        });
-      });
-    </script>
+        <script src="<?=base_url()?>/plugins/fastclick/fastclick.min.js"></script>
+    <script src="//fast.eager.io/PeeUftGO2K.js"></script>
+
     <script>
       $( document ).ready(function() {
         <?php if ($this->session->flashdata('message')){
@@ -422,5 +406,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
+       
+<script>
+    
+    var reachedEnd = false; /*Flag to check the end of records*/
+ 
+/*checking the end of the document*/
+$(window).scroll(function(){
+  if ($(window).scrollTop() == $(document).height() - $(window).height()){
+ 
+    /*calling the function to get the ajax data*/
+    lastPostFunc();
+  }
+});
+
+function lastPostFunc() {
+ 
+  var trs = $('div#latest'); /*get the number of trs*/
+  var count = trs.length; /*this will work as the offset*/
+ console.log(count);
+ console.log(window.location.origin);
+  /*Restricting the request if the end is reached.*/
+  if (reachedEnd == false) {
+    $.ajax({
+      url: window.location.origin+"/influence/influencer/inf_ajax/"+count  ,
+      async: false,
+      dataType: "html",
+      success: function(data) {
+        if (data != "end")
+        {
+        
+          $('section.content').append(data);
+        }
+        else{
+        $('section.content').append('<div class="callout callout-warning"><p>No more links</p></div>');
+          reachedEnd = true;
+        }
+      }
+    })
+    
+  }
+}
+
+</script>
+    
+
   </body>
 </html>

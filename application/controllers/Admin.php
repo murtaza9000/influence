@@ -118,14 +118,20 @@ class Admin extends CI_Controller
     }
     
     private function admin_influencer()
-    {
+    {   
+         if(!(is_null($this->input->post('search'))))
+       $data['influencer'] =$this->search();
+       else
         $data['influencer'] = $this->Influencer_model->get_influencer();
         $string = $this->load->view('admin/template/inf', $data, TRUE);
         return $string;
         
     }
     private function admin_publisher()
-    {
+    {   
+         if(!(is_null($this->input->post('search'))))
+       $data['publisher'] =$this->search();
+       else
         $data['publisher'] = $this->Publisher_model->get_publisher();
         $string = $this->load->view('admin/template/pub', $data, TRUE);
         return $string;
@@ -376,7 +382,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
       
        public function profile(){
          
-          if (!$this->user->is_logged_in()){
+          if (!$this->user->is_loggedad_in()){
             redirect('/adminlogin');
         }
         $data = array();
@@ -426,5 +432,20 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
       
       
       }
+      
+      
+        public function search()
+        {
+            $search=  $this->input->post('search');
+            
+            if($this->input->post('page') == 'inf')
+              return  $query = $this->Influencer_model->search($search);
+             else if ($this->input->post('page') == 'pub') 
+              return  $query = $this->Publisher_model->search($search);  
+            else
+              return  "Invalid Entry/Search not available";
+		 
+		     
+        }
      
 }

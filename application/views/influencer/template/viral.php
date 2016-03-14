@@ -18,8 +18,9 @@ else
   $id=$influencer['0']['id'];
 foreach ($viral as $vir){?>
 <tr>            
-    </br>
-                 <?php    echo "<p><b>Click-Rate</b>: $".$vir['click_rate']."   <b>Click-Rate(Premium-Rate)</b>: $".$vir['click_ratepre']."</p>";  ?>
+    </br><span class="label label-success"><b>Click-Rate</b>: $<?=$vir['click_rate']?></span>
+            <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$vir['click_ratepre']?></span>
+               
                 <div class="attachment-block clearfix">
                     <img class="attachment-img" src="<?=$vir['image']?>" alt="attachment image">
                     <div class="attachment-pushed">
