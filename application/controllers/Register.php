@@ -260,10 +260,10 @@ class Register extends CI_Controller
         $data = array(
             'name' => $loginData['name'],
             //'display_name' => $this->input->post('displayname'),
-            'email' => $loginData['email'],
-            'fb_page_links' => $loginData['pages'],
-            'facebooktoken' => $loginData['facebook_token'],
-            'facebook_id' => $loginData['id'],
+            'email' => (isset($loginData['email'])) ? $loginData['email'] : '',
+            'fb_page_links' => (isset($loginData['pages'])) ? $loginData['pages'] : '',
+            'facebooktoken' => (isset($loginData['facebook_token'])) ? $loginData['facebook_token'] : '',
+            'facebook_id' => (isset($loginData['id'])) ? $loginData['id'] : '',
             'login_provider' => $loginData['login_provider']
         );
 
