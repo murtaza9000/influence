@@ -17,8 +17,9 @@ class Influencer extends CI_Controller
         $this->load->model('Influencer_model');
         $this->load->model('Viral_model');
         $this->load->library('opengraph');
-             $this->load->helper('url');
-             $this->load->library('breadcrumbs');
+        $this->load->library('breadcrumbs');
+        $this->load->helper('url');
+        $this->load->helper('date');
                   
     }
 
@@ -30,12 +31,12 @@ class Influencer extends CI_Controller
         $data = $this->user->add_user_data('influencer');
         if(!(is_null($this->input->post('search'))))
              $data['content'] =$this->search();
-        $data['header']=' ';
+        $data['header']='Earnings Details';
         $data['active'] ='';
         $this->load->view('influencer/index',$data);
     }
 
-    public function payment_history(){
+    public function payment_history($start_date = null, $end_date = null){
         if (!$this->user->is_logged_in()){
             redirect('/landing');
         }
@@ -43,9 +44,28 @@ class Influencer extends CI_Controller
         $data = $this->user->add_user_data('influencer');
         if(!(is_null($this->input->post('search'))))
             $data['content'] =$this->search();
+
+        $data['content'] = $this->load_payment_history($start_date,$end_date);
+
         $data['header']=' ';
         $data['active'] ='';
+
+
         $this->load->view('influencer/payment_history',$data);
+    }
+
+    private function load_payment_history($start_date,$end_date){
+        $userid = $this->session->userdata('user_id');
+        $this->db->order_by('date', 'DESC');
+        if ($start_date != null && $end_date != null){
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            $this->db->where('date >=', $start_date);
+            $this->db->where('date <=', $end_date);
+        }
+        $result = $this->db->get_where('revenue_history',array('influencer_id' => $userid));
+        $data['rows'] = $result->result();
+        return $this->load->view('influencer/template/payment_history', $data, TRUE);
     }
 
     public function rss_done(){
