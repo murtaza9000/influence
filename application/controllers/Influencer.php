@@ -336,7 +336,7 @@ class Influencer extends CI_Controller
         $data = array();
          $data = $this->user->add_user_data('influencer');
          $data['content'] = $this->inf_contact();
-         $data['active'] ='inf';
+         $data['active'] ='contact';
           $data['header']='Contact us';
          $this->load->view('influencer/index',$data);
          
