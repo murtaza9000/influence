@@ -7,7 +7,7 @@
  * Time: 4:38 PM
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
-class GoogleAnalytics
+class Googleanalytics
 {
     protected $CI;
 
@@ -152,9 +152,13 @@ class GoogleAnalytics
         echo 'execute 3';
         $premiumResults = $this->getPremiumResults($analytics, $profile);
         echo 'execute 4';
-        print_r($premiumResults);
+        echo "<pre>";
+        var_dump($premiumResults);
+      //  print_r($premiumResults);
         $normalResults = $this->getNormalResults($analytics, $profile);
-        print_r($normalResults);
+       // print_r($normalResults);
+       var_dump($normalResults);
+        echo "</pre>";
         echo 'execute 5';
         //Get Premium rate for buzztache
         $premiumRates = $this->get_premium_rates();
@@ -162,6 +166,7 @@ class GoogleAnalytics
         $normalRates = $this->get_normal_rates();
 
         //echo count($premiumResults);
+        if(!is_null($premiumResults))
         foreach ($premiumResults as $result){
             echo 'Result: ' . $result;
             $name = $this->get_influencer_id($result[0]);
@@ -187,6 +192,7 @@ class GoogleAnalytics
     }
 
     private function calculate_amount($sessions, $rates){
+        echo $sessions;
         $amount = ($sessions / 1000) * $rates;
         return $amount;
     }
@@ -194,14 +200,14 @@ class GoogleAnalytics
     private function get_normal_rates(){
         $row = $this->CI->db->get_where('domain',array('url' => 'buzztache.com'));
 
-        $row = $row->row();
-        return $row->click_rate;
+       $row = $row->row_array();
+        return $row['click_rate'];
     }
     private function get_premium_rates(){
         $row = $this->CI->db->get_where('domain',array('url' => 'buzztache.com'));
 
-        $row = $row->row();
-        return $row->click_ratepre;
+        $row = $row->row_array();
+        return $row['click_ratepre'];
     }
 
 
@@ -219,7 +225,7 @@ class GoogleAnalytics
 
     private function update_amount($name, $amount)
     {
-        echo $name;
+        var_dump($amount);
         $result = $this->CI->db->get_where('influencer', array('id' => $name))->row();
         $currentPayment = $result->payment;
         echo 'current payment: ' . $currentPayment;

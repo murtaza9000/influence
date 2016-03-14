@@ -81,6 +81,7 @@
                           <input type="Name" class="form-control" name="name" placeholder="Name" value="<?=$inf["name"]?>">
                         </div>
                       </div>
+                      
                     
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Country</label>

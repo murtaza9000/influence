@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Starter</title>
+    <title>Acquire Social</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -18,11 +18,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/AdminLTE.min.css">
+    <script src="<?=base_url()?>dist/clipboard.min.js"></script>
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
     -->
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
+   
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -58,12 +60,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Main Header -->
       <header class="main-header">
 
-        <!-- Logo -->
-        <a href="index2.html" class="logo">
+       <!-- Logo -->
+        <a href='influencer/index' class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>A</b>LT</span>
+          <span class="logo-mini">AS</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Admin</b>LTE</span>
+          <span class="logo-lg"><b>Acquire Social</b></span>
         </a>
 
         <!-- Header Navbar -->
@@ -76,37 +78,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
               <!-- Messages: style can be found in dropdown.less-->
-              <li class="dropdown messages-menu">
-                <!-- Menu toggle button -->
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-envelope-o"></i>
-                  <span class="label label-success">4</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header">You have 4 messages</li>
-                  <li>
-                    <!-- inner menu: contains the messages -->
-                    <ul class="menu">
-                      <li><!-- start message -->
-                        <a href="#">
-                          <div class="pull-left">
-                            <!-- User Image -->
-                            <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                          </div>
-                          <!-- Message title and timestamp -->
-                          <h4>
-                            Support Team
-                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                          </h4>
-                          <!-- The message -->
-                          <p>Why not buy a new awesome theme?</p>
-                        </a>
-                      </li><!-- end message -->
-                    </ul><!-- /.menu -->
-                  </li>
-                  <li class="footer"><a href="#">See All Messages</a></li>
-                </ul>
-              </li><!-- /.messages-menu -->
+              
 
               <!-- Notifications Menu -->
               <li class="dropdown notifications-menu">
@@ -131,53 +103,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
               </li>
               <!-- Tasks Menu -->
-              <li class="dropdown tasks-menu">
-                <!-- Menu Toggle Button -->
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-flag-o"></i>
-                  <span class="label label-danger">9</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header">You have 9 tasks</li>
-                  <li>
-                    <!-- Inner menu: contains the tasks -->
-                    <ul class="menu">
-                      <li><!-- Task item -->
-                        <a href="#">
-                          <!-- Task title and progress text -->
-                          <h3>
-                            Design some buttons
-                            <small class="pull-right">20%</small>
-                          </h3>
-                          <!-- The progress bar -->
-                          <div class="progress xs">
-                            <!-- Change the css width attribute to simulate progress -->
-                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                              <span class="sr-only">20% Complete</span>
-                            </div>
-                          </div>
-                        </a>
-                      </li><!-- end task item -->
-                    </ul>
-                  </li>
-                  <li class="footer">
-                    <a href="#">View all tasks</a>
-                  </li>
-                </ul>
-              </li>
+             
               <!-- User Account Menu -->
               <li class="dropdown user user-menu">
                 <!-- Menu Toggle Button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <!-- The user image in the navbar-->
-                  <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                  
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
                   <span class="hidden-xs"><?=$full_name?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- The user image in the menu -->
                   <li class="user-header">
-                    <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    
                     <p>
                         <?php echo $full_name;
                         echo "<small>Member since: " ;
@@ -202,9 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
               </li>
               <!-- Control Sidebar Toggle Button -->
-              <li>
-                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-              </li>
+               
             </ul>
           </div>
         </nav>
@@ -215,17 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
 
-          <!-- Sidebar user panel (optional) -->
-          <div class="user-panel">
-            <div class="pull-left image">
-              <img src="<?=base_url()?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-left info">
-              <p><?=$full_name?></p>
-              <!-- Status -->
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
-          </div>
+        
 
           <!-- search form (Optional) -->
           <form action="<?php echo (basename(current_url()) == 'influencer') ? 'influencer/index' : basename(current_url()) ;?>" method="post" class="sidebar-form">
@@ -237,14 +164,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </span>
             </div>
           </form>
-          <!-- /.search form -->
 
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            <li  <?php echo (current_url() == base_url()."influencer/inf") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/inf"><i class="fa fa-link"></i> <span>List of Influencer</span></a></li>
-           
+            
             
             <li <?php echo ($active == 'inf' || $active == 'viral') ? 'class="treeview active"' : 'class="treeview"' ;?>>
               <a href="#"><i class="fa fa-link"></i> <span>Content</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -290,7 +215,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                  
         } else {
     ?>
-        
+        <div class= "row">
+            <div class ="col-md-6">
        <h3>
            Welcome to Influencer Panel
            
@@ -298,8 +224,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
            
            </br>
            <p> click on menu to browse </p>
-        
-        
+        </div>
+        <div class="col-md-6">
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <i class="fa fa-warning"></i>
+
+              <h3 class="box-title">Alerts</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+             
+            
+              <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-warning"></i> Alert!</h4>
+                Warning alert preview. This alert is dismissable.
+             
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
         
                 <?php }
                 ?>
@@ -311,78 +257,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div><!-- /.content-wrapper -->
 
       <!-- Main Footer -->
-      <footer class="main-footer">
+     <footer class="main-footer">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
-          Anything you want
+         Acquire Social
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2016 </strong> All rights reserved.
       </footer>
 
-      <!-- Control Sidebar -->
-      <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
-        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-          <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-          <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <!-- Home tab content -->
-          <div class="tab-pane active" id="control-sidebar-home-tab">
-            <h3 class="control-sidebar-heading">Recent Activity</h3>
-            <ul class="control-sidebar-menu">
-              <li>
-                <a href="javascript::;">
-                  <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-                  <div class="menu-info">
-                    <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-                    <p>Will be 23 on April 24th</p>
-                  </div>
-                </a>
-              </li>
-            </ul><!-- /.control-sidebar-menu -->
+   
 
-            <h3 class="control-sidebar-heading">Tasks Progress</h3>
-            <ul class="control-sidebar-menu">
-              <li>
-                <a href="javascript::;">
-                  <h4 class="control-sidebar-subheading">
-                    Custom Template Design
-                    <span class="label label-danger pull-right">70%</span>
-                  </h4>
-                  <div class="progress progress-xxs">
-                    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                  </div>
-                </a>
-              </li>
-            </ul><!-- /.control-sidebar-menu -->
-
-          </div><!-- /.tab-pane -->
-          <!-- Stats tab content -->
-          <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div><!-- /.tab-pane -->
-          <!-- Settings tab content -->
-          <div class="tab-pane" id="control-sidebar-settings-tab">
-            <form method="post">
-              <h3 class="control-sidebar-heading">General Settings</h3>
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Report panel usage
-                  <input type="checkbox" class="pull-right" checked>
-                </label>
-                <p>
-                  Some information about this general settings option
-                </p>
-              </div><!-- /.form-group -->
-            </form>
-          </div><!-- /.tab-pane -->
-        </div>
-      </aside><!-- /.control-sidebar -->
-      <!-- Add the sidebar's background. This div must be placed
-           immediately after the control sidebar -->
-      <div class="control-sidebar-bg"></div>
-    </div><!-- ./wrapper -->
+   
 
     <!-- REQUIRED JS SCRIPTS -->
 
@@ -406,7 +292,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
-       
+        <script>
+    var clipboard = new Clipboard('.btn');
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
 
 
   </body>
