@@ -128,9 +128,14 @@ class Influencer extends CI_Controller
                    
         
     }
-    public function isLinkCopied($link,$inf_id){
-               $query=   $this->db->get_where('linkcopy', 
+    public function isLinkCopied($link,$inf_id,$page=null){
+        if($page=='viral'){ 
+               $query=   $this->db->get_where('viralcopy', 
                   array('inf_id' => $this->session->userdata('user_id'), 'link' => $link));
+        }else{
+            $query=   $this->db->get_where('linkcopy', 
+                  array('inf_id' => $this->session->userdata('user_id'), 'link' => $link));
+        }
               if ($query->num_rows() > 0)
                 {
                      $row =$query->row_array();
@@ -178,11 +183,19 @@ class Influencer extends CI_Controller
          $infid = $this->session->userdata('user_id');  
         $data['influencer'] = $this->Influencer_model->get_influencer($infid); 
        $data['viral'] =$this->search();
+       for($i=0;$i<sizeof($data['viral']);$i++)
+               {
+                    $data['viral'][$i]['copied'] = $this->isLinkCopied( $data['viral'][$i]['id'], $this->session->userdata('user_id'),$page);
+               }
         }
    else{
        $infid = $this->session->userdata('user_id');
         $data['viral'] = $this->Viral_model->get_viral($id);
          $data['influencer'] = $this->Influencer_model->get_influencer($infid); 
+          for($i=0;$i<sizeof($data['viral']);$i++)
+               {
+                    $data['viral'][$i]['copied'] = $this->isLinkCopied( $data['viral'][$i]['id'], $this->session->userdata('user_id'),'viral');
+               }
    }
         $string = $this->load->view('influencer/template/viral', $data, TRUE);
         return $string;
@@ -291,9 +304,20 @@ class Influencer extends CI_Controller
     
     
 }
-        public function docopy(){
-            
+        public function docopy($page){
+          if($page=='viral'){   
              $data = array(
+                'link' => $this->input->post('id'),
+               'inf_id' => $this->session->userdata('user_id'),
+               'flag' => $this->input->post('flag')
+
+                 );
+    
+    $this->db->insert('viralcopy',$data);
+    
+    redirect('influencer/viral');
+          }else{
+               $data = array(
                 'link' => $this->input->post('link'),
                'inf_id' => $this->session->userdata('user_id'),
                'flag' => $this->input->post('flag')
@@ -301,10 +325,9 @@ class Influencer extends CI_Controller
                  );
     
     $this->db->insert('linkcopy',$data);
-    
     redirect('influencer/inf');
         }
-
+        }
          public function contact(){
          
           if (!$this->user->is_logged_in()){
