@@ -28,13 +28,26 @@ class Influencer extends CI_Controller
         }
         $data = array();
         $data = $this->user->add_user_data('influencer');
-         if(!(is_null($this->input->post('search'))))
+        if(!(is_null($this->input->post('search'))))
              $data['content'] =$this->search();
-       $data['header']=' ';
+        $data['header']=' ';
         $data['active'] ='';
         $this->load->view('influencer/index',$data);
     }
-    
+
+    public function payment_history(){
+        if (!$this->user->is_logged_in()){
+            redirect('/landing');
+        }
+        $data = array();
+        $data = $this->user->add_user_data('influencer');
+        if(!(is_null($this->input->post('search'))))
+            $data['content'] =$this->search();
+        $data['header']=' ';
+        $data['active'] ='';
+        $this->load->view('influencer/payment_history',$data);
+    }
+
     public function rss_done(){
             // $this->Rss_model->del_rss();
           $data=$this->Domain_model->get_rss();
