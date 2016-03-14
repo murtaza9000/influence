@@ -97,7 +97,7 @@ class GoogleAnalytics
         // Calls the Core Reporting API and queries for the number of sessions
         // for the last seven days.
         $optParams = array(
-            'dimensions' => 'ga:campaign',
+            'dimensions' => 'ga:campaign,ga:searchDestinationPage',
             //ga:medium==Social;
             'filters' => 'ga:medium==AS;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom');
         return $analytics->data_ga->get(
@@ -112,7 +112,7 @@ class GoogleAnalytics
         // Calls the Core Reporting API and queries for the number of sessions
         // for the last seven days.
         $optParams = array(
-            'dimensions' => 'ga:campaign',
+            'dimensions' => 'ga:campaign,ga:searchDestinationPage',
             //ga:medium==Social;
             'filters' => 'ga:medium==AS;ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom');
         return $analytics->data_ga->get(
@@ -165,11 +165,14 @@ class GoogleAnalytics
         foreach ($premiumResults as $result){
             echo 'Result: ' . $result;
             $name = $this->get_influencer_id($result[0]);
-            $sessions = $result[1];
+
+            $link = $result[1];
+            $sessions = $result[2];
+
             echo "Sessions: " . $sessions . PHP_EOL;
             $amount = $this->calculate_amount($sessions, $premiumRates);
             echo "Amount: " . $amount . PHP_EOL;
-            $this->update_amount($name,$amount);
+            $this->update_amount($name,$amount,$link,$sessions);
 
             //echo $result[0] . ", ";
         }
@@ -177,11 +180,12 @@ class GoogleAnalytics
         //return;
         foreach ($normalResults as $result){
             $name = $this->get_influencer_id($result[0]);
-            $sessions = $result[1];
+            $link = $result[1];
+            $sessions = $result[2];
 
             $amount = $this->calculate_amount($sessions, $normalRates);
 
-            $this->update_amount($name,$amount);
+            $this->update_amount($name,$amount,$link,$sessions, 'update');
             //echo $result[0] . ", ";
         }
     }
@@ -217,7 +221,7 @@ class GoogleAnalytics
         return $name;
     }
 
-    private function update_amount($name, $amount)
+    private function update_amount($name, $amount, $link, $sessions, $update = '')
     {
         echo $name;
         $result = $this->CI->db->get_where('influencer', array('id' => $name))->row();
@@ -231,12 +235,54 @@ class GoogleAnalytics
         /*if ($interval < 1){
             return;
         }*/
+
+        $now = date('Y-m-d H:i:s');
         $currentPayment = $currentPayment + $amount;
         $this->CI->db->where('id', $name);
         $data = array(
             'payment' => $currentPayment,
-            'payment_last_updated' => date('Y-m-d H:i:s')
+            'payment_last_updated' => $now
         );
         $this->CI->db->update('influencer', $data);
+
+        //Add Data
+        if ($update == 'update') {
+            echo "Update: " . $update;
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name))->row();
+            print_r($result);
+            if ($result) {
+                $this->CI->db->where('date', $now);
+                $this->CI->db->where('link', $link);
+                $this->CI->db->where('influencer_id', $result->id);
+                $data = array(
+                    'normal_visit' => $sessions,
+                    'revenue_generated' => $amount
+                );
+                $this->CI->db->update('revenue_history', $data);
+            }else{
+                echo "insert revenue history";
+                $data = array(
+                    'date' => $now,
+                    'link' => $link,
+                    'influencer_id' => $name,
+                    'normal_visit' => $sessions,
+                    'revenue_generated' => $amount
+                );
+                $this->CI->db->insert('revenue_history', $data);
+            }
+
+        }else{
+            echo "insert premium data";
+            $data = array(
+                'date' => $now,
+                'link' => $link,
+                'influencer_id' => $result->id,
+                'premium_visit' => $sessions,
+                'revenue_generated' => $amount
+            );
+            $this->CI->db->insert('revenue_history', $data);
+        }
+
+
     }
 }
