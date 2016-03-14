@@ -197,7 +197,10 @@ class Influencer extends CI_Controller
               return  $query = $this->Rss_model->search($search);
             else if ($this->input->post('page') == 'viral') 
               return  $query = $this->Viral_model->search($search);
-            else
+            
+            else if ($this->input->post('page') == 'inf') 
+              return  $query = $this->Rss_model->search($search);
+              else
               return  "Invalid Entry";
 		 
 		     
@@ -299,7 +302,7 @@ class Influencer extends CI_Controller
     
     $this->db->insert('linkcopy',$data);
     
-    $this->inf();
+    redirect('influencer/inf');
         }
 
 }
