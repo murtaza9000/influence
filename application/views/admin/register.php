@@ -110,7 +110,8 @@
         <div class="social-auth-links text-center">
           <p>- OR -</p>
           <a href="<?=$facebook?>" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using Facebook</a>
-          <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using Google+</a>
+          <a href="<?php echo base_url() . 'register/loginbyreddit/'; ?>" class="btn btn-block bg-red btn-flat"><i class="fa"></i> Sign up using Reddit</a>
+          <a href="<?php echo base_url() . 'register/loginbytwitter/'; ?>" class="btn btn-block bg-info btn-flat"><i class="fa"></i> Sign up using Twitter</a>
           <a href="register/publisher" class="btn btn-block bg-purple btn-flat">Sign up as a Publisher</a>
         </div>
 

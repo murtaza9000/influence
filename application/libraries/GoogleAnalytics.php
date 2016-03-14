@@ -15,6 +15,8 @@ class GoogleAnalytics
     {
         // Do something with $params
         $this->CI =& get_instance();
+        $this->CI->load->database();
+        $this->CI->load->helper('date');
         echo "hello";
 
     }
@@ -24,13 +26,14 @@ class GoogleAnalytics
         // Creates and returns the Analytics service object.
 
         // Load the Google API PHP Client Library.
-        $path  = dirname(__DIR__) . '/vendor/google-api-php-client/src/Google/autoload.php' . PHP_EOL;
+        ///Users/mustafahanif/WebstormProjects/influence/application/vendor/google-api-php-client/src/Google/autoload.php
+        $path  = dirname(__DIR__) . '/vendor/google-api-php-client/src/Google/autoload.php';
         require_once $path;
 
         // Use the developers console and replace the values with your
         // service account email, and relative location of your key file.
         $service_account_email = 'testaccount@operating-rush-124305.iam.gserviceaccount.com';
-        $key_file_location = './client_key.p12';
+        $key_file_location = dirname(__DIR__) . '/vendor/client_key.p12';
 
         // Create and configure a new client object.
         $client = new Google_Client();
@@ -81,7 +84,7 @@ class GoogleAnalytics
 
                 for ($k = 0; $k < count($profiles->getItems()); $k++) {
                     echo $profiles[$k]->getName();
-                    if ($profiles[$k]->getName() == 'www.automark.pk') {
+                    if ($profiles[$k]->getName() == 'Premium Buzztache'){
                         return $profiles[$k]->getId();
                     }
                 }
@@ -90,19 +93,34 @@ class GoogleAnalytics
         }
     }
 
-    private function getResults(&$analytics, $profileId) {
+    private function getPremiumResults(&$analytics, $profileId) {
         // Calls the Core Reporting API and queries for the number of sessions
         // for the last seven days.
         $optParams = array(
-            'dimensions' => 'ga:source',
-
-            'filters' => 'ga:medium==Social;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom');
+            'dimensions' => 'ga:campaign',
+            //ga:medium==Social;
+            'filters' => 'ga:medium==AS;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom');
         return $analytics->data_ga->get(
             'ga:' . $profileId,
-            '7daysAgo',
+            'yesterday',
             'today',
-            'ga:sessions');
-        //,$optParams);
+            'ga:sessions'
+            ,$optParams)->getRows();
+    }
+
+    private function getNormalResults(&$analytics, $profileId) {
+        // Calls the Core Reporting API and queries for the number of sessions
+        // for the last seven days.
+        $optParams = array(
+            'dimensions' => 'ga:campaign',
+            //ga:medium==Social;
+            'filters' => 'ga:medium==AS;ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom');
+        return $analytics->data_ga->get(
+            'ga:' . $profileId,
+            'yesterday',
+            'today',
+            'ga:sessions'
+            ,$optParams)->getRows();
     }
 
     private function printResults(&$results) {
@@ -126,9 +144,99 @@ class GoogleAnalytics
     }
 
     public function execute(){
+        echo 'execute 1';
+
         $analytics = $this->getService();
+        echo 'execute 2';
         $profile = $this->getFirstProfileId($analytics);
-        $results = $this->getResults($analytics, $profile);
-        $this->printResults($results);
+        echo 'execute 3';
+        $premiumResults = $this->getPremiumResults($analytics, $profile);
+        echo 'execute 4';
+        print_r($premiumResults);
+        $normalResults = $this->getNormalResults($analytics, $profile);
+        print_r($normalResults);
+        echo 'execute 5';
+        //Get Premium rate for buzztache
+        $premiumRates = $this->get_premium_rates();
+        //Get Normal rate for buzztache
+        $normalRates = $this->get_normal_rates();
+
+        //echo count($premiumResults);
+        foreach ($premiumResults as $result){
+            echo 'Result: ' . $result;
+            $name = $this->get_influencer_id($result[0]);
+            $sessions = $result[1];
+            echo "Sessions: " . $sessions . PHP_EOL;
+            $amount = $this->calculate_amount($sessions, $premiumRates);
+            echo "Amount: " . $amount . PHP_EOL;
+            $this->update_amount($name,$amount);
+
+            //echo $result[0] . ", ";
+        }
+
+        //return;
+        foreach ($normalResults as $result){
+            $name = $this->get_influencer_id($result[0]);
+            $sessions = $result[1];
+
+            $amount = $this->calculate_amount($sessions, $normalRates);
+
+            $this->update_amount($name,$amount);
+            //echo $result[0] . ", ";
+        }
+    }
+
+    private function calculate_amount($sessions, $rates){
+        $amount = ($sessions / 1000) * $rates;
+        return $amount;
+    }
+
+    private function get_normal_rates(){
+        $row = $this->CI->db->get_where('domain',array('url' => 'buzztache.com'));
+
+        $row = $row->row();
+        return $row->click_rate;
+    }
+    private function get_premium_rates(){
+        $row = $this->CI->db->get_where('domain',array('url' => 'buzztache.com'));
+
+        $row = $row->row();
+        return $row->click_ratepre;
+    }
+
+
+    private function get_influencer_id($name)
+    {
+        //Debug:
+        //$name = 'Pakistan_17';
+
+        $name = explode("_",$name);
+
+        //The ID
+        $name = $name[1];
+        return $name;
+    }
+
+    private function update_amount($name, $amount)
+    {
+        echo $name;
+        $result = $this->CI->db->get_where('influencer', array('id' => $name))->row();
+        $currentPayment = $result->payment;
+        echo 'current payment: ' . $currentPayment;
+        $lastUpdated = $result->payment_last_updated;
+
+        /*$lastUpdated = date_create($lastUpdated);
+        $now = date_create(date("Y-m-d H:i:s"));
+        $interval = date_diff($lastUpdated, $now);
+        /*if ($interval < 1){
+            return;
+        }*/
+        $currentPayment = $currentPayment + $amount;
+        $this->CI->db->where('id', $name);
+        $data = array(
+            'payment' => $currentPayment,
+            'payment_last_updated' => date('Y-m-d H:i:s')
+        );
+        $this->CI->db->update('influencer', $data);
     }
 }
