@@ -18,6 +18,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/AdminLTE.min.css">
+
+    <link rel="stylesheet" href="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.css">
+
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/daterangepicker/daterangepicker-bs3.css">
+
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/timepicker/bootstrap-timepicker.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/select2/select2.min.css">
+
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
@@ -393,6 +405,53 @@ desired effect
 <!-- AdminLTE App -->
 <script src="<?=base_url()?>/dist/js/app.min.js"></script>
 <script src="<?=base_url()?>/plugins/fastclick/fastclick.min.js"></script>
+<script src="<?=base_url()?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="<?=base_url()?>/plugins/select2/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<script src="<?=base_url()?>/plugins/daterangepicker/daterangepicker.js"></script>
+
+<script>
+
+
+    $(function () {
+        //Date range as a button
+        $('#daterange-btn').daterangepicker(
+            {
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                //startDate: moment().subtract(29, 'days'),
+                //endDate: moment()
+            },
+            function (start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                window.location = '<?=base_url().'/influencer/payment_history/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+            }
+        );
+
+        $("#example1").DataTable();
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    });
+</script>
 <script src="//fast.eager.io/PeeUftGO2K.js"></script>
 
 

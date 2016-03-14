@@ -17,7 +17,7 @@ class Googleanalytics
         $this->CI =& get_instance();
         $this->CI->load->database();
         $this->CI->load->helper('date');
-        echo "hello";
+
 
     }
 
@@ -83,7 +83,7 @@ class Googleanalytics
                     ->listManagementProfiles($firstAccountId, $firstPropertyId);
 
                 for ($k = 0; $k < count($profiles->getItems()); $k++) {
-                    echo $profiles[$k]->getName();
+                    //echo $profiles[$k]->getName();
                     if ($profiles[$k]->getName() == 'Premium Buzztache'){
                         return $profiles[$k]->getId();
                     }
@@ -144,22 +144,23 @@ class Googleanalytics
     }
 
     public function execute(){
-        echo 'execute 1';
+        echo '<pre>';
 
+
+        echo '[-] Start' . PHP_EOL;
         $analytics = $this->getService();
-        echo 'execute 2';
+        echo '[-] getService' . PHP_EOL;
+
+
         $profile = $this->getFirstProfileId($analytics);
-        echo 'execute 3';
+        echo '[-] getFirstProfileId' . PHP_EOL;
+
         $premiumResults = $this->getPremiumResults($analytics, $profile);
-        echo 'execute 4';
-        echo "<pre>";
-        var_dump($premiumResults);
-      //  print_r($premiumResults);
+        echo '[-] Got premium results: ' . count($premiumResults) . PHP_EOL;
+
         $normalResults = $this->getNormalResults($analytics, $profile);
-       // print_r($normalResults);
-       var_dump($normalResults);
-        echo "</pre>";
-        echo 'execute 5';
+        echo '[-] Got normal results: ' . count($normalResults) . PHP_EOL;
+
         //Get Premium rate for buzztache
         $premiumRates = $this->get_premium_rates();
         //Get Normal rate for buzztache
@@ -168,7 +169,7 @@ class Googleanalytics
         //echo count($premiumResults);
         if (count($premiumResults) > 0){
             foreach ($premiumResults as $result){
-                echo 'Result: ' . $result;
+                echo 'Result: ' . $result . PHP_EOL;
                 $name = $this->get_influencer_id($result[0]);
 
                 $link = $result[1];
@@ -196,10 +197,10 @@ class Googleanalytics
                 //echo $result[0] . ", ";
             }
         }
+        echo '</pre>';
     }
 
     private function calculate_amount($sessions, $rates){
-        echo $sessions;
         $amount = ($sessions / 1000) * $rates;
         return $amount;
     }
@@ -232,10 +233,10 @@ class Googleanalytics
 
     private function update_amount($name, $amount, $link, $sessions, $update = '')
     {
-        var_dump($amount);
+
         $result = $this->CI->db->get_where('influencer', array('id' => $name))->row();
         $currentPayment = $result->payment;
-        echo 'current payment: ' . $currentPayment;
+        echo '[-] current payment: ' . $currentPayment . PHP_EOL;
         $lastUpdated = $result->payment_last_updated;
 
         /*$lastUpdated = date_create($lastUpdated);
@@ -245,7 +246,7 @@ class Googleanalytics
             return;
         }*/
 
-        $now = date('Y-m-d H:i:s');
+        $now = date('Y-m-d');
         $currentPayment = $currentPayment + $amount;
         $this->CI->db->where('id', $name);
         $data = array(
@@ -256,10 +257,11 @@ class Googleanalytics
 
         //Add Data
         if ($update == 'update') {
-            echo "Update: " . $update;
-            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name))->row();
+            echo "[-] Now in second foreach loop, Update: " . $update . PHP_EOL;
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name, 'date' => $now))->row();
             print_r($result);
             if ($result) {
+                echo "[x] Found an entry already for today, normal updating it" . PHP_EOL;
                 $this->CI->db->where('date', $now);
                 $this->CI->db->where('link', $link);
                 $this->CI->db->where('influencer_id', $result->id);
@@ -269,7 +271,7 @@ class Googleanalytics
                 );
                 $this->CI->db->update('revenue_history', $data);
             }else{
-                echo "insert revenue history";
+                echo "[x] Inserting new entry for today" . PHP_EOL;
                 $data = array(
                     'date' => $now,
                     'link' => $link,
@@ -281,15 +283,28 @@ class Googleanalytics
             }
 
         }else{
-            echo "insert premium data";
-            $data = array(
-                'date' => $now,
-                'link' => $link,
-                'influencer_id' => $result->id,
-                'premium_visit' => $sessions,
-                'revenue_generated' => $amount
-            );
-            $this->CI->db->insert('revenue_history', $data);
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name, 'date' => $now))->row();
+            if ($result) {
+                echo "[x] Found an entry already for today, premium updating it" . PHP_EOL;
+                $this->CI->db->where('date', $now);
+                $this->CI->db->where('link', $link);
+                $this->CI->db->where('influencer_id', $result->id);
+                $data = array(
+                    'premium_visit' => $sessions,
+                    'revenue_generated' => $amount
+                );
+                $this->CI->db->update('revenue_history', $data);
+            }else{
+                echo "[x] Inserting new premium entry for today" . PHP_EOL;
+                $data = array(
+                    'date' => $now,
+                    'link' => $link,
+                    'influencer_id' => $result->id,
+                    'premium_visit' => $sessions,
+                    'revenue_generated' => $amount
+                );
+                $this->CI->db->insert('revenue_history', $data);
+            }
         }
 
 
