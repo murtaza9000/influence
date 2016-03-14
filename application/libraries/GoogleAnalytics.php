@@ -162,31 +162,35 @@ class GoogleAnalytics
         $normalRates = $this->get_normal_rates();
 
         //echo count($premiumResults);
-        foreach ($premiumResults as $result){
-            echo 'Result: ' . $result;
-            $name = $this->get_influencer_id($result[0]);
+        if (count($premiumResults) > 0){
+            foreach ($premiumResults as $result){
+                echo 'Result: ' . $result;
+                $name = $this->get_influencer_id($result[0]);
 
-            $link = $result[1];
-            $sessions = $result[2];
+                $link = $result[1];
+                $sessions = $result[2];
 
-            echo "Sessions: " . $sessions . PHP_EOL;
-            $amount = $this->calculate_amount($sessions, $premiumRates);
-            echo "Amount: " . $amount . PHP_EOL;
-            $this->update_amount($name,$amount,$link,$sessions);
+                echo "Sessions: " . $sessions . PHP_EOL;
+                $amount = $this->calculate_amount($sessions, $premiumRates);
+                echo "Amount: " . $amount . PHP_EOL;
+                $this->update_amount($name,$amount,$link,$sessions);
 
-            //echo $result[0] . ", ";
+                //echo $result[0] . ", ";
+            }
         }
 
         //return;
-        foreach ($normalResults as $result){
-            $name = $this->get_influencer_id($result[0]);
-            $link = $result[1];
-            $sessions = $result[2];
+        if (count($normalResults) > 0){
+            foreach ($normalResults as $result){
+                $name = $this->get_influencer_id($result[0]);
+                $link = $result[1];
+                $sessions = $result[2];
 
-            $amount = $this->calculate_amount($sessions, $normalRates);
+                $amount = $this->calculate_amount($sessions, $normalRates);
 
-            $this->update_amount($name,$amount,$link,$sessions, 'update');
-            //echo $result[0] . ", ";
+                $this->update_amount($name,$amount,$link,$sessions, 'update');
+                //echo $result[0] . ", ";
+            }
         }
     }
 
