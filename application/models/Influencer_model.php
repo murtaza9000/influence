@@ -40,9 +40,27 @@ class Influencer_model extends CI_Model
    }   
       public function payment_clear($id)
       {
+          $this->entrycheckout($id);
           $this->db->set('payment', '0');
           $this->db->where('id', $id);
           $this->db->update('influencer');
+        
+          
+          
+      }
+      
+      public function entrycheckout($id){
+         $query = $this->db->get_where('influencer',array('id'=>$id));
+         $row = $query->row_array();
+       
+         if($row['payment']!='0')
+          $this->db->insert('checkout',array
+          (
+              'inf_id'=>$id,
+              'payment'=>$row['payment']
+              
+          )
+          ); 
       }
    public function del_inf($id)
    {

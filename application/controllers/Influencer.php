@@ -47,11 +47,11 @@ class Influencer extends CI_Controller
 
         $data['content'] = $this->load_payment_history($start_date,$end_date);
 
-        $data['header']=' ';
-        $data['active'] ='';
+        $data['header']='Payment History';
+        $data['active'] ='payment_history';
 
 
-        $this->load->view('influencer/payment_history',$data);
+        $this->load->view('influencer/index',$data);
     }
 
     private function clean($value){
@@ -401,7 +401,7 @@ class Influencer extends CI_Controller
         $data = array();
          $data = $this->user->add_user_data('influencer');
          $data['content'] = $this->inf_contact();
-         $data['active'] ='inf';
+         $data['active'] ='contact';
           $data['header']='Contact us';
          $this->load->view('influencer/index',$data);
          

@@ -12,19 +12,19 @@ foreach ($publisher as $pub){?>
     
 <div class ="row">
      <div class ="col-md-4">   
-    <ol>
- <?php  echo $index.". ".$pub['name']; ?>
+    
+ <?php  echo " <h4> ".$index.". ". $pub['name']."</h4>"; ?>
    
-   </ol>
+   
    </div>
    
    <div class ="col-md-4">
        <a href="<?php echo base_url();?>admin/dom/no/<?php echo $pub['id']?>">
-   <button type="button" class="btn btn-info">Domains</button>
+   <button type="button" class="btn btn-info btn-flat">Domains</button>
    </a>
-   </br>
+   
    </div>
    
 </div>
-
+</br>
 <?php $index++;} ?>

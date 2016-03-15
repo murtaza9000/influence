@@ -58,6 +58,15 @@
 
                   <div class="tab-pane active" id="settings">
                     <form action="submitprofile" class="form-horizontal" method="post">
+                        
+                        <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" name="email" placeholder="email@xyz.com" value="<?=$inf["email"]?>">
+                          <p> Will be used for logins </p>
+                        </div>
+                      </div>  
+                        
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-10">

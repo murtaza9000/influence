@@ -1,34 +1,46 @@
  
 
 <style>
-  
-  .image_latest img
-  {
-      height: 70px;
-      width :104px;
-      margin-left: 10px;
-      float:left;
-          margin-right: 10px;
-  }
-  
-  .image_latest p
-  {
-     
-      margin-left: 10px;
-   
-  }
-  textarea {
+        textarea {
                 background-color: #fff;
-                
-                
-                
-                
-                
-                opacity: .50; /* Standard opacity property */
+                 opacity: .50; /* Standard opacity property */
                 filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50); /* IE opacity property */
                 /* reducing the opacity will also make the textarea text become transparent */
             }
- </style>
+            
+       .label {
+           font-size: 96%;
+       }
+      .attachment-block 
+       {
+           margin-top: 10px;
+               padding-bottom: 20px;
+       }
+       .viral{
+               padding-left: 150px;
+                
+       }
+       .viralcopy{
+              
+                opacity: .70;
+       }
+       a .latest{
+          font-size: 12px;
+       }
+       
+       
+.btn-sm {
+    padding: 1px 12px;
+    float:right;
+}  
+
+img{
+        height: 67px;
+    width: 116px;
+    padding-left: 10px;
+}
+            </style>
+ 
  
  <?php   
   
@@ -53,65 +65,53 @@ else
      $name=str_replace(" ", "",$name );
   $name=  strtolower($name);
   $id=$this->session->userdata('user_id');
+  ?>
+   <div class="viral">
+<?php
 foreach ($rss as $inf){?>
-<div>
+      
+     <div <?php  echo ( $inf['copied'] == "copied") ? "" : "class=viralcopy" ?> >  
+      
+       
 <div class ="row" id="latest">
         <div class ="col-md-8">   
-        
-<?php if( $inf['copied'] == "copied"){ ?>
-   
-     <textarea id="utm<?php echo $index;?>"  rows="1" cols="100"><?php echo $inf['links'] ?></textarea>
-     
-    <?php }  else  { ?>
-   
-   <textarea id="utm<?php echo $index;?>"  rows="1" cols="100"><?php echo $inf['links'] ?></textarea>
-   
-    <?php }?>
-  </br><span class="label label-success"><b>Click-Rate</b>: $<?=$inf['click_rate']?></span>
-            <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$inf['click_ratepre']?></span>
-
-        
-    </div>
-        <div class ="col-md-2"> 
-            
-            <?php if( $inf['copied'] == "copied"){ ?>
+        <?php if( $inf['copied'] == "copied"){ ?>
             <form action="docopy" method="post">
                 <input type="hidden" name="link" value="<?=$inf['links']?>">
-               
                 <input type="hidden" name="flag" value="1">
-                
-           <button class="copyit btn btn-block btn-primary btn-xs"   data-clipboard-action="copy" data-clipboard-target="#utm<?php echo $index;?>" > Copy Link</button>
+                <span class="label label-success"><b>Click-Rate</b>: $<?=$inf['click_rate']?></span>
+                <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$inf['click_ratepre']?></span>
+                <button class="copyit btn  btn-primary btn-sm"   data-clipboard-action="copy" data-clipboard-text="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" > Copy Link</button>
             </form>
-            <?php } else{ ?>
+          <?php } else{ ?>
                 
-                 <!--button  class="btn btn-block btn-info btn-xs" >Link is copied</button-->
-                    
+                
+                 <span class="label label-success"><b>Click-Rate</b>: $<?=$inf['click_rate']?></span>
+                  <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$inf['click_ratepre']?></span>
                    
-                    <button class=" btn btn-block btn-info btn-xs">Link is copied</button>
+                    <button class="copyit btn  btn-info btn-sm disabled">Link is copied</button>
                    
-            <?php } ?>
-        </div>
- </div>
- <div class ="row">
-       <div class ="col-md-12"> 
-        <div class="attachment-block clearfix  image_latest">
-             
-               <?=$inf['description']?>
-                </div>
+            <?php } ?>  
        
-  </div>
-   </div>
-  </div>
+</div>
+</div>
+            <div class ="row">
+                <div class ="col-md-8"> 
+                    <div class="attachment-block clearfix  image_latest">
+                        
+                        <?=$inf['description']?>
+                         <h4 class="attachment-heading">
+                        <a class="latest" href="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" ><?=$inf['links']?></a>
+                        </h4>
+            </div>
+                
+                </div>
+                </div>
+                </div>
     <?php  $index++;}  }
-  
-  
-  
- 
-  
-  
-  
+   
    ?>
-    
+   </div>
             
         
       
