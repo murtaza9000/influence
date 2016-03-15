@@ -293,7 +293,7 @@ function lastPostFunc() {
   /*Restricting the request if the end is reached.*/
   if (reachedEnd == false) {
     $.ajax({
-      url: window.location.origin+"/influence/influencer/inf_ajax/"+count  ,
+      url: '<?=base_url()?>' + "influencer/inf_ajax/"+count  ,
       async: false,
       dataType: "html",
       success: function(data) {
