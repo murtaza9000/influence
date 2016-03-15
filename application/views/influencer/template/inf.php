@@ -97,12 +97,19 @@ foreach ($rss as $inf){?>
 </div>
             <div class ="row">
                 <div class ="col-md-8"> 
-                    <div class="attachment-block clearfix  image_latest">
-                        
-                        <?=$inf['description']?>
-                         <h4 class="attachment-heading">
-                        <a class="latest" href="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" ><?=$inf['links']?></a>
-                        </h4>
+                    <div class="attachment-block clearfix bg-grey image_latest">
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <?=$inf['description']?>
+                            </div>
+                            <div class="col-xs-10">
+                                <h3 class="attachment-heading">
+                                    <a class="latest" href="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" ><?=$inf['links']?></a>
+                                </h3>
+                            </div>
+                        </div>
+
+
             </div>
                 
                 </div>

@@ -85,7 +85,7 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <div class="callout callout-success">
-                            <h4>Total Money Paid out: $400</h4>
+                            <h4>Total Money Paid out: <?=$payment_given?></h4>
                         </div>
                     </div>
                     <div class="col-xs-4">

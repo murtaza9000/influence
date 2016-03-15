@@ -230,7 +230,7 @@ class Googleanalytics
         //$name = 'Pakistan_17';
 
         $name = explode("_",$name);
-        if (count($name) > 0) {
+        if (is_array($name) && count($name) > 0) {
             //The ID
             $name = $name[1];
             return $name;

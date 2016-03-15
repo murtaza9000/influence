@@ -73,6 +73,18 @@ class Influencer extends CI_Controller
         $value = $this->db->get_where('revenue_history',array('influencer_id' => $userid))->row_array()[$prop];
         return $this->clean($value);
     }
+
+    private function getTotalPayment($start_date, $end_date){
+        if ($start_date != null && $end_date != null){
+            $this->db->where('timestamp_checkout >=', $start_date);
+            $this->db->where('timestamp_checkout <=', $end_date);
+        }
+        $this->db->select_sum('payment_checkout');
+        $userid = $this->session->userdata('user_id');
+        $payment_given = $this->db->get_where('checkout',array('inf_id' => $userid))->row()->payment_checkout;
+        return $payment_given;
+
+    }
     private function load_payment_history($start_date,$end_date){
         $userid = $this->session->userdata('user_id');
         $this->db->order_by('date', 'DESC');
@@ -95,7 +107,10 @@ class Influencer extends CI_Controller
         //Payment left
         $payment_left = $this->db->get_where('influencer',array('id' => $userid))->row()->payment;
 
+        $payment_given = $this->getTotalPayment($start_date, $end_date);
+
         $data['payment_left'] = $this->clean($payment_left);
+        $data['payment_given'] = $this->clean($payment_given);
         $data['total_premium'] = $total_premium;
         $data['total_normal'] = $total_normal;
         $data['total_revenue'] = $total_revenue;
