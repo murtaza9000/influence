@@ -247,18 +247,19 @@ class Googleanalytics
         }*/
 
         $now = date('Y-m-d');
+        $now_time = date('Y-m-d H');
         $currentPayment = $currentPayment + $amount;
         $this->CI->db->where('id', $name);
         $data = array(
             'payment' => $currentPayment,
-            'payment_last_updated' => $now
+            'payment_last_updated' => $now_time
         );
         $this->CI->db->update('influencer', $data);
 
         //Add Data
         if ($update == 'update') {
             echo "[-] Now in second foreach loop, Update: " . $update . PHP_EOL;
-            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name, 'date' => $now))->row();
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name, 'time' => $now_time))->row();
             print_r($result);
             if ($result) {
                 echo "[x] Found an entry already for today, normal updating it" . PHP_EOL;
@@ -274,6 +275,7 @@ class Googleanalytics
                 echo "[x] Inserting new entry for today" . PHP_EOL;
                 $data = array(
                     'date' => $now,
+                    'time' => $now_time,
                     'link' => $link,
                     'influencer_id' => $name,
                     'normal_visit' => $sessions,
@@ -283,7 +285,7 @@ class Googleanalytics
             }
 
         }else{
-            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name, 'date' => $now))->row();
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name, 'time' => $now_time))->row();
             if ($result) {
                 echo "[x] Found an entry already for today, premium updating it" . PHP_EOL;
                 $this->CI->db->where('date', $now);
@@ -298,6 +300,7 @@ class Googleanalytics
                 echo "[x] Inserting new premium entry for today" . PHP_EOL;
                 $data = array(
                     'date' => $now,
+                    'time' => $now_time,
                     'link' => $link,
                     'influencer_id' => $result->id,
                     'premium_visit' => $sessions,
