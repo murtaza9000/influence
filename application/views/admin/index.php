@@ -25,6 +25,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     -->
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
     <link rel="stylesheet" href="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.css">
+    <!-- Select2 -->
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

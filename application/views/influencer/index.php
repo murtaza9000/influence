@@ -20,10 +20,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/AdminLTE.min.css">
     <script src="<?=base_url()?>dist/clipboard.min.js"></script>
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-          page. However, you can choose any other skin. Make sure you
+          page. However, you can choose any other skin. Make sure yous
           apply the skin class to the body tag so the changes take effect.
     -->
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
+        <!-- daterange picker -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/daterangepicker/daterangepicker-bs3.css">
+
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/timepicker/bootstrap-timepicker.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/select2/select2.min.css">
+    <script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="<?=base_url()?>/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="<?=base_url()?>/dist/js/app.min.js"></script>
+<script src="<?=base_url()?>/plugins/fastclick/fastclick.min.js"></script>
+<script src="<?=base_url()?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="<?=base_url()?>/plugins/select2/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<script src="<?=base_url()?>/plugins/daterangepicker/daterangepicker.js"></script>
+
    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -275,16 +301,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
    
 
     <!-- REQUIRED JS SCRIPTS -->
+<!-- jQuery 2.1.4 -->
 
-    <!-- jQuery 2.1.4 -->
-    <script src="<?=base_url()?>plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="<?=base_url()?>bootstrap/js/bootstrap.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="<?=base_url()?>dist/js/app.min.js"></script>
-        <script src="<?=base_url()?>plugins/fastclick/fastclick.min.js"></script>
-        <script src="<?=base_url()?>plugins/daterangepicker/daterangepicker.js"></script>
-    <script src="//fast.eager.io/PeeUftGO2K.js"></script>
+
 
     <script>
       $( document ).ready(function() {

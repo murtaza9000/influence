@@ -1,16 +1,11 @@
- <link rel="stylesheet" href="<?=base_url()?>plugins/daterangepicker/daterangepicker-bs3.css">
 
-    <!-- Bootstrap time Picker -->
-    <link rel="stylesheet" href="<?=base_url()?>plugins/timepicker/bootstrap-timepicker.min.css">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="<?=base_url()?>plugins/select2/select2.min.css">
 
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
         <div class="box">
 
             <div class="box-body">
-                <?php if (($start_date)): ?>
+                <?php if (!is_null($start_date)): ?>
                     <h2>Summary from: <?=nice_date($start_date, 'd M Y');?> to <?=nice_date($end_date, 'd M Y');?></h2>
                 <?php else: ?>
                     <h2>Summary from all time</h2>
