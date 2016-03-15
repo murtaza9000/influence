@@ -151,21 +151,6 @@ class Register extends CI_Controller
         require_once dirname(__DIR__) . '/vendor/reddit/config.php';
         require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
         $reddit = new reddit();
-
-        if ($reddit){
-            $userData = $reddit->getUser();
-
-            $userName = $userData->name;
-            if (!$userName){
-                redirect('/influencer/register');
-                return;
-            }
-            $loginData = array();
-
-            $loginData['name'] = $userName;
-            $loginData['login_provider'] = 'reddit';
-            $this->save_and_login($loginData);
-        }
     }
 
     public function redditcallback(){
