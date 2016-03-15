@@ -82,6 +82,7 @@ class Influencer extends CI_Controller
             $this->db->where('date <=', $end_date);
         }
         $result = $this->db->get_where('revenue_history',array('influencer_id' => $userid));
+
         $data['rows'] = $result->result();
 
         //Get total premium
