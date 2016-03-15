@@ -102,47 +102,41 @@ class Influencer extends CI_Controller
     }
 
     public function rss_done(){
-            // $this->Rss_model->del_rss();
-          $data=$this->Domain_model->get_rss();
-       //  $data=$this->Rss_model->get_influencer();
-            $num =0; 
-    
-         foreach($data as $values)
-      
-       {  
-           
-           echo $values['url'];
-       echo "<br>";
+        // $this->Rss_model->del_rss();
+        $data=$this->Domain_model->get_rss();
+        //$data=$this->Rss_model->get_influencer();
+        $num =0;
+
+        foreach($data as $values){
+            echo $values['url'];
+            echo "<br>";
        
-     //  urlencode(trim($values['url']))
-        $this->rssparser->set_feed_url(urldecode(trim($values['url'])));  // get feed
+            //urlencode(trim($values['url']))
+            $this->rssparser->set_feed_url(urldecode(trim($values['url'])));  // get feed
       
-      //  $this->rssparser->set_feed_url('http://buzztache.com/feed/');
-        $this->rssparser->set_cache_life(30);                       // Set cache life time in minutes
-        $rss = $this->rssparser->getFeed(25);
-         echo "<pre>";
-    //   print_r($rss);
-        echo "</pre>";
-         foreach($rss as $rs)
-            { 
-              if($this->rss_duplicate_check($rs)=="dup")
-              echo "duplicate entry not added: ".$rs['link'];
-              else{
-        echo $rs['link'];
-          $this->Rss_model->add_rss($rs,$values['id']);
-           $num++;
-              }
-           echo "<br>";
-         
+            //$this->rssparser->set_feed_url('http://buzztache.com/feed/');
+            $this->rssparser->set_cache_life(30);                       // Set cache life time in minutes
+            $rss = $this->rssparser->getFeed(25);
+            echo "<pre>";
+            // print_r($rss);
+            echo "</pre>";
+            foreach($rss as $rs)
+            {
+                if($this->rss_duplicate_check($rs)=="dup")
+                echo "duplicate entry not added: ".$rs['link'];
+                else{
+                    echo $rs['link'];
+                    $this->Rss_model->add_rss($rs,$values['id']);
+                    $num++;
+                }
+                echo "<br>";
             }
-    
        }
-       
-       
+
        $data['num']=$num;
        $this->load->view('influencer/template/rss_service',$data);
     }
-     public function rssstart()
+    public function rssstart()
             {  ?>
          
                     <script>
