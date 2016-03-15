@@ -277,12 +277,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- REQUIRED JS SCRIPTS -->
 
     <!-- jQuery 2.1.4 -->
-    <script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="<?=base_url()?>plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="<?=base_url()?>/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?=base_url()?>bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<?=base_url()?>/dist/js/app.min.js"></script>
-        <script src="<?=base_url()?>/plugins/fastclick/fastclick.min.js"></script>
+    <script src="<?=base_url()?>dist/js/app.min.js"></script>
+        <script src="<?=base_url()?>plugins/fastclick/fastclick.min.js"></script>
+        <script src="<?=base_url()?>plugins/daterangepicker/daterangepicker.js"></script>
     <script src="//fast.eager.io/PeeUftGO2K.js"></script>
 
     <script>
@@ -296,17 +297,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
-        <script>
-    var clipboard = new Clipboard('.btn');
-
-    clipboard.on('success', function(e) {
-        console.log(e);
-    });
-
-    clipboard.on('error', function(e) {
-        console.log(e);
-    });
-    </script>
+    
 
 
   </body>

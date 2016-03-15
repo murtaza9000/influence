@@ -111,3 +111,29 @@ else
 ?>
  </div>
 
+   <script>
+      
+          
+       //   function K(copyit){
+   //  $(copyit).button();
+    //  $(copyit).unbind("click").click(function() {
+
+    var clipboard = new Clipboard('.copyit');
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+       
+     
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+      
+    });
+                 
+        
+       
+  //    }  
+         
+    </script>    
+    
