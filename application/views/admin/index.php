@@ -25,6 +25,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     -->
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
     <link rel="stylesheet" href="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.css">
+     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
+        <!-- daterange picker -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/daterangepicker/daterangepicker-bs3.css">
+
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/timepicker/bootstrap-timepicker.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?=base_url()?>plugins/select2/select2.min.css">
     <!-- Select2 -->
 
 
@@ -183,7 +191,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <ul class="treeview-menu">
                 <li <?php echo ($active == 'pub') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/pub">List of Publisher</a></li>
                 <li <?php echo ($active == 'dom') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/dom/all">List of Domains</a></li>
+               
               </ul>
+               <li   <?php echo ($active == 'checkout') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/checkout"><i class="fa fa-link"></i> <span>Payment Log</span></a></li>
             </li>
           </ul><!-- /.sidebar-menu -->
         </section>
@@ -319,18 +329,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- REQUIRED JS SCRIPTS -->
 
     <!-- jQuery 2.1.4 -->
-    <script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="<?=base_url()?>/bootstrap/js/bootstrap.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="<?=base_url()?>/dist/js/app.min.js"></script>
-     <!-- Data table -->
-    <script src="<?=base_url()?>/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="<?=base_url()?>/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="<?=base_url()?>/dist/js/app.min.js"></script>
+<script src="<?=base_url()?>/plugins/fastclick/fastclick.min.js"></script>
+  <script src="<?=base_url()?>/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<script src="<?=base_url()?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="<?=base_url()?>/plugins/select2/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="<?=base_url()?>/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<script src="<?=base_url()?>/plugins/daterangepicker/daterangepicker.js"></script>
     <script>
       $(function () {
         $("#domain").DataTable();
          $("#viral").DataTable();
+         $("#example1").DataTable();
         $('#links').DataTable({
           "paging": true,
           "lengthChange": false,
@@ -339,6 +361,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           "info": true,
           "autoWidth": true
         });
+        
+         $('#daterange-btn').daterangepicker(
+            {
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                //startDate: moment().subtract(29, 'days'),
+                //endDate: moment()
+            },
+            function (start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                window.location = '<?=base_url().'admin/checkout/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+            }
+        );
+        
       });
     </script>
     <script>
@@ -348,6 +390,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }?>
       });
     </script>
+    <script src="//fast.eager.io/PeeUftGO2K.js"></script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
