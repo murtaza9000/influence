@@ -57,7 +57,7 @@ class Influencer_model extends CI_Model
           $this->db->insert('checkout',array
           (
               'inf_id'=>$id,
-              'payment'=>$row['payment']
+              'payment_checkout'=>$row['payment']
               
           )
           ); 

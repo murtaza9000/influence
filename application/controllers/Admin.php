@@ -27,6 +27,7 @@ class Admin extends CI_Controller
          $this->load->library('opengraph');
          $this->load->library('breadcrumbs');
           $this->load->library('user');
+          $this->load->helper('date');
        
            
     }
@@ -448,5 +449,37 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
 		 
 		     
         }
+        
+        public function checkout($start_date = null, $end_date = null){
+        if (!$this->user->is_loggedad_in()){
+            redirect('/registeradmin');
+        }
+        $data = array();
+        $data = $this->user->add_user_data_ad('admin');
+        
+        $data['content'] = $this->load_checkout($start_date,$end_date);
+
+        $data['header']='Payment Log';
+        $data['active'] ='checkout';
+
+
+        $this->load->view('admin/index',$data);
+    }
+
+    private function load_checkout($start_date,$end_date){
+       
+        $this->db->order_by('checkout.timestamp_checkout', 'DESC');
+        if ($start_date != null && $end_date != null){
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            $this->db->where('checkout.timestamp_checkout >=', $start_date);
+            $this->db->where('checkout.timestamp_checkout <=', $end_date);
+        }
+        $this->db->join('influencer', 'influencer.id = checkout.inf_id');
+        $result = $this->db->get_where('checkout');
+        $data['rows'] = $result->result();
+       
+        return $this->load->view('admin/template/payment_history', $data, TRUE);
+    }
      
 }

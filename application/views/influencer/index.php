@@ -197,13 +197,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Optionally, you can add icons to the links -->
             
             
-            <li <?php echo ($active == 'inf' || $active == 'viral') ? 'class="treeview active"' : 'class="treeview"' ;?>>
-              <a href="#"><i class="fa fa-link"></i> <span>Content</span> <i class="fa fa-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
+            
                 <li <?php echo ($active == 'inf') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/inf"><i class="fa fa-link"></i>Latest Links</a></li>
                 <li <?php echo ($active == 'viral') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/viral"><i class="fa fa-link"></i> <span>Viral Links</span></a></li>
                
-              </ul>
+              
                <li  <?php echo ($active == 'contact') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/contact"><i class="fa fa-link"></i> <span>Contact Us! </span></a></li>
                 <li  <?php echo ($active == 'payment_history') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/payment_history"><i class="fa fa-link"></i> <span>Payment History </span></a></li>
            
@@ -300,11 +298,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
    
 
-    <!-- REQUIRED JS SCRIPTS -->
-<!-- jQuery 2.1.4 -->
-
-
-
+ 
+ 
+    <script src="//fast.eager.io/PeeUftGO2K.js"></script>
     <script>
       $( document ).ready(function() {
         <?php if ($this->session->flashdata('message')){
