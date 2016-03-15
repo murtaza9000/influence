@@ -172,12 +172,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
            
            
             
-            <li <?php echo ($active == 'inf' || $active == 'viral') ? 'class="treeview active"' : 'class="treeview"' ;?>>
-              <a href="#"><i class="fa fa-link"></i> <span>Content</span> <i class="fa fa-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
+         
                 <li <?php echo ($active == 'inf') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/inf"><i class="fa fa-link"></i>Latest Links</a></li>
                 <li <?php echo ($active == 'viral') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/viral"><i class="fa fa-link"></i> <span>Viral Links</span></a></li>
-              </ul>
+            
                 <li  <?php echo ($active == 'contact') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/contact"><i class="fa fa-link"></i> <span>Contact Us! </span></a></li>
                 <li  <?php echo (current_url() == base_url()."contact") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/contact"><i class="fa fa-link"></i> <span>Payment History </span></a></li>
            
