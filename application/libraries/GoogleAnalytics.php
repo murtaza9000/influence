@@ -171,7 +171,9 @@ class Googleanalytics
             foreach ($premiumResults as $result){
                 echo 'Result: ' . $result . PHP_EOL;
                 $name = $this->get_influencer_id($result[0]);
-
+                if ($name == ''){
+                    continue;
+                }
                 $link = $result[1];
                 $sessions = $result[2];
 
@@ -188,6 +190,9 @@ class Googleanalytics
         if (count($normalResults) > 0){
             foreach ($normalResults as $result){
                 $name = $this->get_influencer_id($result[0]);
+                if ($name == ''){
+                    continue;
+                }
                 $link = $result[1];
                 $sessions = $result[2];
 
@@ -225,10 +230,15 @@ class Googleanalytics
         //$name = 'Pakistan_17';
 
         $name = explode("_",$name);
+        if (count($name) > 0) {
+            //The ID
+            $name = $name[1];
+            return $name;
+        }else{
+            return '';
+        }
 
-        //The ID
-        $name = $name[1];
-        return $name;
+
     }
 
     private function update_amount($name, $amount, $link, $sessions, $update = '')
