@@ -15,15 +15,20 @@
                 <?php else: ?>
                     <h2>Summary from all time</h2>
                 <?php endif; ?>
-                <!-- Date and time range -->
-                <div class="form-group">
-                    <div class="input-group">
-                        <button class="btn btn-default pull-right" id="daterange-btn">
-                            <i class="fa fa-calendar"></i> Date range picker
-                            <i class="fa fa-caret-down"></i>
-                        </button>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <!-- Date and time range -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <button class="btn btn-default pull-right" id="daterange-btn">
+                                    <i class="fa fa-calendar"></i> Select Date Range
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                            </div>
+                        </div><!-- /.form group -->
                     </div>
-                </div><!-- /.form group -->
+                </div>
+                <hr />
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -66,17 +71,17 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <div class="callout callout-info">
-                            <h4>Total Revenue Generated: $35</h4>
+                            <h4>Total Revenue Generated: $<?=$total_revenue?></h4>
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="callout bg-maroon">
-                            <h4>Total Premium Visits: 200</h4>
+                            <h4>Total Premium Visits: <?=$total_premium?></h4>
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="callout bg-aqua-active">
-                            <h4>Total Non-premium Visits: 300</h4>
+                            <h4>Total Non-premium Visits: <?=$total_normal?></h4>
                         </div>
                     </div>
                 </div>
@@ -90,7 +95,7 @@
                     </div>
                     <div class="col-xs-4">
                         <div class="callout callout-warning">
-                            <h4>Total Money Not Paid Out: $400</h4>
+                            <h4>Total Money Not Paid Out: $<?=$payment_left?></h4>
                         </div>
                     </div>
                 </div>
