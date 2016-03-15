@@ -298,10 +298,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
    
 
-    <!-- REQUIRED JS SCRIPTS -->
-<!-- jQuery 2.1.4 -->
-
-
+ 
+ 
     <script src="//fast.eager.io/PeeUftGO2K.js"></script>
     <script>
       $( document ).ready(function() {

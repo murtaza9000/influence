@@ -5,7 +5,7 @@
         <div class="box">
 
             <div class="box-body">
-                <?php if (!is_null($start_date)): ?>
+                <?php if (isset($start_date)): ?>
                     <h2>Summary from: <?=nice_date($start_date, 'd M Y');?> to <?=nice_date($end_date, 'd M Y');?></h2>
                 <?php else: ?>
                     <h2>Summary from all time</h2>
