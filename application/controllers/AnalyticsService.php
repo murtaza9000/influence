@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Date: 2/6/16
  * Time: 4:00 AM
  */
-class AnalyticsService extends CI_Controller
+class Analyticsservice extends CI_Controller
 {
     public function __construct()
     {
