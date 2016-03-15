@@ -20,6 +20,7 @@ class Influencer extends CI_Controller
         $this->load->library('breadcrumbs');
         $this->load->helper('url');
         $this->load->helper('date');
+        $this->load->library('scrape');
                   
     }
 
@@ -107,18 +108,25 @@ class Influencer extends CI_Controller
         //$data=$this->Rss_model->get_influencer();
         $num =0;
 
-        foreach($data as $values){
+        foreach($data as $values) {
             echo $values['url'];
             echo "<br>";
-       
+
             //urlencode(trim($values['url']))
-            $this->rssparser->set_feed_url(urldecode(trim($values['url'])));  // get feed
-      
-            //$this->rssparser->set_feed_url('http://buzztache.com/feed/');
-            $this->rssparser->set_cache_life(30);                       // Set cache life time in minutes
-            $rss = $this->rssparser->getFeed(25);
+            $rss = [];
+            if (urldecode(trim($values['url'])) == 'buzztache.com') {
+                $rss = $this->scrape->execute();
+
+            } else {
+                $this->rssparser->set_feed_url(urldecode(trim($values['url'])));  // get feed
+
+                //$this->rssparser->set_feed_url('http://buzztache.com/feed/');
+
+                $this->rssparser->set_cache_life(30);                       // Set cache life time in minutes
+                $rss = $this->rssparser->getFeed(25);
+            }
             echo "<pre>";
-            // print_r($rss);
+            print_r($rss);
             echo "</pre>";
             foreach($rss as $rs)
             {

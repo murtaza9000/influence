@@ -151,8 +151,6 @@ class Register extends CI_Controller
         require_once dirname(__DIR__) . '\\vendor\\reddit\\config.php';
         require_once dirname(__DIR__) . '\\vendor\\reddit\\reddit.php';
         $reddit = new reddit();
-
-       
     }
 
     public function redditcallback(){
