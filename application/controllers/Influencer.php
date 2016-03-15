@@ -54,6 +54,24 @@ class Influencer extends CI_Controller
         $this->load->view('influencer/payment_history',$data);
     }
 
+    private function clean($value){
+        $value = round($value,2);
+        $value = ($value > 0) ? $value : '0';
+        return $value;
+    }
+
+    private function getTotal($prop, $start_date, $end_date){
+        if ($start_date != null && $end_date != null){
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            $this->db->where('date >=', $start_date);
+            $this->db->where('date <=', $end_date);
+        }
+        $this->db->select_sum($prop);
+        $userid = $this->session->userdata('user_id');
+        $value = $this->db->get_where('revenue_history',array('influencer_id' => $userid))->row_array()[$prop];
+        return $this->clean($value);
+    }
     private function load_payment_history($start_date,$end_date){
         $userid = $this->session->userdata('user_id');
         $this->db->order_by('date', 'DESC');
@@ -65,6 +83,20 @@ class Influencer extends CI_Controller
         }
         $result = $this->db->get_where('revenue_history',array('influencer_id' => $userid));
         $data['rows'] = $result->result();
+
+        //Get total premium
+        $total_premium = $this->getTotal('premium_visit', $start_date, $end_date);
+        //Get total normal
+        $total_normal = $this->getTotal('normal_visit', $start_date, $end_date);
+        //Get total revenue
+        $total_revenue = $this->getTotal('revenue_generated', $start_date, $end_date);
+        //Payment left
+        $payment_left = $this->db->get_where('influencer',array('id' => $userid))->row()->payment;
+
+        $data['payment_left'] = $this->clean($payment_left);
+        $data['total_premium'] = $total_premium;
+        $data['total_normal'] = $total_normal;
+        $data['total_revenue'] = $total_revenue;
         return $this->load->view('influencer/template/payment_history', $data, TRUE);
     }
 
