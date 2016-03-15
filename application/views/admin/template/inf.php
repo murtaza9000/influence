@@ -11,18 +11,18 @@ foreach ($influencer as $inf){?>
 
     <div class ="row">
      <div class ="col-md-4">   
-    <ol>
+    
 <?php if ( $inf['ban'] == "1") 
-        {
-            echo $index.". <strike>". $inf['name']."</strike>"; 
+        { 
+            echo " <h4> ".$index.". <strike>". $inf['name']."</strike></h4>"; 
 ?>
-        </ol>
+       
           </div>
-             <div class ="col-md-4">
+             <div class ="col-md-1">
                  <a href="<?php echo base_url();?>admin/ban/<?php echo $inf['id']?>/unban">
-                 <button type="button" class="btn btn-info">unban</button>
+                 <button type="button" class="btn btn-info btn-flat">unban</button>
                  </a>
-        
+        </div>
                
             
             
@@ -31,24 +31,26 @@ foreach ($influencer as $inf){?>
 <?php    }
        else
        {
-        echo $index.". ". $inf['name']; 
+        echo " <h4> ".$index.". ". $inf['name']."</h4>"; 
  ?>
    
-   </ol>
+   
           </div>
-             <div class ="col-md-4"> <!-- start of button div -->
+             <div class ="col-md-1"> <!-- start of button div -->
                  <a href="<?php echo base_url();?>admin/ban/<?php echo $inf['id']?>">
-                 <button type="button" class="btn btn-info">ban</button>
+                 <button type="button" class="btn btn-info btn-flat">&nbsp&nbspban&nbsp&nbsp&nbsp</button>
                  </a>
-        
+        </div>
               
    
  
 
 <?php } ?>
+     <div class ="col-md-2">
     <a href="<?php echo base_url();?>admin/inf_detail/<?php echo $inf['id']?>">
-                 <button type="button" class="btn btn-info">Details</button>
+                 <button type="button" class="btn btn-info btn-flat">Details</button>
                  </a>
+      
     <?php
    // echo "Payment Dues: ".$inf['payment']; 
     if ($inf['payment']!= 0)
@@ -58,12 +60,14 @@ foreach ($influencer as $inf){?>
     ?>
     
     </div> 
+    
     <div class ="col-md-4">   
     <a href="<?php echo base_url();?>admin/del_inf/<?php echo $inf['id']?>">
-                 <button type="button" class="btn btn-danger">Delete</button>
+                 <button type="button" class="btn btn-danger btn-flat">Delete</button>
                  </a>
        </div>      <!-- end of button div -->     
     </div>  <!-- end of row div -->
+    </br>
                         
 <?php $index++; 
 } ?>

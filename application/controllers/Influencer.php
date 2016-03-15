@@ -47,11 +47,11 @@ class Influencer extends CI_Controller
 
         $data['content'] = $this->load_payment_history($start_date,$end_date);
 
-        $data['header']=' ';
-        $data['active'] ='';
+        $data['header']='Payment History';
+        $data['active'] ='payment_history';
 
 
-        $this->load->view('influencer/payment_history',$data);
+        $this->load->view('influencer/index',$data);
     }
 
     private function load_payment_history($start_date,$end_date){

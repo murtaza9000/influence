@@ -411,6 +411,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
                         
                         'name' => $this->input->post('name'),
                         'country' => $this->input->post('country'),
+                         'email' => $this->input->post('email'),
                         'city' => $this->input->post('city')
                       
                         

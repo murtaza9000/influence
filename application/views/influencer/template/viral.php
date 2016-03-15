@@ -23,7 +23,7 @@
               
                 opacity: .70;
        }
-       a{
+       a   .latest{
           font-size: 12px;
        }
        
@@ -92,7 +92,7 @@ else
                       <h4 class="attachment-heading">
                          
                        <b>   <?=$vir['title']?> </b></br>
-                         <a href="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" ><?=$vir['url']?></a>
+                         <a class="latest" href="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" ><?=$vir['url']?></a>
                          
                          </h4>
                       <div class="attachment-text">

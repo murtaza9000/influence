@@ -24,7 +24,7 @@
               
                 opacity: .70;
        }
-       a{
+       a .latest{
           font-size: 12px;
        }
        
@@ -101,7 +101,7 @@ foreach ($rss as $inf){?>
                         
                         <?=$inf['description']?>
                          <h4 class="attachment-heading">
-                        <a href="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" ><?=$inf['links']?></a>
+                        <a class="latest" href="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" ><?=$inf['links']?></a>
                         </h4>
             </div>
                 

@@ -179,7 +179,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                
               </ul>
                <li  <?php echo ($active == 'contact') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/contact"><i class="fa fa-link"></i> <span>Contact Us! </span></a></li>
-                <li  <?php echo (current_url() == base_url()."contact") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/contact"><i class="fa fa-link"></i> <span>Payment History </span></a></li>
+                <li  <?php echo ($active == 'payment_history') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/payment_history"><i class="fa fa-link"></i> <span>Payment History </span></a></li>
            
             </li>
           </ul><!-- /.sidebar-menu -->
