@@ -151,10 +151,15 @@ class Register extends CI_Controller
         require_once dirname(__DIR__) . '/vendor/reddit/config.php';
         require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
         $reddit = new reddit();
+
         if ($reddit){
             $userData = $reddit->getUser();
-            $userName = $userData->name;
 
+            $userName = $userData->name;
+            if (!$userName){
+                redirect('/influencer/register');
+                return;
+            }
             $loginData = array();
 
             $loginData['name'] = $userName;
@@ -164,6 +169,7 @@ class Register extends CI_Controller
     }
 
     public function redditcallback(){
+
         require_once dirname(__DIR__) . '/vendor/reddit/config.php';
         require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
         $reddit = new reddit();
