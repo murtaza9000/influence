@@ -48,7 +48,7 @@ class Influencer extends CI_Controller
 
         $data['content'] = $this->load_payment_history($start_date,$end_date);
 
-        $data['header']='Payment History';
+        $data['header']='Earnings';
         $data['active'] ='payment_history';
 
 
@@ -471,6 +471,40 @@ class Influencer extends CI_Controller
                      
       
       }
+      
+         public function checkout($start_date = null, $end_date = null){
+        if (!$this->user->is_logged_in()){
+            redirect('/register');
+        }
+        $data = array();
+        $data = $this->user->add_user_data('influencer');
+        
+        $data['content'] = $this->load_checkout($start_date,$end_date);
+
+        $data['header']='Payment History';
+        $data['active'] ='checkout';
+
+
+        $this->load->view('influencer/index',$data);
+    }
+
+    private function load_checkout($start_date,$end_date){
+         $userid = $this->session->userdata('user_id');
+        $this->db->order_by('checkout.timestamp_checkout', 'DESC');
+        if ($start_date != null && $end_date != null){
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            $this->db->where('checkout.timestamp_checkout >=', $start_date);
+            $this->db->where('checkout.timestamp_checkout <=', $end_date);
+        }
+        $this->db->join('influencer', 'influencer.id = checkout.inf_id');
+         
+        $result = $this->db->get_where('checkout',array('checkout.inf_id' => $userid));
+        
+        $data['rows'] = $result->result();
+       
+        return $this->load->view('influencer/template/payment_historyuser', $data, TRUE);
+    }
 
 
 

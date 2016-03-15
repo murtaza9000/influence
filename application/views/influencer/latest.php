@@ -177,9 +177,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li <?php echo ($active == 'viral') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/viral"><i class="fa fa-link"></i> <span>Viral Links</span></a></li>
             
                 <li  <?php echo ($active == 'contact') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/contact"><i class="fa fa-link"></i> <span>Contact Us! </span></a></li>
-                <li  <?php echo (current_url() == base_url()."payment_history") ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/payment_history"><i class="fa fa-link"></i> <span>Payment History </span></a></li>
+                <li  <?php echo ($active == 'payment_history') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/payment_history"><i class="fa fa-link"></i> <span>Earnings </span></a></li>
+                <li  <?php echo ($active == 'checkout') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>influencer/checkout"><i class="fa fa-link"></i> <span>Payment History </span></a></li>
            
-            </li>
+
+           
+            
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->

@@ -147,21 +147,21 @@ class Register extends CI_Controller
 
     }
     public function loginbyreddit(){
-
-        require_once dirname(__DIR__) . '/vendor/reddit/config.php';
-        require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
+       
+        require_once dirname(__DIR__) . '\\vendor\\reddit\\config.php';
+        require_once dirname(__DIR__) . '\\vendor\\reddit\\reddit.php';
         $reddit = new reddit();
     }
 
     public function redditcallback(){
 
-        require_once dirname(__DIR__) . '/vendor/reddit/config.php';
-        require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
+        require_once dirname(__DIR__) . '\\vendor\\reddit\\config.php';
+        require_once dirname(__DIR__) . '\\vendor\\reddit\\reddit.php';
         $reddit = new reddit();
         $userData = $reddit->getUser();
         $userName = $userData->name;
         if (!$userName){
-            redirect('/influencer/register');
+            redirect('/register');
             return;
         }
         $loginData = array();
