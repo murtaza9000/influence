@@ -169,7 +169,10 @@ class Register extends CI_Controller
         $reddit = new reddit();
         $userData = $reddit->getUser();
         $userName = $userData->name;
-
+        if (!$userName){
+            redirect('/influencer/register');
+            return;
+        }
         $loginData = array();
 
         $loginData['name'] = $userName;
