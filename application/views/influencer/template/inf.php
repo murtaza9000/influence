@@ -53,10 +53,10 @@ img{
     if ((empty($rss))):
         echo "<div><h2> No result </h2><div>";
     else:
-        $data['full_name'] = $this->user->add_user_data('influencer');
+        $data['utm'] = $this->user->add_user_data('influencer');
 
         foreach ($data as $temp):
-            $name = $temp['full_name'];
+            $name = $temp['utm'];
         endforeach;
 
         $name = str_replace(" ", "", $name);
@@ -93,13 +93,13 @@ foreach ($rss as $inf):?>
                             <div class="col-xs-10">
                                 <h3 class="attachment-heading">
                                     <a class="latest"
-                                       href="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name . $id ?>"
+                                       href="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name?>"
                                        target="blank"><?= $inf['title'] ?></a>
                                 </h3>
                                 <p>
                                     <?php if ($inf['copied'] == "copied"): ?>
                                         <button class="copyit push_button" data-clipboard-action="copy"
-                                                data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name . "_" . $id ?>">
+                                                data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>">
                                             Copy Link
                                         </button>
                                     <?php else: ?>

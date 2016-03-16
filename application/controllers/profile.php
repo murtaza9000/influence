@@ -24,6 +24,7 @@
                     <?=$inf["email"]?>
                     
                   </p>
+                
                     
                     
                   <strong><i class="fa fa-book margin-r-5"></i>  Experience</strong>

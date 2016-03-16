@@ -24,6 +24,7 @@ class User
           
             $data['full_name'] = $row->name;
             $data['timestamp'] = $row->timestamp;
+            $data['utm'] = $row->utm;
 
         }else{
             $data['full_name'] = 'By passed';

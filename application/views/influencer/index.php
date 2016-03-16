@@ -50,7 +50,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     <script src="<?= base_url() ?>/plugins/daterangepicker/daterangepicker.js"></script>
     <script src="<?= base_url() ?>dist/clipboard.min.js"></script>
-
+ <style>
+      .modal {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        display: block;
+        z-index: 1;
+      }
+       .modal {
+        background: transparent !important;
+      }
+    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -264,10 +277,56 @@ desired effect
                         </br>
                         <p> click on menu to browse </p>
                     </div>
+                    
+                </div>
+                
+                <?php 
+                var_dump($utm);
+           if (($utm==false))
+                    { ?>
+                
+                <div class="row">
+                     <?=isset($error)?$error : ''; ?>
+                                <?php echo validation_errors(); ?>
+                   
+                     <div class ="col-md-3 col-md-offset-4">
+                           <div class="modal modal-warning">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                      
+                                      
+                                        <h4 class="modal-title">Warning</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                 <form action ="<?=base_url()."influencer/index";?>" method="post">       
+                            <div class="form-group has-feedback">
+                                <p>
+                                 
+                                </p>
+                                    <label> Enter username for UTM </lable>
+                                    <input type="text" name="utm" 
+                                    class="form-control" placeholder="Username/UTM">
+                                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            </div>
+                                        
+                                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-outline pull-left" >Submit</button>
+                                   </form>      
+                                    </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                         </div>   
+                    </div>
                 </div>
 
-
             <?php }
+            }
             ?>
 
 
