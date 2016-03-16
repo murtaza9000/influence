@@ -88,7 +88,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <header class="main-header">
 
        <!-- Logo -->
-        <a href='influencer/index' class="logo">
+        <a href='<?=base_url()?>influencer/index' class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini">AS</span>
           <!-- logo for regular state and mobile devices -->
@@ -115,7 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <span class="label label-warning">10</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
+                  <li class="header">You have 15 notifications</li>
                   <li>
                     <!-- Inner Menu: contains the notifications -->
                     <ul class="menu">

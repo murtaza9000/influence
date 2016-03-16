@@ -23,6 +23,7 @@ class Rss_model extends CI_Model
       $data = array(
                 'links' => $rss['link'],
                 'description' => $rss['description'],
+          'title' => $rss['title'],
                 'domain_id'=>$domain_id
                 
                  );

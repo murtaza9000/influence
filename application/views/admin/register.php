@@ -57,7 +57,7 @@
           </div>
             <div class="form-group has-feedback">
             <input type="text" name="fullname" value="<?=(isset($fullname)) ? $fullname : set_value('fullname')?>"
-                   class="form-control" placeholder="Full name">
+                   class="form-control" placeholder="Username / UTM" required>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <!-- div class="form-group has-feedback">
