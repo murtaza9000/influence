@@ -339,21 +339,22 @@ class Influencer extends CI_Controller
 		     
         }
         
-     public function profile($data=null){
+     public function profile($error=null){
          
           if (!$this->user->is_logged_in()){
             redirect('/landing');
         }
         $data = array();
          $data = $this->user->add_user_data('influencer');
-         $data['content'] = $this->inf_profile($data);
+         $data['content'] = $this->inf_profile($error);
          $data['active'] ='inf';
           $data['header']='Profile';
          $this->load->view('influencer/index',$data);
          
      }
-        private function inf_profile($data=null)
-        {
+        private function inf_profile($error=null)
+        {       
+                $data['error']=$error;
                 $id = $this->session->userdata('user_id');
                 $data['profile'] = $this->Influencer_model->get_influencer($id);
                 $string = $this->load->view('influencer/profile', $data, TRUE);
@@ -370,7 +371,8 @@ class Influencer extends CI_Controller
                     
                   if ($this->form_validation->run() == FALSE)
                       {
-                      $this->profile($data['error']);
+                         
+                      $this->profile($error);
                       }else{ 
          
                     $data = array(
@@ -486,9 +488,9 @@ class Influencer extends CI_Controller
       public function sendcontact()
       {  
                   
-                  
+                   $id = $this->session->userdata('user_id');
                        
-                        
+                   $data['name'] = $this->user->add_user_data('influencer');     
                          $this->load->library('email');
                         $config['mailtype'] = 'html';
                         
@@ -501,9 +503,9 @@ class Influencer extends CI_Controller
                        
                         $this->email->from('no-reply@acquire.social','Acquire');
                         
-                        $this->email->to('murtaza.hanif@gmail.com');
+                        $this->email->to('farrukh.zaf@gmail.com');
                 
-                        $this->email->subject($this->input->post('subject'));
+                        $this->email->subject("Query from".$data['name']." : ".$this->input->post('subject'));
                         
                         $email_body = $this->input->post('message');
                         $this->email->message($email_body);

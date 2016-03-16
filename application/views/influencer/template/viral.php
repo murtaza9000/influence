@@ -68,12 +68,12 @@ else
             <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$vir['click_ratepre']?></span>
             <input type="hidden" name="id" value="<?=$vir['id']?>">
             <input type="hidden" name="flag" value="1">
-            <button class="copyit btn  btn-primary btn-sm"   data-clipboard-action="copy" data-clipboard-text="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" > Copy Link</button>
+            <button class="copyit push_button"   data-clipboard-action="copy" data-clipboard-text="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" > Copy Link</button>
     </form>
 <?php }  else  { ?>
                 <span class="label label-success"><b>Click-Rate</b>: $<?=$vir['click_rate']?></span>
                 <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$vir['click_ratepre']?></span>
-                <button class="copyit btn  btn-info btn-sm disabled"   data-clipboard-action="copy" data-clipboard-target="#utm<?php echo $index;?>" > Link is copied</button>
+                <button class="copyit push_button disabled"   data-clipboard-action="copy" data-clipboard-target="#utm<?php echo $index;?>" > Link is copied</button>
         
     <?php }?>
                       </div>

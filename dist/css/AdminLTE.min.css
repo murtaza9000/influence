@@ -26,6 +26,7 @@ html,body{min-height:100%}.layout-boxed html,.layout-boxed body{height:100%}body
     -moz-box-shadow: 0px 9px 0px #84261a;
     box-shadow: 0px 9px 0px #1A385D;
     font-size: 1.4em;
+	float:right;
 }
 .push_button:active
 {
