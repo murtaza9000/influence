@@ -53,10 +53,10 @@ img{
     if ((empty($rss))):
         echo "<div><h2> No result </h2><div>";
     else:
-        $data['full_name'] = $this->user->add_user_data('influencer');
+        $data['utm'] = $this->user->add_user_data('influencer');
 
         foreach ($data as $temp):
-            $name = $temp['full_name'];
+            $name = $temp['utm'];
         endforeach;
 
         $name = str_replace(" ", "", $name);

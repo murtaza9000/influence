@@ -46,8 +46,8 @@ echo "<div><h2> No result </h2><div>";
 else
 { 
    
-    $name=str_replace(" ", "", $influencer['0']['name']);
-  $name=  strtolower($name);
+    $name=str_replace(" ", "", $influencer['0']['utm']);
+  $name=  strtolower($utm);
   $id=$influencer['0']['id'];
   ?>
    <div class = "viral ">
