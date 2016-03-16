@@ -11,6 +11,7 @@ class Googleanalytics
 {
     protected $CI;
 
+    protected $urlToAccountMap;
     public function __construct()
     {
         // Do something with $params
@@ -18,7 +19,7 @@ class Googleanalytics
         $this->CI->load->database();
         $this->CI->load->helper('date');
 
-
+        $this->urlToAccountMap['Premium Buzztache'] = 'buzztache.com';
     }
 
     private function getService()
@@ -59,6 +60,7 @@ class Googleanalytics
 
     private function getFirstprofileId(&$analytics)
     {
+        $validProfiles = [];
         // Get the user's first view (profile) ID.
 
         // Get the list of accounts for the authorized user.
@@ -84,22 +86,41 @@ class Googleanalytics
 
                 for ($k = 0; $k < count($profiles->getItems()); $k++) {
                     //echo $profiles[$k]->getName();
-                    if ($profiles[$k]->getName() == 'Premium Buzztache'){
-                        return $profiles[$k]->getId();
+
+                    foreach($this->urlToAccountMap as $key => $value){
+                        if ($profiles[$k]->getName() == $key){
+                            $res = array();
+                            $res['id'] = $profiles[$k]->getId();
+                            $res['url'] = $value;
+                            $validProfiles[] = $res;
+                        }
                     }
                 }
             }
-
         }
+        return $validProfiles;
     }
 
-    private function getPremiumResults(&$analytics, $profileId) {
+    private function getPremiumResults(&$analytics, $profileId, $facebook=null) {
         // Calls the Core Reporting API and queries for the number of sessions
         // for the last seven days.
-        $optParams = array(
-            'dimensions' => 'ga:campaign,ga:searchDestinationPage',
-            //ga:medium==Social;
-            'filters' => 'ga:medium==AS;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom');
+        $optParams = [];
+        if ($facebook == 'facebook'){
+            $optParams = array(
+                'dimensions' => 'ga:campaign,ga:searchDestinationPage',
+                'filters' => 'ga:source==FB;ga:medium==AK,ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
+                'max-results' => 10000
+            );
+        }else{
+            $optParams = array(
+                'dimensions' => 'ga:campaign,ga:searchDestinationPage',
+                //ga:medium==Social;
+                //ga:source==FB;ga:medium==AK;
+                'filters' => 'ga:medium==AS,ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
+                'max-results' => 10000
+            );
+        }
+
         return $analytics->data_ga->get(
             'ga:' . $profileId,
             'yesterday',
@@ -108,13 +129,28 @@ class Googleanalytics
             ,$optParams)->getRows();
     }
 
-    private function getNormalResults(&$analytics, $profileId) {
+    private function getNormalResults(&$analytics, $profileId, $facebook=null) {
         // Calls the Core Reporting API and queries for the number of sessions
         // for the last seven days.
-        $optParams = array(
-            'dimensions' => 'ga:campaign,ga:searchDestinationPage',
-            //ga:medium==Social;
-            'filters' => 'ga:medium==AS;ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom');
+        $optParams = [];
+        if ($facebook == 'facebook'){
+            $optParams = array(
+                'dimensions' => 'ga:campaign,ga:searchDestinationPage',
+                //ga:medium==Social;
+                'filters' => 'ga:source==FB;ga:medium==AK,ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
+                'max-results' => 10000
+            );
+        }else{
+            $optParams = array(
+                'dimensions' => 'ga:campaign,ga:searchDestinationPage',
+                //ga:medium==Social;
+                //ga:source==FB;ga:medium==AK;
+                'filters' => 'ga:medium==AS,ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
+                'max-results' => 10000
+
+            );
+        }
+
         return $analytics->data_ga->get(
             'ga:' . $profileId,
             'yesterday',
@@ -143,33 +179,22 @@ class Googleanalytics
         }
     }
 
-    public function execute(){
-        echo '<pre>';
-
-
-        echo '[-] Start' . PHP_EOL;
-        $analytics = $this->getService();
-        echo '[-] getService' . PHP_EOL;
-
-
-        $profile = $this->getFirstProfileId($analytics);
-        echo '[-] getFirstProfileId' . PHP_EOL;
-
-        $premiumResults = $this->getPremiumResults($analytics, $profile);
+    public function execute_per_profile(&$analytics, $profile, $facebook=null){
+        $premiumResults = $this->getPremiumResults($analytics, $profile['id'], $facebook);
         echo '[-] Got premium results: ' . count($premiumResults) . PHP_EOL;
 
-        $normalResults = $this->getNormalResults($analytics, $profile);
+        $normalResults = $this->getNormalResults($analytics, $profile['id'], $facebook);
         echo '[-] Got normal results: ' . count($normalResults) . PHP_EOL;
 
         //Get Premium rate for buzztache
-        $premiumRates = $this->get_premium_rates();
+        $premiumRates = $this->get_premium_rates($profile['url']);
         //Get Normal rate for buzztache
-        $normalRates = $this->get_normal_rates();
+        $normalRates = $this->get_normal_rates($profile['url']);
 
         //echo count($premiumResults);
         if (count($premiumResults) > 0){
             foreach ($premiumResults as $result){
-                echo 'Result: ' . $result . PHP_EOL;
+                //echo 'Premium Result: ' . print_r($result) . PHP_EOL;
                 $name = $this->get_influencer_id($result[0]);
                 if ($name == ''){
                     continue;
@@ -177,10 +202,10 @@ class Googleanalytics
                 $link = $result[1];
                 $sessions = $result[2];
 
-                echo "Sessions: " . $sessions . PHP_EOL;
+
                 $amount = $this->calculate_amount($sessions, $premiumRates);
-                echo "Amount: " . $amount . PHP_EOL;
-                $this->update_amount($name,$amount,$link,$sessions);
+
+                $this->update_amount($name, $profile['url'], $amount,$link,$sessions);
 
                 //echo $result[0] . ", ";
             }
@@ -189,6 +214,7 @@ class Googleanalytics
         //return;
         if (count($normalResults) > 0){
             foreach ($normalResults as $result){
+                //echo 'Normal Result: ' . print_r($result) . PHP_EOL;
                 $name = $this->get_influencer_id($result[0]);
                 if ($name == ''){
                     continue;
@@ -198,11 +224,33 @@ class Googleanalytics
 
                 $amount = $this->calculate_amount($sessions, $normalRates);
 
-                $this->update_amount($name,$amount,$link,$sessions, 'update');
+                $this->update_amount($name,$profile['url'],$amount,$link,$sessions, 'update');
                 //echo $result[0] . ", ";
             }
         }
         echo '</pre>';
+    }
+    public function execute(){
+        echo '<pre>';
+
+
+        echo '[-] Start' . PHP_EOL;
+        $analytics = $this->getService();
+        echo '[-] getService ' . $analytics . PHP_EOL;
+
+
+        $profiles = $this->getFirstProfileId($analytics);
+        echo '[-] getFirstProfileId' . print_r($profiles) . PHP_EOL;
+
+        echo '<pre>';
+        foreach($profiles as $profile){
+            $this->execute_per_profile($analytics, $profile);
+
+            //Load old facebook ones too
+            $this->execute_per_profile($analytics, $profile, 'facebook');
+        }
+        echo '</pre>';
+
     }
 
     private function calculate_amount($sessions, $rates){
@@ -210,14 +258,14 @@ class Googleanalytics
         return $amount;
     }
 
-    private function get_normal_rates(){
-        $row = $this->CI->db->get_where('domain',array('url' => 'buzztache.com'));
+    private function get_normal_rates($url){
+        $row = $this->CI->db->get_where('domain',array('url' => $url));
 
-       $row = $row->row_array();
+        $row = $row->row_array();
         return $row['click_rate'];
     }
-    private function get_premium_rates(){
-        $row = $this->CI->db->get_where('domain',array('url' => 'buzztache.com'));
+    private function get_premium_rates($url){
+        $row = $this->CI->db->get_where('domain',array('url' => $url));
 
         $row = $row->row_array();
         return $row['click_ratepre'];
@@ -229,25 +277,39 @@ class Googleanalytics
         //Debug:
         //$name = 'Pakistan_17';
 
-        $name = explode("_",$name);
+        /*$name = explode("_",$name);
         if (is_array($name) && count($name) > 1) {
             //The ID
             $name = $name[1];
             return $name;
         }else{
             return '';
-        }
+        }*/
+        return $name;
 
 
     }
 
-    private function update_amount($name, $amount, $link, $sessions, $update = '')
+    private function update_amount($name, $url, $amount, $link, $sessions, $update = '')
     {
+        $link = $url . $link;
+        $inf = $this->CI->db->get_where('influencer', array('name' => $name))->row();
 
-        $result = $this->CI->db->get_where('influencer', array('id' => $name))->row();
-        $currentPayment = $result->payment;
+
+        if (!$inf){
+            //die('found nothing');
+            return;
+        }else{
+            //print_r($inf);
+            //echo $inf->id;
+
+        }
+        echo '[-] Processing UTM: ' . $name . PHP_EOL;
+        echo "Sessions: " . $sessions . PHP_EOL;
+        echo "Amount: " . $amount . PHP_EOL;
+        $currentPayment = $inf->payment;
         echo '[-] current payment: ' . $currentPayment . PHP_EOL;
-        $lastUpdated = $result->payment_last_updated;
+        $lastUpdated = $inf->payment_last_updated;
 
         /*$lastUpdated = date_create($lastUpdated);
         $now = date_create(date("Y-m-d H:i:s"));
@@ -259,7 +321,7 @@ class Googleanalytics
         $now = date('Y-m-d');
         $now_time = date('Y-m-d H');
         $currentPayment = $currentPayment + $amount;
-        $this->CI->db->where('id', $name);
+        $this->CI->db->where('id', $inf->id);
         $data = array(
             'payment' => $currentPayment,
             'payment_last_updated' => $now_time
@@ -269,13 +331,14 @@ class Googleanalytics
         //Add Data
         if ($update == 'update') {
             echo "[-] Now in second foreach loop, Update: " . $update . PHP_EOL;
-            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name, 'time' => $now_time))->row();
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $inf->id, 'time' => $now_time, 'link' => $link))->row();
+
             print_r($result);
             if ($result) {
                 echo "[x] Found an entry already for today, normal updating it" . PHP_EOL;
                 $this->CI->db->where('date', $now);
                 $this->CI->db->where('link', $link);
-                $this->CI->db->where('influencer_id', $result->id);
+                $this->CI->db->where('influencer_id', $inf->id);
                 $data = array(
                     'normal_visit' => $sessions,
                     'revenue_generated' => $amount
@@ -287,7 +350,7 @@ class Googleanalytics
                     'date' => $now,
                     'time' => $now_time,
                     'link' => $link,
-                    'influencer_id' => $name,
+                    'influencer_id' => $inf->id,
                     'normal_visit' => $sessions,
                     'revenue_generated' => $amount
                 );
@@ -295,12 +358,12 @@ class Googleanalytics
             }
 
         }else{
-            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $name, 'time' => $now_time))->row();
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $inf->id, 'time' => $now_time, 'link' => $link))->row();
             if ($result) {
                 echo "[x] Found an entry already for today, premium updating it" . PHP_EOL;
                 $this->CI->db->where('date', $now);
                 $this->CI->db->where('link', $link);
-                $this->CI->db->where('influencer_id', $result->id);
+                $this->CI->db->where('influencer_id', $inf->id);
                 $data = array(
                     'premium_visit' => $sessions,
                     'revenue_generated' => $amount
@@ -312,10 +375,12 @@ class Googleanalytics
                     'date' => $now,
                     'time' => $now_time,
                     'link' => $link,
-                    'influencer_id' => $result->id,
+                    'influencer_id' => $inf->id,
                     'premium_visit' => $sessions,
                     'revenue_generated' => $amount
                 );
+                //print_r($data);
+                //die();
                 $this->CI->db->insert('revenue_history', $data);
             }
         }

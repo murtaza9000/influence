@@ -38,7 +38,7 @@
 
                     <?php foreach($rows as $row): ?>
                     <tr>
-                        <td><?=nice_date($row->date, 'd M Y');?></td>
+                        <td><?=nice_date($row->time, 'd M Y, H:i');?></td>
                         <td><?=$row->premium_visit?></td>
                         <td><?=$row->normal_visit?></td>
                         <td><?=$row->link?></td>
@@ -85,7 +85,7 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <div class="callout callout-success">
-                            <h4>Total Money Paid out: <?=$payment_given?></h4>
+                            <h4>Total Money Paid out: $<?=$payment_given?></h4>
                         </div>
                     </div>
                     <div class="col-xs-4">
