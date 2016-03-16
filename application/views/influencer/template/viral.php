@@ -47,7 +47,7 @@ else
 { 
    
     $name=str_replace(" ", "", $influencer['0']['utm']);
-  $name=  strtolower($utm);
+  $name=  strtolower($name);
   $id=$influencer['0']['id'];
   ?>
    <div class = "viral ">

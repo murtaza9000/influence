@@ -41,7 +41,7 @@
                         <td><?=nice_date($row->timestamp_checkout, 'd M Y');?></td>
                         <td><?=$row->name?></td>
                         <td>$<?=$row->payment_checkout?></td>
-                        <td><?=$row->inf_id?></td>
+                        
                        
                     </tr>
                     <?php endforeach; ?>

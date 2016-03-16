@@ -281,7 +281,7 @@ desired effect
                 </div>
                 
                 <?php 
-                var_dump($utm);
+               
            if (($utm==false))
                     { ?>
                 

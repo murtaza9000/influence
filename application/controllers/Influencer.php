@@ -254,12 +254,13 @@ class Influencer extends CI_Controller
             $query=   $this->db->get_where('linkcopy', 
                   array('inf_id' => $this->session->userdata('user_id'), 'link' => $link));
         }
+     
               if ($query->num_rows() > 0)
                 {
                      $row =$query->row_array();
-                     return $row['link'];
-                }
-              return "copied";
+                     return "copied";
+                }else
+              return "nocopy";
              }
     
     public function inf_ajax($offset){
@@ -300,6 +301,7 @@ class Influencer extends CI_Controller
         if(!(is_null($this->input->post('search')))){
          $infid = $this->session->userdata('user_id');  
         $data['influencer'] = $this->Influencer_model->get_influencer($infid); 
+        
        $data['viral'] =$this->search();
        for($i=0;$i<sizeof($data['viral']);$i++)
                {
@@ -435,6 +437,7 @@ class Influencer extends CI_Controller
           if($page=='viral'){   
              $data = array(
                 'link' => $this->input->post('id'),
+                
                'inf_id' => $this->session->userdata('user_id'),
                'flag' => $this->input->post('flag')
 
@@ -446,6 +449,7 @@ class Influencer extends CI_Controller
           }else{
                $data = array(
                 'link' => $this->input->post('link'),
+                'rss_id' => $this->input->post('id'),
                'inf_id' => $this->session->userdata('user_id'),
                'flag' => $this->input->post('flag')
 
@@ -497,7 +501,7 @@ class Influencer extends CI_Controller
                        
                         $this->email->from('no-reply@acquire.social','Acquire');
                         
-                        $this->email->to('no-reply@acquire.social');
+                        $this->email->to('murtaza.hanif@gmail.com');
                 
                         $this->email->subject($this->input->post('subject'));
                         

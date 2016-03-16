@@ -62,12 +62,20 @@ img{
         $name = str_replace(" ", "", $name);
         $name = strtolower($name);
         $id = $this->session->userdata('user_id');
+        endif;
 ?>
    <div class="viral">
 <?php
-foreach ($rss as $inf):?>
 
-    <div <?php echo ($inf['copied'] == "copied") ? "" : "class=viralcopy" ?> >
+ //
+ // var_dump($rss);
+ //      die();
+
+
+foreach ($rss as $inf):
+      if(isset($inf['description'])) { ?>
+
+    <div <?php echo ($inf['copied'] != "copied") ? "" : "class=viralcopy" ?> >
 
 
         <div class="row" id="latest">
@@ -80,6 +88,7 @@ foreach ($rss as $inf):?>
             <div class="col-md-8">
                 <form action="docopy" method="post">
                     <input type="hidden" name="link" value="<?= $inf['links'] ?>">
+                    <input type="hidden" name="id" value="<?= $inf['id'] ?>">
                     <input type="hidden" name="flag" value="1">
                     <span class="label label-success"><b>Click-Rate</b>: $<?= $inf['click_rate'] ?></span>
                     <span
@@ -97,7 +106,7 @@ foreach ($rss as $inf):?>
                                        target="blank"><?= $inf['title'] ?></a>
                                 </h3>
                                 <p>
-                                    <?php if ($inf['copied'] == "copied"): ?>
+                                    <?php if ($inf['copied'] != "copied"): ?>
                                         <button class="copyit push_button" data-clipboard-action="copy"
                                                 data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>">
                                             Copy Link
@@ -118,9 +127,10 @@ foreach ($rss as $inf):?>
     </div>
     <?php
             $index++;
+      }
         endforeach;
-    endif;
-   
+    
+
     ?>
    </div>
             
