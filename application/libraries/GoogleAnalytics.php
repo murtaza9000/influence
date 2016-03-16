@@ -293,7 +293,7 @@ class Googleanalytics
     private function update_amount($name, $url, $amount, $link, $sessions, $update = '')
     {
         $link = $url . $link;
-        $inf = $this->CI->db->get_where('influencer', array('name' => $name))->row();
+        $inf = $this->CI->db->get_where('influencer', array('utm' => $name))->row();
 
 
         if (!$inf){
