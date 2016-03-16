@@ -93,13 +93,13 @@ foreach ($rss as $inf):?>
                             <div class="col-xs-10">
                                 <h3 class="attachment-heading">
                                     <a class="latest"
-                                       href="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name . $id ?>"
+                                       href="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name?>"
                                        target="blank"><?= $inf['title'] ?></a>
                                 </h3>
                                 <p>
                                     <?php if ($inf['copied'] == "copied"): ?>
                                         <button class="copyit push_button" data-clipboard-action="copy"
-                                                data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name . "_" . $id ?>">
+                                                data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>">
                                             Copy Link
                                         </button>
                                     <?php else: ?>

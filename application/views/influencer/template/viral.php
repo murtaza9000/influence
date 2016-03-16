@@ -68,7 +68,7 @@ else
             <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$vir['click_ratepre']?></span>
             <input type="hidden" name="id" value="<?=$vir['id']?>">
             <input type="hidden" name="flag" value="1">
-            <button class="copyit btn  btn-primary btn-sm"   data-clipboard-action="copy" data-clipboard-text="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name."_".$id?>" > Copy Link</button>
+            <button class="copyit btn  btn-primary btn-sm"   data-clipboard-action="copy" data-clipboard-text="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" > Copy Link</button>
     </form>
 <?php }  else  { ?>
                 <span class="label label-success"><b>Click-Rate</b>: $<?=$vir['click_rate']?></span>
@@ -92,7 +92,7 @@ else
                       <h4 class="attachment-heading">
                          
                        <b>   <?=$vir['title']?> </b></br>
-                         <a class="latest" href="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name."_".$id?>" target="blank" ><?=$vir['url']?></a>
+                         <a class="latest" href="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" target="blank" ><?=$vir['url']?></a>
                          
                          </h4>
                       <div class="attachment-text">
