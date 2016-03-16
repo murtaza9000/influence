@@ -126,7 +126,7 @@ class Influencer extends CI_Controller
                 $rss = $this->rssparser->getFeed(25);
             }
             echo "<pre>";
-            print_r($rss);
+          //  print_r($rss);
             echo "</pre>";
             foreach($rss as $rs)
             {

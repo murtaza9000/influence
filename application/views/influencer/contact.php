@@ -9,7 +9,7 @@
 
  <div class="row">
             <!-- left column -->
-            <div class="col-md-6">
+            <div class="col-md-6 col-md-offset-3">
               <!-- general form elements -->
               <div class="box box-primary">
                 <div class="box-header with-border">

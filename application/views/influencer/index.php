@@ -26,7 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
         <!-- daterange picker -->
     <link rel="stylesheet" href="<?=base_url()?>plugins/daterangepicker/daterangepicker-bs3.css">
-
+<link rel="stylesheet" href="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.css">
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="<?=base_url()?>plugins/timepicker/bootstrap-timepicker.min.css">
     <!-- Select2 -->
@@ -255,27 +255,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
            </br>
            <p> click on menu to browse </p>
         </div>
-        <div class="col-md-6">
-          <div class="box box-default">
-            <div class="box-header with-border">
-              <i class="fa fa-warning"></i>
-
-              <h3 class="box-title">Alerts</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-             
-            
-              <div class="alert alert-warning alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-warning"></i> Alert!</h4>
-                Warning alert preview. This alert is dismissable.
-             
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
+         
         
                 <?php }
                 ?>
@@ -298,9 +278,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
    
 
-   
-
- 
  
     <script src="//fast.eager.io/PeeUftGO2K.js"></script>
     <script>
@@ -308,7 +285,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <?php if ($this->session->flashdata('message')){
           echo 'alert("' . $this->session->flashdata('message') . '");';
         }?>
+        
+         $("#example1").DataTable();
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
       });
+      
+       
     </script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the

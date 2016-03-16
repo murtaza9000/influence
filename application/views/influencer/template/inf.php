@@ -81,7 +81,7 @@ foreach ($rss as $inf){?>
                 <input type="hidden" name="flag" value="1">
                 <span class="label label-success"><b>Click-Rate</b>: $<?=$inf['click_rate']?></span>
                 <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$inf['click_ratepre']?></span>
-                <button class="copyit btn  btn-primary btn-sm"   data-clipboard-action="copy" data-clipboard-text="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" > Copy Link</button>
+                <button class="copyit btn  btn-primary btn-sm"   data-clipboard-action="copy" data-clipboard-text="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name."_".$id?>" > Copy Link</button>
             </form>
           <?php } else{ ?>
                 
@@ -101,7 +101,7 @@ foreach ($rss as $inf){?>
                         
                         <?=$inf['description']?>
                          <h4 class="attachment-heading">
-                        <a class="latest" href="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name.$id?>" target="blank" ><?=$inf['links']?></a>
+                        <a class="latest" href="<?=$inf['links']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name."_".$id?>" target="blank" ><?=$inf['links']?></a>
                         </h4>
             </div>
                 

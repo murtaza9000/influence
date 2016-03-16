@@ -23,8 +23,8 @@
                         </div><!-- /.form group -->
                     </div>
                 </div>
-                <hr />
-                <table id="example1" class="table table-bordered table-striped">
+                
+                <table id="example1" class="table table-bordered table-striped dataTable">
                     <thead>
                     <tr>
                         <th>Date</th>
@@ -38,7 +38,7 @@
 
                     <?php foreach($rows as $row): ?>
                     <tr>
-                        <td><?=nice_date($row->time, 'd M Y. H:i');?></td>
+                        <td><?=nice_date($row->date, 'd M Y');?></td>
                         <td><?=$row->premium_visit?></td>
                         <td><?=$row->normal_visit?></td>
                         <td><?=$row->link?></td>
@@ -124,15 +124,7 @@
             }
         );
 
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
-        });
+      
     });
 </script>
 <script src="//fast.eager.io/PeeUftGO2K.js"></script>
