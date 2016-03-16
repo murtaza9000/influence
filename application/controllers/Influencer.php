@@ -28,15 +28,50 @@ class Influencer extends CI_Controller
         if (!$this->user->is_logged_in()){
             redirect('/landing');
         }
-        $data = array();
-        $data = $this->user->add_user_data('influencer');
-        if(!(is_null($this->input->post('search'))))
-             $data['content'] =$this->search();
-        $data['header']='Earnings Details';
-        $data['active'] ='';
-        $this->load->view('influencer/index',$data);
+        
+         $this->utmvalid();
+          if ($this->form_validation->run() == FALSE)
+            {          
+                $data = array();
+                $data = $this->user->add_user_data('influencer');
+                if(!(is_null($this->input->post('search'))))
+                    $data['content'] =$this->search();
+                $data['header']='Earnings Details';
+                $data['active'] ='';
+                $data['utm'] = $this->isutm();
+                $this->load->view('influencer/index',$data);
+             }
+         else{    
+                $this->db->where('id',$this->session->userdata('user_id'));
+                $this->db->update('influencer',array('utm'=>$this->input->post('utm')));
+                $data = array();
+                $data = $this->user->add_user_data('influencer');
+                if(!(is_null($this->input->post('search'))))
+                    $data['content'] =$this->search();
+                $data['header']='Earnings Details';
+                $data['active'] ='';
+                $data['utm'] = $this->isutm();
+                
+                $this->load->view('influencer/index',$data);
+         }
     }
-
+        
+        public function isutm(){
+             $userid = $this->session->userdata('user_id');
+             $this->db->where('id',$userid);
+            
+           $query= $this->db->get('influencer');
+           $row= $query->row();
+           
+            $row->utm;
+            
+            if($row->utm==null)
+                return false;
+             else
+                return true;
+        }
+        
+        
     public function payment_history($start_date = null, $end_date = null){
         if (!$this->user->is_logged_in()){
             redirect('/landing');
@@ -302,20 +337,20 @@ class Influencer extends CI_Controller
 		     
         }
         
-     public function profile(){
+     public function profile($data=null){
          
           if (!$this->user->is_logged_in()){
             redirect('/landing');
         }
         $data = array();
          $data = $this->user->add_user_data('influencer');
-         $data['content'] = $this->inf_profile();
+         $data['content'] = $this->inf_profile($data);
          $data['active'] ='inf';
           $data['header']='Profile';
          $this->load->view('influencer/index',$data);
          
      }
-        private function inf_profile()
+        private function inf_profile($data=null)
         {
                 $id = $this->session->userdata('user_id');
                 $data['profile'] = $this->Influencer_model->get_influencer($id);
@@ -329,9 +364,18 @@ class Influencer extends CI_Controller
       {  
                   $this->load->helper('url');
                       $id = $this->session->userdata('user_id');
+                    $this->utmvalid();
+                    
+                  if ($this->form_validation->run() == FALSE)
+                      {
+                      $this->profile($data['error']);
+                      }else{ 
+         
                     $data = array(
                         
                         'name' => $this->input->post('name'),
+                        'email' => $this->input->post('email'),
+                        'utm' => $this->input->post('utm'),
                         'country' => $this->input->post('country'),
                         'city' => $this->input->post('city'),
                         'contact' => $this->input->post('phone'),
@@ -352,7 +396,7 @@ class Influencer extends CI_Controller
                     
                         redirect('/influencer/profile');
                         }
-      
+                      }
       
       }
       
@@ -507,6 +551,30 @@ class Influencer extends CI_Controller
     }
 
 
+
+    public function utmvalid(){
+        
+        
+                     $this->load->library('form_validation');
+                     
+                     
+                       $userid = $this->session->userdata('user_id');
+                      $this->db->where('id',$userid);
+            
+                      $query= $this->db->get('influencer');
+                         $row= $query->row();
+                         if($row->utm == $this->input->post('utm'))
+                         {
+                              $this->form_validation->set_rules('utm', 'Username/UTM', 'trim|required|alpha_numeric');
+                   
+                         }else{
+                        
+                      $this->form_validation->set_rules('utm', 'Username/UTM', 'trim|required|alpha_numeric|is_unique[influencer.utm]',
+                     array(
+                'is_unique'     => 'This %s already exists.'
+                     ));
+                         }
+          }
 
 
 }

@@ -5,21 +5,21 @@ class redditConfig{
     static $ENDPOINT_OAUTH = 'https://oauth.reddit.com';
     static $ENDPOINT_OAUTH_AUTHORIZE = 'https://www.reddit.com/api/v1/authorize';
     static $ENDPOINT_OAUTH_TOKEN = 'https://www.reddit.com/api/v1/access_token';
-    static $ENDPOINT_OAUTH_REDIRECT = 'http://influence.local/register/redditcallback';
+    static $ENDPOINT_OAUTH_REDIRECT = 'http://acquire.social/register/redditcallback';
     
     //access token configuration from https://ssl.reddit.com/prefs/apps
 
     //acquire.local
-    //static $CLIENT_ID = 'FpksbSh7k3cE5w';
+     static $CLIENT_ID = 'FpksbSh7k3cE5w';
 
     //Locahost
-    static $CLIENT_ID = 'issCsfAaEDAC7A';
+   // static $CLIENT_ID = 'issCsfAaEDAC7A';
 
     //acquire
-    //static $CLIENT_SECRET = 'R8dbvBay_khvbgrW7BhuWnCHjqw';
+     static $CLIENT_SECRET = 'R8dbvBay_khvbgrW7BhuWnCHjqw';
 
     //localhost
-    static $CLIENT_SECRET = 'gZ7SQQgDIbbXJvNhiqD5rIwtDaQ';
+    //static $CLIENT_SECRET = 'gZ7SQQgDIbbXJvNhiqD5rIwtDaQ';
     
     //access token request scopes
     //full list at http://www.reddit.com/dev/api/oauth

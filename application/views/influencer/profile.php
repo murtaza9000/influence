@@ -9,10 +9,10 @@
 
           <div class="row">
             <div class="col-md-3">
-
+                              
               <!-- Profile Image -->
-              
-<?php foreach($profile as $inf){?>
+      <?php foreach($profile as $inf){?>        
+
               <!-- About Me Box -->
               <div class="box box-primary">
                 <div class="box-header with-border">
@@ -22,8 +22,11 @@
                     <strong><i class="fa fa-envelope margin-r-5"></i>Email address</strong>
                   <p>
                     <?=$inf["email"]?>
-                    
+                    Username/UTM:
+                    <?=$inf["utm"]?>
                   </p>
+                 
+                 
                     
                     
                   <strong><i class="fa fa-book margin-r-5"></i>  Experience</strong>
@@ -65,6 +68,13 @@
                  
 
                   <div class="tab-pane active" id="settings">
+                  
+                         <?=isset($error)?$error : ''; 
+                                if(validation_errors()){?>
+                                <div class="callout callout-danger" >   
+                                <?php echo validation_errors(); ?>
+                                </div>
+                                <?php } ?>
                     <form action="submitprofile" class="form-horizontal" method="post">
                      <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Email</label>
@@ -74,6 +84,12 @@
                         </div>
                       </div>   
                         
+                      <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Username/UTM</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control required" name="utm"  value="<?=$inf["utm"]?>">
+                         </div> 
+                        </div>
                         
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Name</label>
