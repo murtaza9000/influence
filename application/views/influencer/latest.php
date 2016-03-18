@@ -81,26 +81,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <!-- Notifications Menu -->
               <li class="dropdown notifications-menu">
-                <!-- Menu toggle button -->
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning">10</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
-                  <li>
-                    <!-- Inner Menu: contains the notifications -->
-                    <ul class="menu">
-                      <li><!-- start notification -->
-                        <a href="#">
-                          <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+         
+                            <span class="label label-warning"><?=is_null($notification_links) ? '0' : $notification_links ?></span>
                         </a>
-                      </li><!-- end notification -->
-                    </ul>
-                  </li>
-                  <li class="footer"><a href="#">View all</a></li>
-                </ul>
-              </li>
+                        <ul class="dropdown-menu">
+                            
+                            <li class="header">You have <?=is_null($notification_links) ? '0' : $notification_links ?> notifications</li>
+                            <li>
+                                <!-- Inner Menu: contains the notifications -->
+                                <?php  if (!(is_null($notification_links))) { ?>
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                    
+                                        <a href="<?= base_url(); ?>influencer/inf">
+                                            <i class="fa fa-link text-aqua"></i><?=$notification_links?> more links are added
+                                        </a>
+                                    </li><!-- end notification -->
+                                </ul>
+                                <?php } ?>
+                            </li>
+                           
+                        </ul>
+                    </li>
               <!-- Tasks Menu -->
              
               <!-- User Account Menu -->

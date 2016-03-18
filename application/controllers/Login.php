@@ -25,7 +25,7 @@ class Login extends CI_Controller
 
         //This is the first time we're viewing this page, or we're coming here after the validations fail
         if ($this->form_validation->run() == FALSE){
-            $data = [];
+            
 
             $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
             $this->load->view('admin/login',$data);
@@ -34,17 +34,32 @@ class Login extends CI_Controller
             $email = $this->input->post('email');
             $row = $this->db->get_where('influencer',array('email' => $email))->row();
             if ($row == null){
+              
+
+               $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
+               
                 $data = array('error' => 'User does not exist');
                 $this->load->view('admin/login',$data);
             }else if($row->confirmed == 0){
+               
+
+               $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
+                 
                 $data = array('error' => 'You have not confirmed your account from your email');
                 $this->load->view('admin/login',$data);
           
               }else if($row->ban == 1){
+                 
+
+               $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
+                $data = array('error' => 'Incorrect password');
                 $data = array('error' => 'You are ban contact administrator');
                 $this->load->view('admin/login',$data);
             }
             else if (!password_verify($password,$row->password)){
+                 
+
+               $data['facebook'] = $this->facebook->get_facebook_url('/register/logincallback');
                 $data = array('error' => 'Incorrect password');
                 $this->load->view('admin/login',$data);
             }else{

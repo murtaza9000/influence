@@ -99,5 +99,19 @@ class Rss_model extends CI_Model
       return  $query->result_array();
     }
     
-
+      public function checktoday()
+      {     
+          $query=$this->db->query('SELECT * FROM `rss_links` WHERE DATE(`timestamp`) = CURDATE()');
+         //  $query=$this->db->query('SELECT * FROM `rss_links` WHERE DATE(`timestamp`) = \'2016-03-16\'');
+                
+           if( $query->num_rows() > 0)
+           {
+            
+            return $query->num_rows();
+           
+           }
+           else 
+           return NULL;
+            
+      }
 }

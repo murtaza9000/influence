@@ -20,7 +20,7 @@ foreach ($influencer as $inf){?>
           </div>
              <div class ="col-md-1">
                  <a href="<?php echo base_url();?>admin/ban/<?php echo $inf['id']?>/unban">
-                 <button type="button" class="btn btn-info btn-flat">unban</button>
+                 <button type="button" class="btn btn-warning btn-flat">unban</button>
                  </a>
         </div>
                

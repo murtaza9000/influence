@@ -12,7 +12,7 @@ foreach ($influencer as $inf){
 
 echo "Name: ".$inf['name'];
 echo "<br>";
-echo "Display Name: ".$inf['display_name'];
+echo "UTM/Username: ".$inf['utm'];
 echo "<br>";
 echo "Email: ".$inf['email'];
 echo "<br>";

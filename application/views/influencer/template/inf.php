@@ -37,8 +37,16 @@
 img{
         height: 67px;
     width: 116px;
-    
+        margin-top: 5px;
 }
+    p{
+            margin: 4px 0px 22px;
+    }
+    
+    .push_button{
+        float: right;
+    }
+
             </style>
 
 
@@ -117,13 +125,13 @@ foreach ($rss as $inf):
                         <div class="row">
                              
                             <div class="col-md-8">
-                                 <?= $inf['description'] ?>
+                               
                                 <h3 class="attachment-heading">
                                     <a class="latest"
                                        href="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name?>"
                                        target="blank"><?= $inf['title'] ?></a>
                                 </h3>
-                               
+                                 <?= $inf['description'] ?>
                             </div>
                         </div>
 

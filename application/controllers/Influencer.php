@@ -38,6 +38,11 @@ class Influencer extends CI_Controller
                     $data['content'] =$this->search();
                 $data['header']='Earnings Details';
                 $data['active'] ='';
+                $data['notification_links']=$this->notification();
+                               
+               //              var_dump(  $data['notfication_links']);
+              //  die();
+            
                 $data['utm'] = $this->isutm();
                 $this->load->view('influencer/index',$data);
              }
@@ -50,6 +55,7 @@ class Influencer extends CI_Controller
                     $data['content'] =$this->search();
                 $data['header']='Earnings Details';
                 $data['active'] ='';
+                $data['notification_links']=$this->notification();
                 $data['utm'] = $this->isutm();
                 
                 $this->load->view('influencer/index',$data);
@@ -82,7 +88,7 @@ class Influencer extends CI_Controller
             $data['content'] =$this->search();
 
         $data['content'] = $this->load_payment_history($start_date,$end_date);
-
+        $data['notification_links']=$this->notification();
         $data['header']='Earnings';
         $data['active'] ='payment_history';
 
@@ -217,6 +223,7 @@ class Influencer extends CI_Controller
          $data['content'] = $this->inf_influencer($offset);
          $data['active'] ='inf';
          $data['header']='Latest Link';
+         $data['notification_links']=$this->notification();
          $this->load->view('influencer/latest',$data);
     }
     
@@ -293,6 +300,7 @@ class Influencer extends CI_Controller
         $data['content'] = $this->influencer_viral($id);
         $data['active'] ='viral';
          $data['header']='Viral Link';
+         $data['notification_links']=$this->notification();
         $this->load->view('influencer/index',$data);
     }
   
@@ -349,6 +357,7 @@ class Influencer extends CI_Controller
          $data['content'] = $this->inf_profile($error);
          $data['active'] ='inf';
           $data['header']='Profile';
+          $data['notification_links']=$this->notification();
          $this->load->view('influencer/index',$data);
          
      }
@@ -371,8 +380,10 @@ class Influencer extends CI_Controller
                     
                   if ($this->form_validation->run() == FALSE)
                       {
-                         
-                      $this->profile($error);
+                       if(isset($error))  
+                            $this->profile($error);
+                        else
+                            $this->profile();
                       }else{ 
          
                     $data = array(
@@ -471,6 +482,7 @@ class Influencer extends CI_Controller
          $data['content'] = $this->inf_contact();
          $data['active'] ='contact';
           $data['header']='Contact us';
+          $data['notification_links']=$this->notification();
          $this->load->view('influencer/index',$data);
          
      }
@@ -490,7 +502,7 @@ class Influencer extends CI_Controller
                   
                    $id = $this->session->userdata('user_id');
                        
-                   $data['name'] = $this->user->add_user_data('influencer');     
+                   $data['full_name'] = $this->user->add_user_data('influencer');     
                          $this->load->library('email');
                         $config['mailtype'] = 'html';
                         
@@ -498,14 +510,14 @@ class Influencer extends CI_Controller
                     //$config['smtp_port'] = 465;
                     //$config['smtp_user'] = 'emailaddress';
                     //$config['smtp_pass'] = 'xxx';
-                
+                      
                         $this->email->initialize($config);
                        
                         $this->email->from('no-reply@acquire.social','Acquire');
                         
                         $this->email->to('farrukh.zaf@gmail.com');
                 
-                        $this->email->subject("Query from".$data['name']." : ".$this->input->post('subject'));
+                        $this->email->subject("Query from".$data['full_name']." : ".$this->input->post('subject'));
                         
                         $email_body = $this->input->post('message');
                         $this->email->message($email_body);
@@ -530,8 +542,8 @@ class Influencer extends CI_Controller
         $data = $this->user->add_user_data('influencer');
         
         $data['content'] = $this->load_checkout($start_date,$end_date);
-
-        $data['header']='Payment History';
+        $data['notification_links']=$this->notification();
+        $data['header']='Checkout';
         $data['active'] ='checkout';
 
 
@@ -582,7 +594,11 @@ class Influencer extends CI_Controller
                          }
           }
 
-
+          public function notification(){
+              
+             return   $this->Rss_model->checktoday();           
+              
+          }
 }
 
 
