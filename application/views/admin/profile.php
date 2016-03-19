@@ -52,6 +52,13 @@
                  
                   <li class="active" ><a href="#settings" data-toggle="tab">Settings</a></li>
                 </ul>
+                
+                 <?=isset($error)?$error : ''; 
+                                if(validation_errors()){?>
+                                <div class="callout callout-danger" >   
+                                <?php echo validation_errors(); ?>
+                                </div>
+                                <?php } ?>
                 <div class="tab-content">
                  
 
@@ -83,9 +90,23 @@
                         <label for="City" class="col-sm-2 control-label">City</label>
                         <div class="col-sm-10">
                           <input type="text" class="form-control" name="city" placeholder="City" value="<?=$inf["city"]?>">
+                         
                         </div>
                       </div>
-                      
+                        <p> To change password </p>
+                       <div class="form-group">
+                          
+                        <label for="password" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                          <input type="password" class="form-control" name="password" placeholder="password">
+                        </div>
+                      </div>
+                  <div class="form-group">
+                        <label for="passconf" class="col-sm-2 control-label">Retype Password</label>
+                        <div class="col-sm-10">
+                          <input type="password" class="form-control" name="passconf" placeholder="password">
+                        </div>
+                      </div>      
                       
                        
                      

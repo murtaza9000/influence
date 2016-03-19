@@ -22,8 +22,19 @@
 </head>
 <body>
 <header>
+     
+    <?php if(isset($forgetpass))
+    { ?>
+        
+        <p>Hi,</br>Your password is reset. Use the following passowrd to login. </br> You can change your password from profile setting</p>
+    <aside>• <?=$forgetpass?></aside>
+        
+  <?php  } else { ?>
+    
     <p>Hi,</br>Please click on the following link to to complete the verification of email</p>
     <aside><a href="<?=base_url().'register/confirmpassword/'.$token ?>">Verification Link</a></aside>
+    
+    <?php } ?>
 </header>
 
     <script>(function (i, s, o, g, r, a, m) {

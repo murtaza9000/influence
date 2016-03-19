@@ -21,6 +21,7 @@ class Influencer extends CI_Controller
         $this->load->helper('url');
         $this->load->helper('date');
         $this->load->library('scrape');
+        $this->load->library('form_validation');
                   
     }
 
@@ -376,7 +377,55 @@ class Influencer extends CI_Controller
       {  
                   $this->load->helper('url');
                       $id = $this->session->userdata('user_id');
+                      
+                     if(!is_null($this->input->post('password'))){ 
+                      
+                    $this->form_validation->set_rules('password', 'Password', 'trim');
+                    $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|min_length[8]|max_length[12]|matches[password]');
+                      
+                      
+                      
                     $this->utmvalid();
+                    
+                  if ($this->form_validation->run() == FALSE) //if one
+                      {
+                       if(isset($error))  
+                            $this->profile($error);
+                        else
+                            $this->profile();
+                      }else{ 
+         
+                    $data = array(
+                        
+                        'name' => $this->input->post('name'),
+                        'email' => $this->input->post('email'),
+                        'utm' => $this->input->post('utm'),
+                        'country' => $this->input->post('country'),
+                        'city' => $this->input->post('city'),
+                        'contact' => $this->input->post('phone'),
+                        'experience' => $this->input->post('experience'),
+                        'password'=>password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                        'account_no' => $this->input->post('account_no')
+                    );  
+                        $this->db->where('id',$id);
+                        $query=  $this->db->update('influencer',$data);
+                        if($query)
+                        {
+                            $this->session->set_flashdata('message', 'You have been successfully update your profile');
+                            
+                            redirect('/influencer/profile');
+                        }
+                        else 
+                        {
+                        $this->session->set_flashdata('message', 'Error try again');
+                    
+                        redirect('/influencer/profile');
+                        }
+                      }
+                }//end if one
+                    else{ //else one
+                        
+                         $this->utmvalid();
                     
                   if ($this->form_validation->run() == FALSE)
                       {
@@ -412,7 +461,7 @@ class Influencer extends CI_Controller
                         redirect('/influencer/profile');
                         }
                       }
-      
+                    }//end else one
       }
       
       

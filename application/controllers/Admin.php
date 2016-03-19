@@ -381,22 +381,23 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
        // echo $graph=>_values["site_name"];
       }
       
-       public function profile(){
+       public function profile($error=null){
          
           if (!$this->user->is_loggedad_in()){
             redirect('/adminlogin');
         }
         $data = array();
          $data = $this->user->add_user_data_ad('admin');
-         $data['content'] = $this->inf_profile();
+         $data['content'] = $this->inf_profile($error);
          $data['active'] ='';
          $data['header']='Profile';
          $this->load->view('admin/index',$data);
          
      }
-        private function inf_profile()
+        private function inf_profile($error=null)
         {
                 $id = $this->session->userdata('user_id_ad');
+                $data['error']=$error;
                 $data['profile'] = $this->Admin_model->get_admin($id);
                 $string = $this->load->view('admin/profile', $data, TRUE);
                 return $string;
@@ -408,6 +409,45 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
       {  
                   $this->load->helper('url');
                       $id = $this->session->userdata('user_id_ad');
+                      
+                      if(!is_null($this->input->post('password'))){
+                           $this->form_validation->set_rules('password', 'Password', 'trim');
+                            $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|min_length[8]|max_length[12]|matches[password]');
+                            
+                          if($this->form_validation->run() == FALSE)
+                          {
+                             
+                            $this->profile($error);
+                            
+                          }else{
+                          
+                          $data = array(
+                        
+                        'name' => $this->input->post('name'),
+                        'country' => $this->input->post('country'),
+                         'email' => $this->input->post('email'),
+                         'password'=>password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                        'city' => $this->input->post('city')
+                      
+                        
+                    );  
+                        $this->db->where('id',$id);
+                        $query=  $this->db->update('admin',$data);
+                        if($query)
+                        {
+                            $this->session->set_flashdata('message', 'You have been successfully update your profile');
+                            
+                            redirect('/admin/profile');
+                        }
+                        else 
+                        {
+                        $this->session->set_flashdata('message', 'Error try again');
+                    
+                        redirect('/admin/profile');
+                        }
+                          
+                      }
+                      }else{
                     $data = array(
                         
                         'name' => $this->input->post('name'),
@@ -431,7 +471,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
                     
                         redirect('/admin/profile');
                         }
-      
+                      }
       
       }
       

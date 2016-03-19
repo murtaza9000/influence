@@ -44,7 +44,7 @@ class Register extends CI_Controller
 
     public function login_validation_rules(){
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|min_length[8]|max_length[12]|required');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
     }
 
@@ -60,7 +60,7 @@ class Register extends CI_Controller
         );*/
         //$this->form_validation->set_rules('fullname', 'Full Name', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
-        $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
+        $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|min_length[8]|max_length[12]required|matches[password]');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[influencer.email]',
             array(
                 'is_unique'     => 'This %s already exists.'
@@ -148,21 +148,22 @@ class Register extends CI_Controller
     }
     public function loginbyreddit(){
        
-        require_once dirname(__DIR__) . '\\vendor\\reddit\\config.php';
-        require_once dirname(__DIR__) . '\\vendor\\reddit\\reddit.php';
+        require_once dirname(__DIR__) . '/vendor/reddit/config.php';
+        require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
         $reddit = new reddit();
     }
 
     public function redditcallback(){
 
-        require_once dirname(__DIR__) . '\\vendor\\reddit\\config.php';
-        require_once dirname(__DIR__) . '\\vendor\\reddit\\reddit.php';
+        require_once dirname(__DIR__) . '/vendor/reddit/config.php';
+        require_once dirname(__DIR__) . '/vendor/reddit/reddit.php';
         $reddit = new reddit();
         $userData = $reddit->getUser();
         $userName = $userData->name;
         if (!$userName){
+            
             redirect('/register');
-            return;
+             return;
         }
         $loginData = array();
 
@@ -309,7 +310,7 @@ class Register extends CI_Controller
     //$config['smtp_pass'] = 'xxx';
    
         $this->email->initialize($config);
-        $this->email->from('dontreply@acquire.social', 'Acquire Social');
+        $this->email->from('no-reply@acquire.social', 'Acquire Social');
         $email = trim($this->input->post('email'));
         $this->email->to($email);
   
@@ -329,7 +330,7 @@ class Register extends CI_Controller
         $data = array(
             
             'name' => $this->input->post('fullname'),
-            'display_name' => $this->input->post('displayname'),
+           
             'email' => $this->input->post('email'),
             'account_no' => $this->input->post('bankacc'),
             'country' => $this->input->post('country'),
