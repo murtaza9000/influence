@@ -108,7 +108,7 @@ class Googleanalytics
         if ($facebook == 'facebook'){
             $optParams = array(
                 'dimensions' => 'ga:campaign,ga:searchDestinationPage',
-                'filters' => 'ga:source==FB;ga:medium==AK,ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
+                'filters' => 'ga:source==FB;ga:medium==AK;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
                 'max-results' => 10000
             );
         }else{
@@ -137,7 +137,7 @@ class Googleanalytics
             $optParams = array(
                 'dimensions' => 'ga:campaign,ga:searchDestinationPage',
                 //ga:medium==Social;
-                'filters' => 'ga:source==FB;ga:medium==AK,ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
+                'filters' => 'ga:source==FB;ga:medium==AK;ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
                 'max-results' => 10000
             );
         }else{
@@ -181,6 +181,7 @@ class Googleanalytics
 
     public function execute_per_profile(&$analytics, $profile, $facebook=null){
         $premiumResults = $this->getPremiumResults($analytics, $profile['id'], $facebook);
+        //print_r($premiumResults);
         echo '[-] Got premium results: ' . count($premiumResults) . PHP_EOL;
 
         $normalResults = $this->getNormalResults($analytics, $profile['id'], $facebook);
@@ -188,10 +189,13 @@ class Googleanalytics
 
         //Get Premium rate for buzztache
         $premiumRates = $this->get_premium_rates($profile['url']);
+        echo 'Premium Rates: ' . $premiumRates;
         //Get Normal rate for buzztache
         $normalRates = $this->get_normal_rates($profile['url']);
 
         //echo count($premiumResults);
+        $totalPremiumSessions = 0;
+        $totalAmount = 0;
         if (count($premiumResults) > 0){
             foreach ($premiumResults as $result){
                 //echo 'Premium Result: ' . print_r($result) . PHP_EOL;
@@ -201,16 +205,17 @@ class Googleanalytics
                 }
                 $link = $result[1];
                 $sessions = $result[2];
-
-
+                //echo 'Premium Sessions: ' . $sessions;
+                $totalPremiumSessions += $sessions;
                 $amount = $this->calculate_amount($sessions, $premiumRates);
-
+                $totalAmount += $amount;
                 $this->update_amount($name, $profile['url'], $amount,$link,$sessions);
 
                 //echo $result[0] . ", ";
             }
         }
-
+        echo 'Premium Sessions: ' . $totalPremiumSessions;
+        echo '<br />Premium Total Amount: ' . $totalAmount;
         //return;
         if (count($normalResults) > 0){
             foreach ($normalResults as $result){
@@ -244,7 +249,7 @@ class Googleanalytics
 
         echo '<pre>';
         foreach($profiles as $profile){
-            $this->execute_per_profile($analytics, $profile);
+            //$this->execute_per_profile($analytics, $profile);
 
             //Load old facebook ones too
             $this->execute_per_profile($analytics, $profile, 'facebook');
@@ -290,6 +295,15 @@ class Googleanalytics
 
     }
 
+    private function update_influencer_amount($currentPayment, $amount, $now_time, $inf){
+        $currentPayment = $currentPayment + $amount;
+        $this->CI->db->where('id', $inf->id);
+        $data = array(
+            'payment' => $currentPayment,
+            'payment_last_updated' => $now_time
+        );
+        $this->CI->db->update('influencer', $data);
+    }
     private function update_amount($name, $url, $amount, $link, $sessions, $update = '')
     {
         $link = $url . $link;
@@ -320,22 +334,16 @@ class Googleanalytics
 
         $now = date('Y-m-d');
         $now_time = date('Y-m-d H');
-        $currentPayment = $currentPayment + $amount;
-        $this->CI->db->where('id', $inf->id);
-        $data = array(
-            'payment' => $currentPayment,
-            'payment_last_updated' => $now_time
-        );
-        $this->CI->db->update('influencer', $data);
+
 
         //Add Data
         if ($update == 'update') {
             echo "[-] Now in second foreach loop, Update: " . $update . PHP_EOL;
             $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $inf->id, 'time' => $now_time, 'link' => $link))->row();
-
             print_r($result);
             if ($result) {
                 echo "[x] Found an entry already for today, normal updating it" . PHP_EOL;
+                $prevAmount = $result->revenue_generated;
                 $this->CI->db->where('date', $now);
                 $this->CI->db->where('link', $link);
                 $this->CI->db->where('influencer_id', $inf->id);
@@ -344,6 +352,7 @@ class Googleanalytics
                     'revenue_generated' => $amount
                 );
                 $this->CI->db->update('revenue_history', $data);
+                $this->update_influencer_amount($currentPayment, $amount - $prevAmount, $now_time, $inf);
             }else{
                 echo "[x] Inserting new entry for today" . PHP_EOL;
                 $data = array(
@@ -355,12 +364,15 @@ class Googleanalytics
                     'revenue_generated' => $amount
                 );
                 $this->CI->db->insert('revenue_history', $data);
+                $this->update_influencer_amount($currentPayment, $amount, $now_time, $inf);
             }
 
         }else{
             $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $inf->id, 'time' => $now_time, 'link' => $link))->row();
             if ($result) {
+                //die($result->amount);
                 echo "[x] Found an entry already for today, premium updating it" . PHP_EOL;
+                $prevAmount = $result->revenue_generated;
                 $this->CI->db->where('date', $now);
                 $this->CI->db->where('link', $link);
                 $this->CI->db->where('influencer_id', $inf->id);
@@ -369,6 +381,7 @@ class Googleanalytics
                     'revenue_generated' => $amount
                 );
                 $this->CI->db->update('revenue_history', $data);
+                $this->update_influencer_amount($currentPayment, $amount - $prevAmount, $now_time, $inf);
             }else{
                 echo "[x] Inserting new premium entry for today" . PHP_EOL;
                 $data = array(
@@ -382,6 +395,7 @@ class Googleanalytics
                 //print_r($data);
                 //die();
                 $this->CI->db->insert('revenue_history', $data);
+                $this->update_influencer_amount($currentPayment, $amount, $now_time, $inf);
             }
         }
 
