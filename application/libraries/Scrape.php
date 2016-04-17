@@ -36,7 +36,9 @@ class Scrape
 
             // Get the latest post in this category and display the titles
             $crawler->filter('article')->each(function ($node) use (&$rss) {
-
+                if ($node == null) {
+                    return;
+                }
                 $img = $node->filterXPath('//img')->attr('src');
                 $heading = $node->filterXPath('//h2')->text();
                 $link = $node->filterXPath('//a')->attr('href');
