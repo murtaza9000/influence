@@ -47,9 +47,9 @@ echo "<i class=\"fa fa-fw fa-warning\"></i>"; ?>
 }
 echo "<br>";
 ?>
-
+<br>
  <a href="<?php echo base_url();?>admin/inf">
-                 <button type="button" class="btn btn-info">Back</button>
+                 <button type="button" class="btn btn-danger">Back</button>
    </a>              
     </div>
 </div>

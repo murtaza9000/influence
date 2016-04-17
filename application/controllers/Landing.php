@@ -18,8 +18,17 @@ class Landing extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+      public function __construct()
+    {
+        parent::__construct();
+        $this->load->helper(['url','string']);
+        $this->load->model('Influencer_model');
+        $this->load->library('facebook');
+        $this->load->library('user');
+
+    }
 	public function index()
 	{
-		$this->load->view('admin/landing');
+		$this->load->view('admin/landing_');
 	}
 }

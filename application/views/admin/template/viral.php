@@ -25,9 +25,11 @@
         class = "form-control required" />
      
        
-
- <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Add Viral Link</button>
+ <br>
+ <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Add Viral Link</button>
+  
  </form>
+ <br>
  <?php }else { 
         
              echo form_open('admin/editviral');
@@ -46,13 +48,15 @@
         class = "form-control required" />
      
        
-
- <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Edit Viral Link</button>
+ <br>
+ <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Edit Viral Link</button>
+  <br>
+   <br>
  <a href="<?php echo site_url('admin/viral');?>" >
  <button type="button" class="btn btn-danger">Cancel</button>
  </a>
  </form>
-
+ <br>
 <?php } ?>
 </div>
 </div>

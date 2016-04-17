@@ -20,7 +20,7 @@ foreach ($publisher as $pub){?>
    
    <div class ="col-md-4">
        <a href="<?php echo base_url();?>admin/dom/no/<?php echo $pub['id']?>">
-   <button type="button" class="btn btn-info btn-flat">Domains</button>
+   <button type="button" class="btn btn-danger btn-flat">Domains</button>
    </a>
    
    </div>

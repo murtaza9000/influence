@@ -24,8 +24,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           apply the skin class to the body tag so the changes take effect.
     -->
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-red.min.css">
     <link rel="stylesheet" href="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.css">
-     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
+ 
         <!-- daterange picker -->
     <link rel="stylesheet" href="<?=base_url()?>plugins/daterangepicker/daterangepicker-bs3.css">
 
@@ -63,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   |               | sidebar-mini                            |
   |---------------------------------------------------------|
   -->
-  <body class="hold-transition skin-purple sidebar-mini">
+  <body class="hold-transition skin-red sidebar-mini">
       <?php require_once APPPATH. '/libraries/analyticstracking.php'; ?>
     <div class="wrapper">
 
@@ -71,7 +72,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <header class="main-header">
 
         <!-- Logo -->
-       <a href='influencer/index' class="logo">
+       <a href='<?= base_url() ?>admin/index' class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini">AS</span>
           <!-- logo for regular state and mobile devices -->
@@ -96,19 +97,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Menu toggle button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning">10</span>
+                  <span class="label label-warning"><?=is_null($notification_links) ? '0' : $notification_links ?></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
+                  <li class="header">You have <?=is_null($notification_links) ? '0' : $notification_links ?> notifications</li>
                   <li>
                     <!-- Inner Menu: contains the notifications -->
-                    <ul class="menu">
-                      <li><!-- start notification -->
-                        <a href="#">
-                          <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                        </a>
+                     <?php  if (!(is_null($notification_links))) { ?>
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                    
+                                        <a href="<?= base_url(); ?>admin/inf">
+                                            <i class="fa fa-users text-aqua"></i><?=$notification_links?> more Users are added
+                                        </a>
                       </li><!-- end notification -->
                     </ul>
+                     <?php } ?>
                   </li>
                   <li class="footer"><a href="#">View all</a></li>
                 </ul>
@@ -239,7 +243,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
            Welcome to Admin Panel
            
            </h3>
-           
+           <div class ="row">
+               <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+                    <div class="info-box-content">
+                    <span class="info-box-text">New Members</span>
+                    <span class="info-box-number"><?=is_null($notification_links) ? '0' : $notification_links ?></span>
+                </div>
+            <!-- /.info-box-content -->
+                 </div>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="ion ion-ios-gear-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Services</span>
+              <span>
+                 <div style="padding-bottom: 4px;">
+              <a href="<?php echo base_url();?>analyticsservice" target="blank">
+                 <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">Analytic</button>
+                 </a>
+                 </div>
+               <a href="<?php echo base_url();?>influencer/rss_done" target="blank">
+                 <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">RSS FEED</button>
+                 </a>
+                 </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+          </div>
+          
            </br>
            <p> click on menu to browse </p>
         

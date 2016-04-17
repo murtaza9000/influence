@@ -1,7 +1,7 @@
 
 
       <?php 
-      $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'influencer');
+      $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'admin');
             $this->breadcrumbs->push('Profile', 'influencer/profile');
             $_POST['breadcrumb']= $this->breadcrumbs->show();
             ?> 

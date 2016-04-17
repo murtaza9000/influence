@@ -172,6 +172,7 @@ class Influencer extends CI_Controller
             //urlencode(trim($values['url']))
             $rss = [];
             if (urldecode(trim($values['url'])) == 'buzztache.com') {
+               
                 $rss = $this->scrape->execute();
 
             } else {

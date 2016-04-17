@@ -67,10 +67,11 @@ if(validation_errors()) { ?>
                 <input type="number" step="any" name="click_ratepre" value="0"
                 class = "form-control required" />
                 <input type="hidden" name="all" value="all" />
-                
+                 <br>
 
-                <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Add domain Link</button>
+                <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Add domain Link</button>
             </form>
+             <br>
  <?php     }
  else { 
         
@@ -97,11 +98,16 @@ if(validation_errors()) { ?>
                         <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
                 <input type="number" step="any" name="click_ratepre" value="<?php echo $editdomain[0]['click_ratepre'];?>"
                 class = "form-control required" />
-                <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Edit domain Link</button>
+                 <br>
+                <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Edit domain Link</button>
+                 <br>
+                  <br>
                 <a href="<?php echo site_url('admin/dom/all');?>" >
+                
                 <button type="button" class="btn btn-danger">Cancel</button>
                 </a>
         </form>
+         <br>
 </div>
 </div>
 <?php } ?>
@@ -207,8 +213,10 @@ foreach ($domain as $dom){?>
              <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
         <input type="number" step="any" name="click_ratepre" value="0"
         class = "form-control required" />
-            <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Add domain Link</button>
+         <br>
+            <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Add domain Link</button>
         </form>
+         <br>
  <?php }else { 
         
              echo form_open('admin/domainformsubit/edit');
@@ -232,12 +240,15 @@ foreach ($domain as $dom){?>
              <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
         <input type="number" step="any" name="click_ratepre" value="<?php echo $editdomain[0]['click_ratepre'];?>"
         class = "form-control required" />
-      
- <button type="submit" class="btn btn-primary" onsubmit="return validateForm()">Edit domain Link</button>
+       <br>
+ <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Edit domain Link</button>
+  <br> <br>
  <a href="<?php echo base_url();?>admin/dom/no/<?php echo $editdomain[0]['publisher_id']?>" >
+
  <button type="button" class="btn btn-danger">Cancel</button>
  </a>
  </form>
+  <br>
 </div>
 </div>
 <?php } ?>

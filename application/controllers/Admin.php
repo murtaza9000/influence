@@ -48,6 +48,7 @@ class Admin extends CI_Controller
         $data = $this->user->add_user_data_ad('admin');
         $data['content'] = $this->admin_viral($id);
         $data['active'] ='viral';
+         $data['notification_links']=$this->notification();
         $data['header']='Viral List';
    
     
@@ -62,7 +63,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
             
             
-            
+         $data['notification_links']=$this->notification();    
         $data['content'] = $this->admin_domain($allcheck,$id);
         $data['active'] ='dom';
         $data['header']='Domains List';
@@ -77,6 +78,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
           $data['content'] = $this->admin_publisher();
           $data['active'] ='pub';
+           $data['notification_links']=$this->notification();
           $data['header']='Publishers List';
           $this->load->view('admin/index',$data);
     }
@@ -89,6 +91,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
          $data['content'] = $this->admin_influencer();
          $data['active'] ='inf';
+          $data['notification_links']=$this->notification();
          $data['header']='Influencer List';
          $this->load->view('admin/index',$data);
     }
@@ -100,6 +103,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
          $data['content'] = $this->admin_influencer_detail($id);
          $data['active'] ='inf';
+          $data['notification_links']=$this->notification();
          $data['header']='Influencer\'s details';
          $this->load->view('admin/index',$data);
     }
@@ -113,7 +117,7 @@ class Admin extends CI_Controller
             redirect('/registeradmin');
         //echo "hello";
         $this->load->helper('url');
-       
+        $data['notification_links']=$this->notification();
         $data['active'] ='';
         $this->load->view('admin/index',$data);
     }
@@ -225,6 +229,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
             redirect('/registeradmin');
         $data['content'] = $this->admin_viral_edit($id);
         $data['active'] ='viral';
+        $data['notification_links']=$this->notification();
         $data['header']='Viral Edit';
         $this->load->view('admin/index',$data);
     }
@@ -261,6 +266,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
         $data = $this->user->add_user_data_ad('admin');
         $data['content'] = $this->admin_domain_edit($all,$id,$id_pub,$e);
         $data['active'] ='dom';
+        $data['notification_links']=$this->notification();
         $data['header']='Domains List';
        // $data['all'] =$all;
         $this->load->view('admin/index',$data);
@@ -391,6 +397,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
          $data['content'] = $this->inf_profile($error);
          $data['active'] ='';
          $data['header']='Profile';
+         $data['notification_links']=$this->notification();
          $this->load->view('admin/index',$data);
          
      }
@@ -498,7 +505,7 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
         $data = $this->user->add_user_data_ad('admin');
         
         $data['content'] = $this->load_checkout($start_date,$end_date);
-
+        $data['notification_links']=$this->notification();
         $data['header']='Payment Log';
         $data['active'] ='checkout';
 
@@ -521,5 +528,9 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
        
         return $this->load->view('admin/template/payment_history', $data, TRUE);
     }
-     
+     public function notification(){
+              
+             return   $this->Influencer_model->checktoday();           
+              
+          }
 }

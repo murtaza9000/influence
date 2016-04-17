@@ -24,6 +24,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           apply the skin class to the body tag so the changes take effect.
     -->
     <link rel="stylesheet" href="<?= base_url() ?>/dist/css/skins/skin-purple.min.css">
+      <link rel="stylesheet" href="<?= base_url() ?>/dist/css/skins/skin-red.min.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="<?= base_url() ?>plugins/daterangepicker/daterangepicker-bs3.css">
     <link rel="stylesheet" href="<?= base_url() ?>/plugins/datatables/dataTables.bootstrap.css">
@@ -92,7 +93,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini">
 <?php require_once APPPATH . '/libraries/analyticstracking.php'; ?>
 <div class="wrapper">
                  

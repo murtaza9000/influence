@@ -95,8 +95,16 @@ class Login extends CI_Controller
             if ($row == null){
                 $data = array('error' => 'User does not exist');
                $this->load->view('influencer/userforget',$data);
-            }
-            else{
+               
+            }else if($row->confirmed == 0){
+               
+
+             
+                 
+                $data = array('error' => 'You have not confirmed your account from your email');
+                $this->load->view('admin/login',$data);
+          
+            }else{
         
         
         

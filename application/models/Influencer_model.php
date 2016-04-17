@@ -75,8 +75,25 @@ class Influencer_model extends CI_Model
          
          $this->db->like('id', $search);
         $this->db->or_like('name', $search); 
+        $this->db->or_like('utm', $search); 
        
           $query =$this->db->get('influencer');
         return $query->result_array();
     }
+    
+    public function checktoday()
+      {     
+          $query=$this->db->query('SELECT * FROM `influencer` WHERE DATE(`timestamp`) = CURDATE()');
+         //  $query=$this->db->query('SELECT * FROM `rss_links` WHERE DATE(`timestamp`) = \'2016-03-16\'');
+                
+           if( $query->num_rows() > 0)
+           {
+            
+            return $query->num_rows();
+           
+           }
+           else 
+           return NULL;
+            
+      }
 }

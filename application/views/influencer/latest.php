@@ -24,7 +24,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     -->
     <script src="<?=base_url()?>dist/clipboard.min.js"></script>
     <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
-
+<link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-red.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -52,7 +52,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   |               | sidebar-mini                            |
   |---------------------------------------------------------|
   -->
-  <body class="hold-transition skin-purple sidebar-mini">
+  <body class="hold-transition skin-red sidebar-mini">
         <?php require_once APPPATH. '/libraries/analyticstracking.php'; ?>
     <div class="wrapper">
 

@@ -15,24 +15,24 @@ html,body{min-height:100%}.layout-boxed html,.layout-boxed body{height:100%}body
     text-decoration: none;
     margin: 0 -6px;
     border-radius: 5px;
-    border: solid 1px #474BC5;
-    background: #2769CB;
+    border: solid 1px #a94442;
+    background: #DD4B39;
     text-align: center;
     padding: 3px 21px;
     -webkit-transition: all 0.1s;
     -moz-transition: all 0.1s;
     transition: all 0.1s;
-    -webkit-box-shadow: 0px 9px 0px #1A385D;
+    -webkit-box-shadow: 0px 9px 0px #84261a;
     -moz-box-shadow: 0px 9px 0px #84261a;
-    box-shadow: 0px 9px 0px #1A385D;
+    box-shadow: 0px 9px 0px #a94442;
     font-size: 1.4em;
-	float:right;
+    float:right;
 }
 .push_button:active
 {
-    -webkit-box-shadow: 0px 2px 0px #1A385D;
-    -moz-box-shadow: 0px 2px 0px #1A385D;
-    box-shadow: 0px 2px 0px #1A385D;
+    -webkit-box-shadow: 0px 2px 0px #84261a;
+    -moz-box-shadow: 0px 2px 0px #84261a;
+    box-shadow: 0px 2px 0px #84261a;
     position:relative;
     top:7px;
 }

@@ -236,7 +236,7 @@ class Googleanalytics
 
         echo '[-] Start' . PHP_EOL;
         $analytics = $this->getService();
-        echo '[-] getService ' . $analytics . PHP_EOL;
+        echo '[-] getService '  . PHP_EOL;
 
 
         $profiles = $this->getFirstProfileId($analytics);

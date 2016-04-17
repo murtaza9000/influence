@@ -11,7 +11,7 @@
             <!-- left column -->
             <div class="col-md-6 col-md-offset-3">
               <!-- general form elements -->
-              <div class="box box-primary">
+              <div class="box box-danger">
                 <div class="box-header with-border">
                   <h3 class="box-title"><?=$title?></h3>
                 </div><!-- /.box-header -->
@@ -23,14 +23,14 @@
                       <input type="text" class="form-control" name="subject" placeholder="Subject">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword1">Message</label>
+                      <label for="Message">Message</label>
                       <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
                     </div>
                    
                     
                   </div><!-- /.box-body -->
                     <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-danger">Submit</button>
                   </div>
                 </form>
               </div><!-- /.box -->

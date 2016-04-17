@@ -180,7 +180,7 @@ INSERT INTO `viral_links` (`id`, `url`, `click_rate`, `click_ratepre`, `site_nam
 --
 DROP TABLE IF EXISTS `rss_links_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `rss_links_view` AS select `r`.`id` AS `id`,`r`.`links` AS `links`,`t2`.`id` AS `domain_id`,`r`.`description` AS `description`,`r`.`title` AS `title`,`r`.`reserved` AS `reserved`,`t2`.`click_rate` AS `click_rate`,`t2`.`click_ratepre` AS `click_ratepre` from (`rss_links` `r` join `domain` `t2` on((`r`.`domain_id` = `t2`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`acquire_usr`@`10.0.0.43` SQL SECURITY DEFINER VIEW `rss_links_view` AS select `r`.`id` AS `id`,`r`.`links` AS `links`,`t2`.`id` AS `domain_id`,`r`.`description` AS `description`,`r`.`title` AS `title`,`r`.`reserved` AS `reserved`,`t2`.`click_rate` AS `click_rate`,`t2`.`click_ratepre` AS `click_ratepre` from (`rss_links` `r` join `domain` `t2` on((`r`.`domain_id` = `t2`.`id`)));
 
 --
 -- Constraints for dumped tables

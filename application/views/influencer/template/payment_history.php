@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
-        <div class="box">
+        <div class="box box-danger">
 
             <div class="box-body">
                 <?php if (isset($start_date)): ?>
@@ -58,7 +58,7 @@
                 </table>
             </div><!-- /.box-body -->
         </div>
-        <div class="box">
+        <div class="box box-danger">
             <div class="box-body">
                 <h1>Earnings Summary</h1>
 

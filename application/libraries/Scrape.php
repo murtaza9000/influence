@@ -20,6 +20,7 @@ class Scrape
 
     public function execute(){
         //$rss = ['lol'];
+        
         $client = new Goutte\Client();
         //$client->getClient()->setDefaultOption('config/curl/'.CURLOPT_TIMEOUT, 60);
         for ($i = 1; $i < 8; $i++){
@@ -29,14 +30,16 @@ class Scrape
                 $crawler = $client->request('GET', 'http://buzztache.com/category/no/page/' . $i. '/');
             }
 
-
+ $client->getResponse();
 
             //$link = $crawler->selectLink('Security Advisories')->link();
             //$crawler = $client->click($link);
 
             // Get the latest post in this category and display the titles
             $crawler->filter('article')->each(function ($node) use (&$rss) {
-
+                if ($node == null) {
+                    return;
+                }
                 $img = $node->filterXPath('//img')->attr('src');
                 $heading = $node->filterXPath('//h2')->text();
                 $link = $node->filterXPath('//a')->attr('href');
