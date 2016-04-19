@@ -16,11 +16,11 @@
        echo form_label("Url: ","url");
        echo form_input("url","","class = form-control required");
        
-       echo form_label("Click Rate: ","click_rate");
+       echo form_label("Non-Premium Rate ","click_rate");
         // echo form_input("click_rate","","class = form-control required");
 ?>
        <input type="number" step="any" name="click_rate" value="$" class = "form-control required" />
-       <?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
+       <?php         echo form_label("Premium Rate ","click_ratepre");?>
         <input type="number" step="any" name="click_ratepre" value="0"
         class = "form-control required" />
      
@@ -37,13 +37,13 @@
        echo form_label("Url: ","url");
        echo form_input("url",$editviral[0]['url'],"class = form-control required");
        
-       echo form_label("Click Rate: ","click_rate");
+       echo form_label("Non-Premium Rate ","click_rate");
         // echo form_input("click_rate","","class = form-control required");
 ?>      
         <input type="hidden" name="id" value="<?php echo $editviral[0]['id'];?>" />
        <input type="number" step="any" name="click_rate" value="<?php echo $editviral[0]['click_rate'];?>"
         class = "form-control required" />
-<?php         echo form_label("Click Rate(Premium-rate): ","click_ratepre");?>
+<?php         echo form_label("Premium Rate ","click_ratepre");?>
         <input type="number" step="any" name="click_ratepre" value="<?php echo $editviral[0]['click_ratepre'];?>"
         class = "form-control required" />
      
@@ -71,8 +71,8 @@
                 <thead><tr>
                   <th>ID</th>
                   <th>Link</th>
-                  <th>Click Rate</th>
-                  <th>Click Rate(Premium)</th>
+                  <th>Non-Premium Rate</th>
+                  <th>Premium Rate</th>
                   <th>Delete</th>
                   <th>Edit</th>
                 </tr></thead>

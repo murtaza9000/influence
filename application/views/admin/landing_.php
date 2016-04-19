@@ -62,7 +62,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><span class="logo-lg"><b><br>Acquire Social</b></span></a>
+      <!--a class="navbar-brand" href="#"><span class="logo-lg"><b><br>Acquire Social</b></span></a-->
+      <a class="navbar-brand" href="#"><span class="logo"> <img src="<?=base_url()?>dist/img/logov2.png" alt="" class="img-responsive"></a>
     </div>
 
     

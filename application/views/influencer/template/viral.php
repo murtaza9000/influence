@@ -65,15 +65,15 @@ else
                  
      <form action="docopy/viral" method="post">
            
-            <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$vir['click_ratepre']?></span>
-             <span class="label label-success"><b>Click-Rate</b>: $<?=$vir['click_rate']?></span>
+            <span class="label label-warning"><b>Premium Rate</b>: $<?=$vir['click_ratepre']?></span>
+             <span class="label label-success"><b>Non-Premium Rate</b>: $<?=$vir['click_rate']?></span>
             <input type="hidden" name="id" value="<?=$vir['id']?>">
             <input type="hidden" name="flag" value="1">
             <button class="copyit push_button"   data-clipboard-action="copy" data-clipboard-text="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" > Copy Link</button>
     </form>
 <?php }  else  { ?>
-                 <span class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?=$vir['click_ratepre']?></span>
-                <span class="label label-success"><b>Click-Rate</b>: $<?=$vir['click_rate']?></span>
+                 <span class="label label-warning"><b>Premium Rate</b>: $<?=$vir['click_ratepre']?></span>
+                <span class="label label-success"><b>Non-Premium Rate</b>: $<?=$vir['click_rate']?></span>
                
                 <button class="copyit push_button disabled"   data-clipboard-action="copy" data-clipboard-target="#utm<?php echo $index;?>" > Link is copied</button>
         

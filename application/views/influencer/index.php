@@ -105,7 +105,8 @@ desired effect
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">AS</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Acquire Social</b></span>
+            <span class="logo-lg"><img src="<?=base_url()?>dist/img/logov2.png" alt="" class="img-responsive"></span>
+             
         </a>
 
         <!-- Header Navbar -->

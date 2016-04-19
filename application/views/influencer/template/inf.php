@@ -100,8 +100,8 @@ foreach ($rss as $inf):
                     <input type="hidden" name="id" value="<?= $inf['id'] ?>">
                     <input type="hidden" name="flag" value="1">
                     <span
-                        class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?= $inf['click_ratepre'] ?></span>
-                    <span class="label label-success"><b>Click-Rate</b>: $<?= $inf['click_rate'] ?></span>
+                        class="label label-warning"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
+                    <span class="label label-success"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
                     
                    
                   
@@ -112,8 +112,8 @@ foreach ($rss as $inf):
                     </form>
                                     <?php else: ?>
                                     <span
-                        class="label label-warning"><b>Click-Rate(Premium-Rate)</b>: $<?= $inf['click_ratepre'] ?></span>
-                                    <span class="label label-success"><b>Click-Rate</b>: $<?= $inf['click_rate'] ?></span>
+                        class="label label-warning"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
+                                    <span class="label label-success"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
                     
                    
                                         <button  class="copyit push_button disabled"  disabled>Link is copied</button>

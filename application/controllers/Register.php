@@ -358,7 +358,7 @@ class Register extends CI_Controller
     {
          $this->session->unset_userdata('user_id');
         $this->session->set_userdata('logged_in',false);
-        redirect(base_url('register'));
+        redirect(base_url('logout'));
     }
     public function publisher(){
         
