@@ -30,18 +30,25 @@ class Scrape
                 $crawler = $client->request('GET', 'http://buzztache.com/category/no/page/' . $i. '/');
             }
 
- $client->getResponse();
+            $client->getResponse();
 
             //$link = $crawler->selectLink('Security Advisories')->link();
             //$crawler = $client->click($link);
 
             // Get the latest post in this category and display the titles
+
             $crawler->filter('article')->each(function ($node) use (&$rss) {
-                if ($node == null) {
+
+                if (!isset($node)) {
                     return;
                 }
-                $img = $node->filterXPath('//img')->attr('src');
-                $heading = $node->filterXPath('//h2')->text();
+                $img = '';
+                if ($node->filterXPath('//img')->count()){
+                    $img = $node->filterXPath('//img')->attr('src');
+                }
+
+
+                $heading = $node->filterXPath('//h3')->text();
                 $link = $node->filterXPath('//a')->attr('href');
 
                 $arr = [];
