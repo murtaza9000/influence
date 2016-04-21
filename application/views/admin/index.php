@@ -12,20 +12,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="<?=base_url()?>/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="<?=base_url()?>/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
     -->
-    <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-purple.min.css">
-    <link rel="stylesheet" href="<?=base_url()?>/dist/css/skins/skin-red.min.css">
-    <link rel="stylesheet" href="<?=base_url()?>/plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="<?=base_url()?>dist/css/skins/skin-purple.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>dist/css/skins/skin-red.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>plugins/datatables/dataTables.bootstrap.css">
  
         <!-- daterange picker -->
     <link rel="stylesheet" href="<?=base_url()?>plugins/daterangepicker/daterangepicker-bs3.css">
@@ -152,7 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                      <div class="pull-right">
                      
-                      <a href="<?=base_url();?>registeradmin/logout" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?=base_url();?>registeradmin/out" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>

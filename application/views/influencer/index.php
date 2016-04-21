@@ -11,45 +11,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="<?= base_url() ?>/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>dist/css/AdminLTE.min.css">
     <script src="<?= base_url() ?>dist/clipboard.min.js"></script>
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure yous
           apply the skin class to the body tag so the changes take effect.
     -->
-    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/skins/skin-purple.min.css">
-      <link rel="stylesheet" href="<?= base_url() ?>/dist/css/skins/skin-red.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>dist/css/skins/skin-purple.min.css">
+      <link rel="stylesheet" href="<?= base_url() ?>dist/css/skins/skin-red.min.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="<?= base_url() ?>plugins/daterangepicker/daterangepicker-bs3.css">
-    <link rel="stylesheet" href="<?= base_url() ?>/plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="<?= base_url() ?>plugins/datatables/dataTables.bootstrap.css">
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="<?= base_url() ?>plugins/timepicker/bootstrap-timepicker.min.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="<?= base_url() ?>plugins/select2/select2.min.css">
-    <script src="<?= base_url() ?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <script src="<?= base_url() ?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="<?= base_url() ?>plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="<?= base_url() ?>plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="<?= base_url() ?>/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?= base_url() ?>bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<?= base_url() ?>/dist/js/app.min.js"></script>
-    <script src="<?= base_url() ?>/plugins/fastclick/fastclick.min.js"></script>
-    <script src="<?= base_url() ?>/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="<?= base_url() ?>/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="<?= base_url() ?>dist/js/app.min.js"></script>
+    <script src="<?= base_url() ?>plugins/fastclick/fastclick.min.js"></script>
+    <script src="<?= base_url() ?>plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url() ?>plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- Select2 -->
-    <script src="<?= base_url() ?>/plugins/select2/select2.full.min.js"></script>
+    <script src="<?= base_url() ?>plugins/select2/select2.full.min.js"></script>
     <!-- InputMask -->
-    <script src="<?= base_url() ?>/plugins/input-mask/jquery.inputmask.js"></script>
-    <script src="<?= base_url() ?>/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-    <script src="<?= base_url() ?>/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <script src="<?= base_url() ?>plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="<?= base_url() ?>plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="<?= base_url() ?>plugins/input-mask/jquery.inputmask.extensions.js"></script>
     <!-- date-range-picker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="<?= base_url() ?>/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="<?= base_url() ?>plugins/daterangepicker/daterangepicker.js"></script>
     <script src="<?= base_url() ?>dist/clipboard.min.js"></script>
  <style>
       .modal {
@@ -382,11 +382,12 @@ desired effect
                           var posts=  "id="+id+"&flag="+flag ;
                               
                             $.post(url, posts, function(data){
-                                if( data == "done"){
-                     $( divid ).toggleClass( "viralcopy",true )
-                                                    }else{
-                                                        alert("copy again");
-                                                    }   
+                                if( data == "done")
+                                {
+                                        $( divid ).toggleClass( "viralcopy",true )
+                                }else{
+                                        alert("copy again");
+                                     }   
                  
                                                             });
                           
