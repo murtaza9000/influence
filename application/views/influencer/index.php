@@ -277,7 +277,7 @@ desired effect
                 <div class="row">
                     <div class="col-md-6">
                         <h3>
-                            Welcome to Influencer Panel
+                            Welcome <?=$full_name?> to Influencer Panel
 
                         </h3>
 
@@ -369,7 +369,33 @@ desired effect
                 "info": true,
                 "autoWidth": false
             });
-        });
+            
+            $(".copyentry").click(function(){
+                            $(this).val("Link Copied");
+                           $(this).attr( "disabled", 'disabled' )
+                            var serial = $(this).attr('id');
+                          var divid="div." + serial;
+                        //  var link=$("#link" + serial).val();
+                          var id=$("#id" + serial).val();
+                          var flag=$("#flag" + serial).val();
+                          var  url= '<?=base_url()?>' + "influencer/docopy/viral" ;
+                          var posts=  "id="+id+"&flag="+flag ;
+                              
+                            $.post(url, posts, function(data){
+                                if( data == "done"){
+                     $( divid ).toggleClass( "viralcopy",true )
+                                                    }else{
+                                                        alert("copy again");
+                                                    }   
+                 
+                                                            });
+                          
+ 
+                                             }  );
+               });
+            
+            
+         
 
 
     </script>

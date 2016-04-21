@@ -35,7 +35,7 @@
             </style>
 
 <?php $index = 1;
-        
+         $serial=rand();
           $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'influencer');
             $this->breadcrumbs->push('Viral links', 'influencer/viral');
             $_POST['breadcrumb']= $this->breadcrumbs->show();
@@ -53,24 +53,28 @@ else
    <div class = "viral ">
 <?php foreach ($viral as $vir){?>
 <tr>   
-    <div <?php  echo ( $vir['copied'] == "copied") ? "" : "class=viralcopy" ?> > 
+    <div <?php  echo ( $vir['copied'] != "copied") ? "" : "class=viralcopy" ?> > 
               
      
         <div class = "row">
             
             <div class ="col-md-8">  
-<?php if( $vir['copied'] == "copied"){ ?>
+<?php if( $vir['copied'] != "copied"){ ?>
             
               
-                 
-     <form action="docopy/viral" method="post">
+           <div class="<?=$serial?>" >         
+     <form>
            
             <span class="label label-warning"><b>Premium Rate</b>: $<?=$vir['click_ratepre']?></span>
              <span class="label label-success"><b>Non-Premium Rate</b>: $<?=$vir['click_rate']?></span>
-            <input type="hidden" name="id" value="<?=$vir['id']?>">
-            <input type="hidden" name="flag" value="1">
-            <button class="copyit push_button"   data-clipboard-action="copy" data-clipboard-text="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" > Copy Link</button>
+            <input type="hidden" id="id<?=$serial?>" name="id" value="<?=$vir['id']?>">
+            <input type="hidden" id="flag<?=$serial?>" name="flag" value="1">
+           
+             <input type="button" id="<?=$serial?>" class="copyit push_button copyentry" data-clipboard-action="copy"
+                                        data-clipboard-text="<?=$vir['url']?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" value="Copy Link" />
     </form>
+     <?php $serial=rand();?>
+    </div>
 <?php }  else  { ?>
                  <span class="label label-warning"><b>Premium Rate</b>: $<?=$vir['click_ratepre']?></span>
                 <span class="label label-success"><b>Non-Premium Rate</b>: $<?=$vir['click_rate']?></span>
@@ -116,10 +120,7 @@ else
    <script>
       
           
-       //   function K(copyit){
-   //  $(copyit).button();
-    //  $(copyit).unbind("click").click(function() {
-
+   
     var clipboard = new Clipboard('.copyit');
 
     clipboard.on('success', function(e) {
@@ -138,4 +139,33 @@ else
   //    }  
          
     </script>    
-    
+       <!--script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="<?=base_url()?>dist/js/jquery-2.1.4.min.js"></script>
+       <script type="text/javascript" src="<?=base_url()?>dist/js/jquery.ui.min.js"></script>
+        
+       <script type="text/javascript">
+               $(document).ready(function(){
+                    $(".copyentry").click(function(){
+                            $(this).val("Link Copied");
+                           $(this).attr( "disabled", 'disabled' )
+                            var serial = $(this).attr('id');
+                          var divid="div." + serial;
+                        //  var link=$("#link" + serial).val();
+                          var id=$("#id" + serial).val();
+                          var flag=$("#flag" + serial).val();
+                          var  url= '<?=base_url()?>' + "influencer/docopy/viral" ;
+                          var posts=  "id="+id+"&flag="+flag ;
+                              
+                            $.post(url, posts, function(data){
+                                if( data == "done"){
+                     $( divid ).toggleClass( "viralcopy",true )
+                                                    }else{
+                                                        alert("copy again");
+                                                    }   
+                 
+                            });
+                          
+ 
+                    });
+               });
+       </script--> 

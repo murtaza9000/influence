@@ -51,7 +51,7 @@ img{
 
 
 <?php
-
+   $serial=rand();
     $index = 1;
     $this->breadcrumbs->push('<i class="fa fa-dashboard"></i>Home', 'influencer');
     $this->breadcrumbs->push('Latest links', 'influencer/inf');
@@ -95,29 +95,32 @@ foreach ($rss as $inf):
         <div class="row">
             <div class="col-md-8">
                  <?php if ($inf['copied'] != "copied"): ?>
-                <form action="docopy" method="post">
-                    <input type="hidden" name="link" value="<?= $inf['links'] ?>">
-                    <input type="hidden" name="id" value="<?= $inf['id'] ?>">
-                    <input type="hidden" name="flag" value="1">
+               
+               
+                    <div class="<?=$serial?>" >  
+                     <form>              
+                    <input type="hidden" name="link" id="link<?=$serial?>" value="<?= $inf['links'] ?>" >
+                    <input type="hidden" name="id"   id="id<?=$serial?>" value="<?= $inf['id'] ?>">
+                    <input type="hidden" name="flag" id="flag<?=$serial?>" value="1">
                     <span
                         class="label label-warning"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
                     <span class="label label-success"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
                     
-                   
+                 
                   
-                                        <button class="copyit push_button" data-clipboard-action="copy"
-                                                data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>">
-                                            Copy Link
-                                        </button>
-                    </form>
-                                    <?php else: ?>
-                                    <span
-                        class="label label-warning"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
-                                    <span class="label label-success"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
+                                <input type="button" id="<?=$serial?>" class="copyit push_button copyentry" data-clipboard-action="copy"
+                                        data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" value="Copy Link" />
+                        </form>          
+                    <?php $serial=rand();?>
+                    </div>
+                    <?php else: ?>
+                    <span
+        class="label label-warning"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
+                    <span class="label label-success"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
                     
-                   
-                                        <button  class="copyit push_button disabled"  disabled>Link is copied</button>
-                                    <?php endif; ?>
+        
+                        <button  class="copyit push_button disabled"  disabled>Link is copied</button>
+                    <?php endif; ?>
                     
                        </div>
                     </div>
@@ -152,8 +155,36 @@ foreach ($rss as $inf):
     ?>
    </div>
             
+         <script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="<?=base_url()?>dist/js/jquery-2.1.4.min.js"></script>
+       <script type="text/javascript" src="<?=base_url()?>dist/js/jquery.ui.min.js"></script>
         
-      
+       <script type="text/javascript">
+               $(document).ready(function(){
+                    $(".copyentry").click(function(){
+                            $(this).val("Link Copied");
+                           $(this).attr( "disabled", 'disabled' )
+                            var serial = $(this).attr('id');
+                          var divid="div." + serial;
+                          var link=$("#link" + serial).val();
+                          var id=$("#id" + serial).val();
+                          var flag=$("#flag" + serial).val();
+                          var  url= '<?=base_url()?>' + "influencer/docopy" ;
+                          var posts=  "link="+link+"&id="+id+"&flag="+flag ;
+                              
+                            $.post(url, posts, function(data){
+                                if( data == "done"){
+                     $( divid ).toggleClass( "viralcopy",true )
+                                                    }else{
+                                                        alert("copy again");
+                                                    }   
+                 
+                            });
+                          
+ 
+                    });
+               });
+       </script> 
             
  
  

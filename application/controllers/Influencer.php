@@ -506,9 +506,17 @@ class Influencer extends CI_Controller
 
                  );
     
-    $this->db->insert('viralcopy',$data);
+    $query=$this->db->get_where('viralcopy',$data);
+                 
+              if($query->num_rows() > 0)
+              {
+                        echo "copy again";
+              }else{
+                         $this->db->insert('viralcopy',$data);
+                         echo "done";
+              }
     
-    redirect('influencer/viral');
+  //  redirect('influencer/viral');
           }else{
                $data = array(
                 'link' => $this->input->post('link'),
@@ -517,9 +525,18 @@ class Influencer extends CI_Controller
                'flag' => $this->input->post('flag')
 
                  );
-    
-    $this->db->insert('linkcopy',$data);
-    redirect('influencer/inf');
+                 $query=$this->db->get_where('linkcopy',$data);
+                 
+              if($query->num_rows() > 0)
+              {
+                        echo "copy again";
+              }else{
+                         $this->db->insert('linkcopy',$data);
+                         echo "done";
+              }
+   
+   
+    //redirect('influencer/inf');
         }
         }
          public function contact(){
