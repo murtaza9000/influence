@@ -105,7 +105,9 @@ desired effect
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">AS</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><img src="<?=base_url()?>dist/img/logov2.png" alt="" class="img-responsive"></span>
+            <span class="logo-lg"><img src="<?=base_url()?>dist/img/logov2.png" alt="" class="img-responsive" style="
+    margin-top: 5px;
+"></span>
              
         </a>
 
