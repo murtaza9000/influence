@@ -496,7 +496,7 @@ class Influencer extends CI_Controller
     
     
 }
-        public function docopy($page){
+        public function docopy($page=null){
           if($page=='viral'){   
              $data = array(
                 'link' => $this->input->post('id'),

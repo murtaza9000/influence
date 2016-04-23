@@ -72,11 +72,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <header class="main-header">
 
         <!-- Logo -->
-       <a href='<?= base_url() ?>admin/index' class="logo">
+       <a href='<?= base_url() ?>admin/index' class="logo" >
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini">AS</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Acquire Social</b></span>
+         <span class="logo-lg"><img src="<?=base_url()?>dist/img/logov2.png" alt="" class="img-responsive" style="
+    margin-top: 5px;
+"></span>
         </a>
 
         <!-- Header Navbar -->
