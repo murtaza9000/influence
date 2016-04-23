@@ -120,10 +120,13 @@ class Googleanalytics
                 'max-results' => 10000
             );
         }
-
+        $from = 'yesterday';
+        if (isset($_GET['from'])){
+            $from = $_GET['from'];
+        }
         return $analytics->data_ga->get(
             'ga:' . $profileId,
-            'yesterday',
+            $from,
             'today',
             'ga:sessions'
             ,$optParams)->getRows();
@@ -150,10 +153,13 @@ class Googleanalytics
 
             );
         }
-
+        $from = 'yesterday';
+        if (isset($_GET['from'])){
+            $from = $_GET['from'];
+        }
         return $analytics->data_ga->get(
             'ga:' . $profileId,
-            'yesterday',
+            $from,
             'today',
             'ga:sessions'
             ,$optParams)->getRows();
