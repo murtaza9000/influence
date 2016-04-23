@@ -510,7 +510,7 @@ class Influencer extends CI_Controller
                  
               if($query->num_rows() > 0)
               {
-                        echo "copy again";
+                        echo "done";
               }else{
                          $this->db->insert('viralcopy',$data);
                          echo "done";
@@ -529,7 +529,7 @@ class Influencer extends CI_Controller
                  
               if($query->num_rows() > 0)
               {
-                        echo "copy again";
+                        echo "done";
               }else{
                          $this->db->insert('linkcopy',$data);
                          echo "done";
