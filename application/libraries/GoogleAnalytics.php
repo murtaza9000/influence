@@ -121,13 +121,18 @@ class Googleanalytics
             );
         }
         $from = 'yesterday';
+        $today = 'today';
         if (isset($_GET['from'])){
             $from = $_GET['from'];
         }
+        if (isset($_GET['today'])){
+            $today = $_GET['today'];
+        }
+
         return $analytics->data_ga->get(
             'ga:' . $profileId,
             $from,
-            'today',
+            $today,
             'ga:sessions'
             ,$optParams)->getRows();
     }
@@ -154,13 +159,17 @@ class Googleanalytics
             );
         }
         $from = 'yesterday';
+        $today = 'today';
         if (isset($_GET['from'])){
             $from = $_GET['from'];
+        }
+        if (isset($_GET['today'])){
+            $today = $_GET['today'];
         }
         return $analytics->data_ga->get(
             'ga:' . $profileId,
             $from,
-            'today',
+            $today,
             'ga:sessions'
             ,$optParams)->getRows();
     }
