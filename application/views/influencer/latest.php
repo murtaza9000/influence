@@ -66,6 +66,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- logo for regular state and mobile devices -->
          <span class="logo-lg"><img src="<?=base_url()?>dist/img/logov2.png" alt="" class="img-responsive" style="
     margin-top: 5px;
+    width: 100%;
+    height:100%;
 "></span>
         </a>
 
