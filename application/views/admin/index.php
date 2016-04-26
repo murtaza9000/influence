@@ -413,12 +413,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     'This Month': [moment().startOf('month'), moment().endOf('month')],
                     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
                 },
-                //startDate: moment().subtract(29, 'days'),
-                //endDate: moment()
+            //    startDate: moment().subtract(29, 'days'),
+             //   endDate: moment()
             },
             function (start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                window.location = '<?=base_url().'admin/checkout/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+  window.location = '<?=base_url().'admin/checkout/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
             }
         );
         
@@ -436,7 +436,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 //endDate: moment()
             },
             function (start, end) {
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('#daterange-btnearning span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 window.location = '<?=base_url().'admin/earning_history/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
             }
         );

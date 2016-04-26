@@ -601,8 +601,8 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
 left join `influencer` as inf 
 
 on `rh`.`influencer_id` = `inf`.`id`
-left join `checkout` as chk
-on `chk`.`inf_id` = `rh`.`influencer_id`
+left join (select `inf_id`,sum(`payment_checkout`) as payment_checkout from `checkout` group by `inf_id`) as chk
+on `rh`.`influencer_id`=  `chk`.`inf_id`
 
             where `rh`.`date` >= \''.$start_date.'\' and  `rh`.`date` <= \''.$end_date.'\' 
 group by `rh`.`influencer_id`');
@@ -618,8 +618,8 @@ group by `rh`.`influencer_id`');
 left join `influencer` as inf 
 
 on `rh`.`influencer_id` = `inf`.`id`
-left join `checkout` as chk
-on `chk`.`inf_id` = `rh`.`influencer_id`
+left join (select `inf_id`,sum(`payment_checkout`) as payment_checkout from `checkout` group by `inf_id`) as chk
+on `rh`.`influencer_id`=  `chk`.`inf_id`
 
 
             
@@ -660,8 +660,7 @@ group by `rh`.`influencer_id`,`inf`.`name`,`inf`.`utm`');
 
      //   $payment_given = $this->getTotalPayment($start_date, $end_date);
 $payment_given = $this->getTotalPayment($start_date, $end_date);
-        $data['payment_left'] = $this->clean($payment_left);
-        $data['payment_given'] = $this->clean($payment_given);
+       
         //$data['total_premium'] = $total_premium;
        // $data['total_normal'] = $total_normal;
       //  $data['total_revenue'] = $total_revenue;

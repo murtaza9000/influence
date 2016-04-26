@@ -65,8 +65,8 @@ else
            <div class="<?=$serial?>" >         
      <form>
            
-            <span class="label label-warning"><b>Premium Rate</b>: $<?=$vir['click_ratepre']?></span>
-             <span class="label label-success"><b>Non-Premium Rate</b>: $<?=$vir['click_rate']?></span>
+            <span class="label label-danger"><b>Premium Rate</b>: $<?=$vir['click_ratepre']?></span>
+             <span class="label label-danger"><b>Non-Premium Rate</b>: $<?=$vir['click_rate']?></span>
             <input type="hidden" id="id<?=$serial?>" name="id" value="<?=$vir['id']?>">
             <input type="hidden" id="flag<?=$serial?>" name="flag" value="1">
            
@@ -76,8 +76,8 @@ else
      <?php $serial=rand();?>
     </div>
 <?php }  else  { ?>
-                 <span class="label label-warning"><b>Premium Rate</b>: $<?=$vir['click_ratepre']?></span>
-                <span class="label label-success"><b>Non-Premium Rate</b>: $<?=$vir['click_rate']?></span>
+                 <span class="label label-danger"><b>Premium Rate</b>: $<?=$vir['click_ratepre']?></span>
+                <span class="label label-danger"><b>Non-Premium Rate</b>: $<?=$vir['click_rate']?></span>
                
                 <button class="copyit push_button disabled"   data-clipboard-action="copy" data-clipboard-target="#utm<?php echo $index;?>" > Link is copied</button>
         
