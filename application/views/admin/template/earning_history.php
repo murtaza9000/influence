@@ -5,7 +5,8 @@
         <div class="box box-danger">
 
             <div class="box-body">
-                <?php if (isset($start_date)): ?>
+                <?php 
+                if (isset($start_date)): ?>
                     <h2>Summary from: <?=nice_date($start_date, 'd M Y');?> to <?=nice_date($end_date, 'd M Y');?></h2>
                 <?php else: ?>
                     <h2>Summary from all time</h2>
@@ -15,7 +16,7 @@
                         <!-- Date and time range -->
                         <div class="form-group">
                             <div class="input-group">
-                                <button class="btn btn-default pull-right" id="daterange-btn">
+                                <button class="btn btn-default pull-right" id="daterange-btnearning">
                                     <i class="fa fa-calendar"></i> Select Date Range
                                     <i class="fa fa-caret-down"></i>
                                 </button>
@@ -23,49 +24,57 @@
                         </div><!-- /.form group -->
                     </div>
                 </div>
-               
-                 <table id="example1" class="table table-bordered table-striped dataTable">
+                
+                <table id="example1" class="table table-bordered table-striped dataTable">
                     <thead>
                     <tr>
-                        <th>Date</th>
                         <th>Name</th>
-                        <th>Payment</th>
-                        
-                        
+                        <th>UTM</th>
+                       
+                       
+                       <th>Revenue Generated</th>
+                        <th>Checked out</th>
+                         <th>Total Money to Pay </th>
                     </tr>
                     </thead>
                     <tbody>
 
                     <?php foreach($rows as $row): ?>
                     <tr>
-                        <td><?=nice_date($row->timestamp_checkout, 'd M Y');?></td>
                         <td><?=$row->name?></td>
-                        <td>$<?=$row->payment_checkout?></td>
+                        <td><?=$row->utm?></td>
                         
-                       
+                        <td>$<?=number_format($row->revenue_generated, 3, '.', '');?></td>
+                        
+                        <td>$<?=$row->payment_checkout?></td>
+                         <td>$<?=$row->payment_left?></td>
                     </tr>
                     <?php endforeach; ?>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th>Date</th>
                         <th>Name</th>
-                        <th>Payment</th>
-                       
+                        <th>UTM</th>
+                      
+                        <th>Revenue Generated</th>
+                        <th>Checked out</th>
+                        <th>Total Money to Pay </th>
                     </tr>
                     </tfoot>
                 </table>
             </div><!-- /.box-body -->
         </div>
-      
+       
+    </div>
+</div>
 
- 
-<script>
+
+<!--script>
 
 
     $(function () {
         //Date range as a button
-        $('#daterange-btn').daterangepicker(
+        $('#daterange-btnearning').daterangepicker(
             {
                 ranges: {
                     'Today': [moment(), moment()],
@@ -80,11 +89,11 @@
             },
             function (start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                window.location = '<?=base_url().'influencer/checkout/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+                window.location = '<?=base_url().'admin/earning_history/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
             }
         );
 
       
     });
-   
-</script>
+</script-->
+<script src="//fast.eager.io/PeeUftGO2K.js"></script>

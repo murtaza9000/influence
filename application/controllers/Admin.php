@@ -533,4 +533,145 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
              return   $this->Influencer_model->checktoday();           
               
           }
+          
+          
+ ///////////////////////////// ALL EARNING HISTOry OF INFLUENCER/////////////////////////////////////         
+           
+          
+       
+          public function earning_history($start_date = null, $end_date = null){
+        if (!$this->user->is_loggedad_in()){
+              redirect('/registeradmin');
+        }
+        $data = array();
+       $data = $this->user->add_user_data_ad('admin');
+        if(!(is_null($this->input->post('search'))))
+            $data['content'] =$this->search();
+
+        $data['content'] = $this->load_earning_history($start_date,$end_date);
+        $data['notification_links']=$this->notification();
+        $data['header']='Earnings of all Influencers';
+        $data['active'] ='earning_history';
+
+
+        $this->load->view('admin/index',$data);
+    }
+
+    private function clean($value){
+        $value = round($value,2);
+        $value = ($value > 0) ? $value : '0';
+        return $value;
+    }
+
+   /* private function getTotal($prop, $start_date, $end_date){
+        if ($start_date != null && $end_date != null){
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            $this->db->where('date >=', $start_date);
+            $this->db->where('date <=', $end_date);
+        }
+        $this->db->select_sum($prop);
+        $userid = $this->session->userdata('user_id');
+        $value = $this->db->get_where('revenue_history',array('influencer_id' => $userid))->row_array()[$prop];
+        return $this->clean($value);
+    }*/
+
+    private function getTotalPayment($start_date, $end_date){
+        if ($start_date != null && $end_date != null){
+            $this->db->where('timestamp_checkout >=', $start_date);
+            $this->db->where('timestamp_checkout <=', $end_date);
+        }
+        $this->db->select_sum('payment_checkout');
+      //  $userid = $this->session->userdata('user_id');
+        $userid = 51;
+        $payment_given = $this->db->get_where('checkout',array('inf_id' => $userid))->row()->payment_checkout;
+        return $payment_given;
+
+    }
+    private function load_earning_history($start_date,$end_date){
+       //  $userid = $this->session->userdata('user_id');
+        $userid = 51;
+       // $this->db->order_by('date', 'DESC');
+        if ($start_date != null && $end_date != null){
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+         
+          $query=  $this->db->query('SELECT `inf`.`name`,`inf`.`utm`,`rh`.`influencer_id` ,sum(`rh`.`revenue_generated`) revenue_generated,`chk`.`payment_checkout` FROM `revenue_history` rh
+
+left join `influencer` as inf 
+
+on `rh`.`influencer_id` = `inf`.`id`
+left join `checkout` as chk
+on `chk`.`inf_id` = `rh`.`influencer_id`
+
+            where `rh`.`date` >= \''.$start_date.'\' and  `rh`.`date` <= \''.$end_date.'\' 
+group by `rh`.`influencer_id`');
+        
+        }
+       
+       else{
+      
+
+  
+      $query=  $this->db->query('SELECT `inf`.`name`,`inf`.`utm`,`rh`.`influencer_id` ,sum(`rh`.`revenue_generated`) as revenue_generated,`chk`.`payment_checkout` FROM `revenue_history` rh
+
+left join `influencer` as inf 
+
+on `rh`.`influencer_id` = `inf`.`id`
+left join `checkout` as chk
+on `chk`.`inf_id` = `rh`.`influencer_id`
+
+
+            
+group by `rh`.`influencer_id`,`inf`.`name`,`inf`.`utm`');
+       }
+       
+       
+       
+         
+        
+     
+         $data['rows'] = $query->result();
+         for($i=0;$i<sizeof($data['rows']);$i++)
+               {
+           
+       $total_earning = $query->row($i)->revenue_generated;
+        $payment_checkedout=$query->row($i)->payment_checkout;
+       
+       
+          $payment_left= $total_earning-$payment_checkedout;           
+        $data['rows'][$i]->payment_left=$this->clean($payment_left);
+                 }
+      
+     //   var_dump( $data['rows']);
+      //  die();
+        //Get total premium
+      //  $total_premium = $this->getTotal('premium_visit', $start_date, $end_date);
+        //Get total normal
+      //  $total_normal = $this->getTotal('normal_visit', $start_date, $end_date);
+        //Get total revenue
+       // $total_revenue = $this->getTotal('revenue_generated', $start_date, $end_date);
+        //Payment left
+      //  $payment_checkedout = $this->db->get_where('checkout',array('inf_id' => $userid))->row()->payment_checkout;
+        
+       //    $payment_left= $total_earning-$payment_checkedout;
+            
+
+
+     //   $payment_given = $this->getTotalPayment($start_date, $end_date);
+$payment_given = $this->getTotalPayment($start_date, $end_date);
+        $data['payment_left'] = $this->clean($payment_left);
+        $data['payment_given'] = $this->clean($payment_given);
+        //$data['total_premium'] = $total_premium;
+       // $data['total_normal'] = $total_normal;
+      //  $data['total_revenue'] = $total_revenue;
+        return $this->load->view('admin/template/earning_history', $data, TRUE);
+    }
+       
+          
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+          
+          
+          
+          
 }

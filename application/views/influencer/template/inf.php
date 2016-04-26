@@ -35,7 +35,7 @@
 }  
 
 img{
-        height: 67px;
+    height: 67px;
     width: 116px;
         margin-top: 5px;
 }
@@ -136,7 +136,9 @@ foreach ($rss as $inf):
                                        href="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name?>"
                                        target="blank"><?= $inf['title'] ?></a>
                                 </h3>
+                              
                                  <?= $inf['description'] ?>
+
                             </div>
                         </div>
 

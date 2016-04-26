@@ -200,6 +200,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                
               </ul>
                <li   <?php echo ($active == 'checkout') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/checkout"><i class="fa fa-link"></i> <span>Payment Log</span></a></li>
+                <li   <?php echo ($active == 'earning_history') ? 'class="active"' : '' ;?>><a href="<?php echo base_url();?>admin/earning_history"><i class="fa fa-link"></i> <span>Earning history</span></a></li>
             </li>
           </ul><!-- /.sidebar-menu -->
         </section>
@@ -420,6 +421,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 window.location = '<?=base_url().'admin/checkout/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
             }
         );
+        
+          $('#daterange-btnearning').daterangepicker(
+            {
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                //startDate: moment().subtract(29, 'days'),
+                //endDate: moment()
+            },
+            function (start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                window.location = '<?=base_url().'admin/earning_history/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+            }
+        );
+
+        
         
       });
     </script>
