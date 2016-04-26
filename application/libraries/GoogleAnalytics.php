@@ -108,7 +108,7 @@ class Googleanalytics
         if ($facebook == 'facebook'){
             $optParams = array(
                 'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
-                'filters' => 'ga:source==FB;ga:medium==AK;ga:campaign==MOHA;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
+                'filters' => 'ga:source==FB;ga:medium==AK;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
                 'max-results' => 10000
             );
         }else{
@@ -200,7 +200,7 @@ class Googleanalytics
     }
     public function execute_per_profile(&$analytics, $profile, $facebook=null){
         $premiumResults = $this->getPremiumResults($analytics, $profile['id'], $facebook);
-        print_r($premiumResults);
+        //print_r($premiumResults);
         echo '[-] Got premium results: ' . count($premiumResults) . PHP_EOL;
 
         $normalResults = $this->getNormalResults($analytics, $profile['id'], $facebook);
