@@ -107,16 +107,16 @@ class Googleanalytics
         $optParams = [];
         if ($facebook == 'facebook'){
             $optParams = array(
-                'dimensions' => 'ga:campaign,ga:searchDestinationPage',
-                'filters' => 'ga:source==FB;ga:medium==AK;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
+                'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
+                'filters' => 'ga:source==FB;ga:medium==AK;ga:campaign==MOHA;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
                 'max-results' => 10000
             );
         }else{
             $optParams = array(
-                'dimensions' => 'ga:campaign,ga:searchDestinationPage',
+                'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
                 //ga:medium==Social;
                 //ga:source==FB;ga:medium==AK;
-                'filters' => 'ga:medium==AS,ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
+                'filters' => 'ga:medium==AS;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
                 'max-results' => 10000
             );
         }
@@ -143,17 +143,17 @@ class Googleanalytics
         $optParams = [];
         if ($facebook == 'facebook'){
             $optParams = array(
-                'dimensions' => 'ga:campaign,ga:searchDestinationPage',
+                'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
                 //ga:medium==Social;
                 'filters' => 'ga:source==FB;ga:medium==AK;ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
                 'max-results' => 10000
             );
         }else{
             $optParams = array(
-                'dimensions' => 'ga:campaign,ga:searchDestinationPage',
+                'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
                 //ga:medium==Social;
                 //ga:source==FB;ga:medium==AK;
-                'filters' => 'ga:medium==AS,ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
+                'filters' => 'ga:medium==AS;ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
                 'max-results' => 10000
 
             );
@@ -193,10 +193,14 @@ class Googleanalytics
             print "No results found.\n";
         }
     }
+    private function get_date($date){
+        $newDate = DateTime::createFromFormat('YmdH',$date);
+        return $newDate;
 
+    }
     public function execute_per_profile(&$analytics, $profile, $facebook=null){
         $premiumResults = $this->getPremiumResults($analytics, $profile['id'], $facebook);
-        //print_r($premiumResults);
+        print_r($premiumResults);
         echo '[-] Got premium results: ' . count($premiumResults) . PHP_EOL;
 
         $normalResults = $this->getNormalResults($analytics, $profile['id'], $facebook);
@@ -219,12 +223,13 @@ class Googleanalytics
                     continue;
                 }
                 $link = $result[1];
-                $sessions = $result[2];
+                $date = $this->get_date($result[2]);
+                $sessions = $result[3];
                 //echo 'Premium Sessions: ' . $sessions;
                 $totalPremiumSessions += $sessions;
                 $amount = $this->calculate_amount($sessions, $premiumRates);
                 $totalAmount += $amount;
-                $this->update_amount($name, $profile['url'], $amount,$link,$sessions);
+                $this->update_amount($name, $profile['url'], $amount,$link,$date,$sessions);
 
                 //echo $result[0] . ", ";
             }
@@ -240,11 +245,12 @@ class Googleanalytics
                     continue;
                 }
                 $link = $result[1];
-                $sessions = $result[2];
+                $date = $this->get_date($result[2]);
+                $sessions = $result[3];
 
                 $amount = $this->calculate_amount($sessions, $normalRates);
 
-                $this->update_amount($name,$profile['url'],$amount,$link,$sessions, 'update');
+                $this->update_amount($name,$profile['url'],$amount,$link,$date,$sessions, 'update');
                 //echo $result[0] . ", ";
             }
         }
@@ -319,7 +325,7 @@ class Googleanalytics
         );
         $this->CI->db->update('influencer', $data);
     }
-    private function update_amount($name, $url, $amount, $link, $sessions, $update = '')
+    private function update_amount($name, $url, $amount, $link, $date, $sessions, $update = '')
     {
         $link = $url . $link;
         $inf = $this->CI->db->get_where('influencer', array('utm' => $name))->row();
@@ -347,8 +353,8 @@ class Googleanalytics
             return;
         }*/
 
-        $now = date('Y-m-d');
-        $now_time = date('Y-m-d H');
+        $now = $date->format('Y-m-d');
+        $now_time = $date->format('Y-m-d H');
 
 
         //Add Data
