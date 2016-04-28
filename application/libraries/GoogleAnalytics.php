@@ -237,7 +237,7 @@ class Googleanalytics
                 $amount = $this->calculate_amount($sessions, $premiumRates);
                 $totalAmount += $amount;
                 $this->update_amount($name, $profile['url'], $amount,$sessions);
-                $this->normalProcessedForToday[$name] = 0;
+
                 //echo $result[0] . ", ";
             }
         }
@@ -258,7 +258,8 @@ class Googleanalytics
                 $amount = $this->calculate_amount($sessions, $normalRates);
 
                 $this->update_amount($name,$profile['url'],$amount,$sessions, 'update');
-                $this->normalProcessedForToday[$name] = 1;
+
+                $this->normalProcessedForToday[$name]["normalDone"] = 1;
                 //echo $result[0] . ", ";
             }
         }
@@ -324,17 +325,30 @@ class Googleanalytics
 
     }
 
-    private function update_influencer_amount($currentPayment, $sameDay, $yesterdayPayment, $amount, $now, $now_time, $inf){
+    private function update_influencer_amount($currentPayment, $sameDay, $yesterdayPayment, $amount, $now, $now_time, $inf, $special = ''){
         $this->CI->db->where('id', $inf->id);
         $data = array();
-        if ($sameDay){
+        if (!$sameDay && $special == 'special'){
+            $data = array(
+                //'yesterday_payment' => $currentPayment + $amount,
+                'payment' => $currentPayment + $amount,
+                'payment_last_updated' => $now_time
+            );
+        }else if ($sameDay && $special == 'special'){
+            $data = array(
+                //'yesterday_payment' => $currentPayment + $amount,
+                'payment' => $currentPayment + $amount,
+                'payment_last_updated' => $now_time
+            );
+        }
+        else if ($sameDay){
             $data = array(
                 'payment' => $yesterdayPayment + $amount,
                 'payment_last_updated' => $now_time
             );
         }else{
             $data = array(
-                'yesterday_payment' => $currentPayment + $amount,
+                'yesterday_payment' => $currentPayment,
                 'payment' => $currentPayment + $amount,
                 'payment_last_updated' => $now_time
             );
@@ -372,6 +386,10 @@ class Googleanalytics
         if (intval($interval->format('%a')) < 1){
             $sameDay = true;
         }
+        if ($update == ''){
+            $this->normalProcessedForToday[$name] = array("sameDay" => $sameDay, "normalDone" => 0);
+        }
+
         //die($lastUpdated->format('Y-m-d H:i:s') . " " . $now->format('Y-m-d H:i:s') . " ". $interval->format('%a') . " .. ");
         //$now = $date->format('Y-m-d');
         //$now_time = $date->format('Y-m-d H');
@@ -394,13 +412,23 @@ class Googleanalytics
 
                 //die();
                 echo "[.] Normal Processed :" . $this->normalProcessedForToday[$name];
+                if (isset($this->normalProcessedForToday[$name]) && $this->normalProcessedForToday[$name]["normalDone"] == 0){
+                    $data = array(
+                        'normal_visit' => $sessions,
+                        'revenue_generated' => $amount + $prevAmount
+                    );
 
-                $data = array(
-                    'normal_visit' => $sessions,
-                    'revenue_generated' => $amount + $prevAmount
-                );
-                $this->CI->db->update('revenue_history', $data);
-                $this->update_influencer_amount($currentPayment, $sameDay, $yesterdayPayment, $amount + $prevAmount, $now, $now_time, $inf);
+                    $this->CI->db->update('revenue_history', $data);
+                    $this->update_influencer_amount($currentPayment, $this->normalProcessedForToday[$name]["sameDay"], $yesterdayPayment, $amount, $now, $now_time, $inf, 'special');
+                }else{
+                    $data = array(
+                        'normal_visit' => $sessions,
+                        'revenue_generated' => $amount
+                    );
+                    $this->CI->db->update('revenue_history', $data);
+                    $this->update_influencer_amount($currentPayment, $this->normalProcessedForToday[$name]["sameDay"], $yesterdayPayment, $amount, $now, $now_time, $inf);
+                }
+
                 //$this->normalProcessedForToday[$name] = 1;
 
 
