@@ -91,7 +91,7 @@ class Registeradmin extends CI_Controller
         
         if ($this->set_admin()){
             $this->session->set_flashdata('message', 'You have been successfully verified your account');
-                  $this->session->set_userdata('logged_in',true);
+                  $this->session->set_userdata('logged_in_admin',true);
                  
             
               
@@ -135,7 +135,7 @@ class Registeradmin extends CI_Controller
     public function logout()
     {
         $this->session->unset_userdata('user_id_ad');
-        $this->session->set_userdata('logge_in',false);
+        $this->session->set_userdata('logged_in_admin',false);
         redirect(base_url('adminlogin'));
     }
 }

@@ -154,7 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                      <div class="pull-right">
                      
-                      <a href="<?=base_url();?>registeradmin/out" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?=base_url();?>registeradmin/logout" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>

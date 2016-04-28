@@ -44,7 +44,7 @@ class Adminlogin extends CI_Controller
                // echo "Correct Password";
                 $row = $this->db->get_where('admin',array('email'=>$email))->row();
                 $this->session->set_userdata('user_id_ad',$row->id);
-                $this->session->set_userdata('logged_in',true);
+                $this->session->set_userdata('logged_in_admin',true);
                 redirect('/admin/');
             }
 
