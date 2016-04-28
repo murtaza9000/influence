@@ -12,6 +12,9 @@ class Googleanalytics
     protected $CI;
 
     protected $urlToAccountMap;
+
+    private $dimensionString;
+    private $normalProcessedForToday;
     public function __construct()
     {
         // Do something with $params
@@ -19,6 +22,8 @@ class Googleanalytics
         $this->CI->load->database();
         $this->CI->load->helper('date');
 
+        $this->dimensionString = 'ga:campaign';//,ga:dateHour';
+        $this->normalProcessedForToday = array();
         $this->urlToAccountMap['Premium Buzztache'] = 'buzztache.com';
     }
 
@@ -107,13 +112,13 @@ class Googleanalytics
         $optParams = [];
         if ($facebook == 'facebook'){
             $optParams = array(
-                'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
-                'filters' => 'ga:source==FB;ga:medium==AK;ga:campaign==MOHA;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
+                'dimensions' => $this->dimensionString,
+                'filters' => 'ga:source==FB;ga:medium==AK;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
                 'max-results' => 10000
             );
         }else{
             $optParams = array(
-                'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
+                'dimensions' => $this->dimensionString,
                 //ga:medium==Social;
                 //ga:source==FB;ga:medium==AK;
                 'filters' => 'ga:medium==AS;ga:country==United States,ga:country==Canada,ga:country==Australia,ga:country==United Kingdom',
@@ -143,17 +148,17 @@ class Googleanalytics
         $optParams = [];
         if ($facebook == 'facebook'){
             $optParams = array(
-                'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
+                'dimensions' => $this->dimensionString,
                 //ga:medium==Social;
-                'filters' => 'ga:source==FB;ga:medium==AK;ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
+                'filters' => 'ga:source==FB;ga:medium==AK;ga:country!=United States;ga:country!=Canada;ga:country!=Australia;ga:country!=United Kingdom',
                 'max-results' => 10000
             );
         }else{
             $optParams = array(
-                'dimensions' => 'ga:campaign,ga:searchDestinationPage,ga:dateHour',
+                'dimensions' => $this->dimensionString,
                 //ga:medium==Social;
                 //ga:source==FB;ga:medium==AK;
-                'filters' => 'ga:medium==AS;ga:country!=United States,ga:country!=Canada,ga:country!=Australia,ga:country!=United Kingdom',
+                'filters' => 'ga:medium==AS;ga:country!=United States;ga:country!=Canada;ga:country!=Australia;ga:country!=United Kingdom',
                 'max-results' => 10000
 
             );
@@ -200,10 +205,11 @@ class Googleanalytics
     }
     public function execute_per_profile(&$analytics, $profile, $facebook=null){
         $premiumResults = $this->getPremiumResults($analytics, $profile['id'], $facebook);
-        print_r($premiumResults);
+        //print_r($premiumResults);
         echo '[-] Got premium results: ' . count($premiumResults) . PHP_EOL;
 
         $normalResults = $this->getNormalResults($analytics, $profile['id'], $facebook);
+        //print_r($normalResults);
         echo '[-] Got normal results: ' . count($normalResults) . PHP_EOL;
 
         //Get Premium rate for buzztache
@@ -222,14 +228,15 @@ class Googleanalytics
                 if ($name == ''){
                     continue;
                 }
-                $link = $result[1];
-                $date = $this->get_date($result[2]);
-                $sessions = $result[3];
+
+                //$link = $result[1];
+                //$date = $this->get_date($result[1]);
+                $sessions = $result[1];
                 //echo 'Premium Sessions: ' . $sessions;
                 $totalPremiumSessions += $sessions;
                 $amount = $this->calculate_amount($sessions, $premiumRates);
                 $totalAmount += $amount;
-                $this->update_amount($name, $profile['url'], $amount,$link,$date,$sessions);
+                $this->update_amount($name, $profile['url'], $amount,$sessions);
 
                 //echo $result[0] . ", ";
             }
@@ -244,13 +251,15 @@ class Googleanalytics
                 if ($name == ''){
                     continue;
                 }
-                $link = $result[1];
-                $date = $this->get_date($result[2]);
-                $sessions = $result[3];
+                //$link = $result[1];
+                //$date = $this->get_date($result[1]);
+                $sessions = $result[1];
 
                 $amount = $this->calculate_amount($sessions, $normalRates);
 
-                $this->update_amount($name,$profile['url'],$amount,$link,$date,$sessions, 'update');
+                $this->update_amount($name,$profile['url'],$amount,$sessions, 'update');
+
+                $this->normalProcessedForToday[$name]["normalDone"] = 1;
                 //echo $result[0] . ", ";
             }
         }
@@ -316,18 +325,40 @@ class Googleanalytics
 
     }
 
-    private function update_influencer_amount($currentPayment, $amount, $now_time, $inf){
-        $currentPayment = $currentPayment + $amount;
+    private function update_influencer_amount($currentPayment, $sameDay, $yesterdayPayment, $amount, $now, $now_time, $inf, $special = ''){
         $this->CI->db->where('id', $inf->id);
-        $data = array(
-            'payment' => $currentPayment,
-            'payment_last_updated' => $now_time
-        );
+        $data = array();
+        if (!$sameDay && $special == 'special'){
+            $data = array(
+                //'yesterday_payment' => $currentPayment + $amount,
+                'payment' => $currentPayment + $amount,
+                'payment_last_updated' => $now_time
+            );
+        }else if ($sameDay && $special == 'special'){
+            $data = array(
+                //'yesterday_payment' => $currentPayment + $amount,
+                'payment' => $currentPayment + $amount,
+                'payment_last_updated' => $now_time
+            );
+        }
+        else if ($sameDay){
+            $data = array(
+                'payment' => $yesterdayPayment + $amount,
+                'payment_last_updated' => $now_time
+            );
+        }else{
+            $data = array(
+                'yesterday_payment' => $currentPayment,
+                'payment' => $currentPayment + $amount,
+                'payment_last_updated' => $now_time
+            );
+        }
         $this->CI->db->update('influencer', $data);
+
     }
-    private function update_amount($name, $url, $amount, $link, $date, $sessions, $update = '')
+    private function update_amount($name, $url, $amount, $sessions, $update = '')
     {
-        $link = $url . $link;
+        //$link = $url . $link;
         $inf = $this->CI->db->get_where('influencer', array('utm' => $name))->row();
 
 
@@ -339,76 +370,105 @@ class Googleanalytics
             //echo $inf->id;
 
         }
-        echo '[-] Processing UTM: ' . $name . PHP_EOL;
+        echo PHP_EOL . '[-] Processing UTM: ' . $name . PHP_EOL;
         echo "Sessions: " . $sessions . PHP_EOL;
         echo "Amount: " . $amount . PHP_EOL;
         $currentPayment = $inf->payment;
+        $yesterdayPayment = $inf->yesterday_payment;
         echo '[-] current payment: ' . $currentPayment . PHP_EOL;
         $lastUpdated = $inf->payment_last_updated;
 
-        /*$lastUpdated = date_create($lastUpdated);
+        $lastUpdated = date_create($lastUpdated);
         $now = date_create(date("Y-m-d H:i:s"));
         $interval = date_diff($lastUpdated, $now);
-        /*if ($interval < 1){
-            return;
-        }*/
 
-        $now = $date->format('Y-m-d');
-        $now_time = $date->format('Y-m-d H');
+        $sameDay = false;
+        if (intval($interval->format('%a')) < 1){
+            $sameDay = true;
+        }
+        if ($update == ''){
+            $this->normalProcessedForToday[$name] = array("sameDay" => $sameDay, "normalDone" => 0);
+        }
 
+        //die($lastUpdated->format('Y-m-d H:i:s') . " " . $now->format('Y-m-d H:i:s') . " ". $interval->format('%a') . " .. ");
+        //$now = $date->format('Y-m-d');
+        //$now_time = $date->format('Y-m-d H');
+        $now = date('Y-m-d');
+        $now_time = date('Y-m-d H');
 
+        echo "Current Payment: " . $currentPayment . " Same Day:" . $sameDay . " Yesterday Peyment: " . $yesterdayPayment . " , Amount: " . $amount . PHP_EOL;
         //Add Data
         if ($update == 'update') {
             echo "[-] Now in second foreach loop, Update: " . $update . PHP_EOL;
-            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $inf->id, 'time' => $now_time, 'link' => $link))->row();
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $inf->id, 'time' => $now_time))->row();
             print_r($result);
             if ($result) {
                 echo "[x] Found an entry already for today, normal updating it" . PHP_EOL;
                 $prevAmount = $result->revenue_generated;
                 $this->CI->db->where('date', $now);
-                $this->CI->db->where('link', $link);
+                //$this->CI->db->where('link', $link);
                 $this->CI->db->where('influencer_id', $inf->id);
-                $data = array(
-                    'normal_visit' => $sessions,
-                    'revenue_generated' => $amount
-                );
-                $this->CI->db->update('revenue_history', $data);
-                $this->update_influencer_amount($currentPayment, $amount - $prevAmount, $now_time, $inf);
+
+
+                //die();
+                echo "[.] Normal Processed :" . $this->normalProcessedForToday[$name];
+                if (isset($this->normalProcessedForToday[$name]) && $this->normalProcessedForToday[$name]["normalDone"] == 0){
+                    $data = array(
+                        'normal_visit' => $sessions,
+                        'revenue_generated' => $amount + $prevAmount
+                    );
+
+                    $this->CI->db->update('revenue_history', $data);
+                    $this->update_influencer_amount($currentPayment, $this->normalProcessedForToday[$name]["sameDay"], $yesterdayPayment, $amount, $now, $now_time, $inf, 'special');
+                }else{
+                    $data = array(
+                        'normal_visit' => $sessions,
+                        'revenue_generated' => $amount
+                    );
+                    $this->CI->db->update('revenue_history', $data);
+                    $this->update_influencer_amount($currentPayment, $this->normalProcessedForToday[$name]["sameDay"], $yesterdayPayment, $amount, $now, $now_time, $inf);
+                }
+
+                //$this->normalProcessedForToday[$name] = 1;
+
+
             }else{
                 echo "[x] Inserting new entry for today" . PHP_EOL;
                 $data = array(
                     'date' => $now,
                     'time' => $now_time,
-                    'link' => $link,
+                    //'link' => $link,
                     'influencer_id' => $inf->id,
                     'normal_visit' => $sessions,
                     'revenue_generated' => $amount
                 );
+                echo "Current Payment: " . $currentPayment . " , Amount: " . $amount;
+
                 $this->CI->db->insert('revenue_history', $data);
-                $this->update_influencer_amount($currentPayment, $amount, $now_time, $inf);
+                $this->update_influencer_amount($currentPayment, $sameDay, $yesterdayPayment, $amount, $now, $now_time, $inf);
             }
 
         }else{
-            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $inf->id, 'time' => $now_time, 'link' => $link))->row();
+            $result = $this->CI->db->get_where('revenue_history', array('influencer_id' => $inf->id, 'time' => $now_time))->row();
             if ($result) {
                 //die($result->amount);
                 echo "[x] Found an entry already for today, premium updating it" . PHP_EOL;
                 $prevAmount = $result->revenue_generated;
                 $this->CI->db->where('date', $now);
-                $this->CI->db->where('link', $link);
+                //$this->CI->db->where('link', $link);
                 $this->CI->db->where('influencer_id', $inf->id);
                 $data = array(
                     'premium_visit' => $sessions,
                     'revenue_generated' => $amount
                 );
                 $this->CI->db->update('revenue_history', $data);
-                $this->update_influencer_amount($currentPayment, $amount - $prevAmount, $now_time, $inf);
+                $this->update_influencer_amount($currentPayment, $sameDay, $yesterdayPayment, $amount, $now, $now_time, $inf);
             }else{
                 echo "[x] Inserting new premium entry for today" . PHP_EOL;
                 $data = array(
                     'date' => $now,
                     'time' => $now_time,
-                    'link' => $link,
+                    //'link' => $link,
                     'influencer_id' => $inf->id,
                     'premium_visit' => $sessions,
                     'revenue_generated' => $amount
@@ -416,7 +476,7 @@ class Googleanalytics
                 //print_r($data);
                 //die();
                 $this->CI->db->insert('revenue_history', $data);
-                $this->update_influencer_amount($currentPayment, $amount, $now_time, $inf);
+                $this->update_influencer_amount($currentPayment, $sameDay, $yesterdayPayment, $amount, $now, $now_time, $inf);
             }
         }
 
