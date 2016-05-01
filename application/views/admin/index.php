@@ -308,9 +308,9 @@ desired effect
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Fetch Past Analytics History</span>
-                                    <form method="get" action="<?php echo base_url(); ?>analyticsservice/">
-                                        <input class="form-control" type="date" name="from"/>
-                                        <input class="form-control" type="date" name="today"/>
+                                    <form id="fetchdata" method="get" action="<?php echo base_url(); ?>analyticsservice/">
+                                        <input class="form-control" value="2016-04-01" type="date" name="from"/>
+                                        <input class="form-control" value="2016-04-15" type="date" name="today"/>
                                         <input type="submit" class="btn-primary" value="Fetch"/>
                                     </form>
                                 </div>
@@ -425,6 +425,7 @@ desired effect
 <script src="<?= base_url() ?>/plugins/input-mask/jquery.inputmask.js"></script>
 <script src="<?= base_url() ?>/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="<?= base_url() ?>/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="<?= base_url() ?>/js/loadingoverlay.min.js"></script>
 <!-- date-range-picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
 <script src="<?= base_url() ?>/plugins/daterangepicker/daterangepicker.js"></script>
@@ -461,6 +462,9 @@ desired effect
             }
         );
 
+        $('#fetchdata').submit(function () {
+            $.LoadingOverlay("show");
+        });
         $('#daterange-btnearning').daterangepicker(
             {
                 ranges: {
