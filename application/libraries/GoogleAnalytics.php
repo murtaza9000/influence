@@ -21,6 +21,7 @@ class Googleanalytics
         $this->CI =& get_instance();
         $this->CI->load->database();
         $this->CI->load->helper('date');
+        $this->CI->load->helper('url');
 
         $this->dimensionString = 'ga:campaign';//,ga:dateHour';
         $this->normalProcessedForToday = array();
@@ -133,6 +134,7 @@ class Googleanalytics
         if (isset($_GET['today'])){
             $today = $_GET['today'];
         }
+
 
         return $analytics->data_ga->get(
             'ga:' . $profileId,
@@ -266,6 +268,12 @@ class Googleanalytics
         echo '</pre>';
     }
     public function execute(){
+
+        if ($_GET['from'] && $_GET['today']) {
+            echo '<h1>';
+            echo anchor(base_url() . 'admin/earning_history', 'See The Results!');
+            echo '</h1>';
+        }
         echo '<pre>';
 
 
@@ -278,6 +286,13 @@ class Googleanalytics
         echo '[-] getFirstProfileId' . print_r($profiles) . PHP_EOL;
 
         echo '<pre>';
+
+
+        if ($_GET['from'] && $_GET['today']){
+            echo '[x] This is a history call so clearing the entire history';
+            $this->clean_data();
+        }
+
         foreach($profiles as $profile){
             //$this->execute_per_profile($analytics, $profile);
 
@@ -480,6 +495,19 @@ class Googleanalytics
             }
         }
 
+
+    }
+
+    private function clean_data()
+    {
+        $data = array(
+            'payment' => 0,
+            'yesterday_payment' => 0,
+            'payment_last_updated' => '0000-00-00 00:00:00'
+        );
+        $this->CI->db->update('influencer', $data);
+
+        $this->CI->db->truncate('revenue_history');
 
     }
 }

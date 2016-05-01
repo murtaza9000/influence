@@ -118,7 +118,7 @@ class Admin extends CI_Controller
         //echo "hello";
         $this->load->helper('url');
         $data['notification_links']=$this->notification();
-        $data['active'] ='';
+        $data['active'] ='home';
         $this->load->view('admin/index',$data);
     }
     
