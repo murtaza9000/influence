@@ -81,6 +81,83 @@ desired effect
         </a>
 
         <!-- Header Navbar -->
+<<<<<<< HEAD
+       
+         <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <!-- Navbar Right Menu -->
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <!-- Messages: style can be found in dropdown.less-->
+              
+
+              <!-- Notifications Menu -->
+              <li class="dropdown notifications-menu">
+                <!-- Menu toggle button -->
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bell-o"></i>
+                  <span class="label label-warning"><?=is_null($notification_links) ? '0' : $notification_links ?></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">You have <?=is_null($notification_links) ? '0' : $notification_links ?> notifications</li>
+                  <li>
+                    <!-- Inner Menu: contains the notifications -->
+                     <?php  if (!(is_null($notification_links))) { ?>
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                    
+                                        <a href="<?= base_url(); ?>admin/inf">
+                                            <i class="fa fa-users text-aqua"></i><?=$notification_links?> more Users are added
+                                        </a>
+                      </li><!-- end notification -->
+                    </ul>
+                     <?php } ?>
+                  </li>
+                  <li class="footer"><a href="#">View all</a></li>
+                </ul>
+              </li>
+              <!-- Tasks Menu -->
+             
+              <!-- User Account Menu -->
+              <li class="dropdown user user-menu">
+                <!-- Menu Toggle Button -->
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <!-- The user image in the navbar-->
+                  
+                  <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                  <span class="hidden-xs"><?=$full_name?></span>
+                </a>
+              <!-- Notifications Menu -->
+             
+                <ul class="dropdown-menu">
+                  <!-- The user image in the menu -->
+                  <li class="user-header">
+                    
+                    <p>
+                        <?php echo $full_name;
+                        echo "<small>Member since: " ;
+                        $date = date_create($timestamp);
+                        echo date_format($date, 'jS F Y');
+                        echo"</small>";
+                        ?>
+                     </p>
+                  </li>
+                  <!-- Menu Body -->
+                 
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                      <div class="pull-left">
+                      <a href="<?=base_url();?>admin/profile" class='btn btn-default'>Profile</a>
+                    </div>
+                     <div class="pull-right">
+                     
+                      <a href="<?=base_url();?>registeradmin/logout" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
+=======
 
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Sidebar toggle button-->
@@ -157,7 +234,7 @@ desired effect
                                 </div>
                                 <div class="pull-right">
 
-                                    <a href="<?= base_url(); ?>registeradmin/logout" class="btn btn-default btn-flat">Sign
+                                    <a href="<?= base_url(); ?>registeradmin/out" class="btn btn-default btn-flat">Sign
                                         out</a>
                                 </div>
                             </li>
@@ -165,6 +242,7 @@ desired effect
                     </li>
                     <!-- Control Sidebar Toggle Button -->
 
+>>>>>>> e69204d3d5428c40bc601975232a8c8a7c0738c8
                 </ul>
             </div>
         </nav>
@@ -304,7 +382,7 @@ desired effect
                     <div class="row">
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
-                                <span class="info-box-icon bg-purple"><i class="ion ion-social-usd-outline"></i></span>
+                                <span class="info-box-icon bg-purple"><i class="ion ion-ios-people-outline"></i></span>
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Fetch Past Analytics History</span>
@@ -453,12 +531,16 @@ desired effect
                     'This Month': [moment().startOf('month'), moment().endOf('month')],
                     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
                 },
-                //startDate: moment().subtract(29, 'days'),
-                //endDate: moment()
+            //    startDate: moment().subtract(29, 'days'),
+             //   endDate: moment()
             },
             function (start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+<<<<<<< HEAD
+  window.location = '<?=base_url().'admin/checkout/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+=======
                 window.location = '<?=base_url() . 'admin/checkout/'?>' + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+>>>>>>> e69204d3d5428c40bc601975232a8c8a7c0738c8
             }
         );
 
@@ -479,8 +561,13 @@ desired effect
                 //endDate: moment()
             },
             function (start, end) {
+<<<<<<< HEAD
+                $('#daterange-btnearning span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                window.location = '<?=base_url().'admin/earning_history/'?>'  + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+=======
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 window.location = '<?=base_url() . 'admin/earning_history/'?>' + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD');
+>>>>>>> e69204d3d5428c40bc601975232a8c8a7c0738c8
             }
         );
 

@@ -1,5 +1,4 @@
 
-
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
         <div class="box box-danger">
@@ -45,9 +44,13 @@
                         <td><?=$row->utm?></td>
                         
                         <td>$<?=number_format($row->revenue_generated, 3, '.', '');?></td>
-                        
+                       
                         <td>$<?=$row->payment_checkout?></td>
+                        <?php if (isset($row->payment_left)){ ?>
                          <td>$<?=$row->payment_left?></td>
+                         <?php }else {?>
+                          <td>0</td>
+                          <?php }?>
                     </tr>
                     <?php endforeach; ?>
                     </tbody>

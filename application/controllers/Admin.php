@@ -651,6 +651,8 @@ group by `final`.`name`,`final`.`utm`,`final`.`influencer_id`
         
      
          $data['rows'] = $query->result();
+          $payment_left = 0;
+          if ($query->num_rows() > 0){
          for($i=0;$i<sizeof($data['rows']);$i++)
                {
            
@@ -660,10 +662,10 @@ group by `final`.`name`,`final`.`utm`,`final`.`influencer_id`
        
           $payment_left= $total_earning-$payment_checkedout;           
         $data['rows'][$i]->payment_left=$this->clean($payment_left);
+       
                  }
+          }
       
-     //   var_dump( $data['rows']);
-      //  die();
         //Get total premium
       //  $total_premium = $this->getTotal('premium_visit', $start_date, $end_date);
         //Get total normal
