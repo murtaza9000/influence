@@ -40,9 +40,11 @@ if(validation_errors()) { ?>
             echo form_open('admin/domainformsubit/add');
 
                 echo form_label("Url: ","url");
-                echo form_input("url","","class = form-control required");
-
-                echo form_label("Non-Premium Rate: ","click_rate");
+                echo form_input("url","","class = form-control required");?>
+                  <?php         echo form_label("Premium Rate: ","click_ratepre");?>
+                <input type="number" step="any" name="click_ratepre" value="0"
+                class = "form-control required" />
+               <?php    echo form_label("Non-Premium Rate: ","click_rate");
                 // echo form_input("click_rate","","class = form-control required");
                 ?>
               
@@ -63,9 +65,7 @@ if(validation_errors()) { ?>
                 <?php echo form_label("Priority: ","Priority");?>
                     <input type="number" name="priority" value="<?php echo (isset($domain[0])) ? $domain[0]['priority'] : '' ;?>" class = "form-control required"/>
             
-                        <?php         echo form_label("Premium Rate: ","click_ratepre");?>
-                <input type="number" step="any" name="click_ratepre" value="0"
-                class = "form-control required" />
+                      
                 <input type="hidden" name="all" value="all" />
                  <br>
 
@@ -78,9 +78,11 @@ if(validation_errors()) { ?>
         echo form_open('admin/domainformsubit/edit');
 
                 echo form_label("Url: ","url");
-                echo form_input("url",$editdomain[0]['url'],"class = form-control required");
-
-                echo form_label("Non-Premium Rate ","click_rate");
+                echo form_input("url",$editdomain[0]['url'],"class = form-control required");?>
+                  <?php         echo form_label("Premium Rate: ","click_ratepre");?>
+                <input type="number" step="any" name="click_ratepre" value="<?php echo $editdomain[0]['click_ratepre'];?>"
+                class = "form-control required" />
+                <?php echo form_label("Non-Premium Rate ","click_rate");
                 // echo form_input("click_rate","","class = form-control required");
                 ?>      
                 <input type="hidden" name="id" value="<?php echo $editdomain[0]['id'];?>" />
@@ -95,9 +97,7 @@ if(validation_errors()) { ?>
                 <?php echo form_label("Priority: ","Priority");?>
                 <input type="number"  name="priority" value="<?php echo $editdomain[0]['priority'];?>" class = "form-control required" />
                
-                        <?php         echo form_label("Premium Rate: ","click_ratepre");?>
-                <input type="number" step="any" name="click_ratepre" value="<?php echo $editdomain[0]['click_ratepre'];?>"
-                class = "form-control required" />
+                      
                  <br>
                 <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Edit domain Link</button>
                  <br>
@@ -183,9 +183,11 @@ foreach ($domain as $dom){?>
         echo form_open('admin/domainformsubit/add');
 
             echo form_label("Url: ","url");
-            echo form_input("url","","class = form-control required");
-
-            echo form_label("Non-Premium Rate ","click_rate");
+            echo form_input("url","","class = form-control required");?>
+             <?php         echo form_label("Premium Rate: ","click_ratepre");?>
+            <input type="number" step="any" name="click_ratepre" value="0"
+              class = "form-control required" />
+          <?php  echo form_label("Non-Premium Rate ","click_rate");
 
             // echo form_input("click_rate","","class = form-control required");
             ?>
@@ -210,9 +212,7 @@ foreach ($domain as $dom){?>
             
             <input type="hidden" name="all" value="no" />
 
-             <?php         echo form_label("Premium Rate: ","click_ratepre");?>
-        <input type="number" step="any" name="click_ratepre" value="0"
-        class = "form-control required" />
+            
          <br>
             <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Add domain Link</button>
         </form>
@@ -222,9 +222,11 @@ foreach ($domain as $dom){?>
              echo form_open('admin/domainformsubit/edit');
 
        echo form_label("Url: ","url");
-       echo form_input("url",$editdomain[0]['url'],"class = form-control required");
-       
-       echo form_label("Non-Premium Rate: ","click_rate");
+       echo form_input("url",$editdomain[0]['url'],"class = form-control required");?>
+        <?php         echo form_label("Premium Rate: ","click_ratepre");?>
+        <input type="number" step="any" name="click_ratepre" value="<?php echo $editdomain[0]['click_ratepre'];?>"
+        class = "form-control required" />
+      <?php  echo form_label("Non-Premium Rate: ","click_rate");
         // echo form_input("click_rate","","class = form-control required");
 ?>      
         <input type="hidden" name="id" value="<?php echo $editdomain[0]['id'];?>" />
@@ -237,9 +239,7 @@ foreach ($domain as $dom){?>
         <br>
           <?php echo form_label("Priority: ","Priority");?>
            <input type="number"  name="priority" value="<?php echo $editdomain[0]['priority'];?>" class = "form-control required" />
-             <?php         echo form_label("Premium Rate: ","click_ratepre");?>
-        <input type="number" step="any" name="click_ratepre" value="<?php echo $editdomain[0]['click_ratepre'];?>"
-        class = "form-control required" />
+            
        <br>
  <button type="submit" class="btn btn-danger" onsubmit="return validateForm()">Edit domain Link</button>
   <br> <br>
