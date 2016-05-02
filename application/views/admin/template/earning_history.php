@@ -62,9 +62,12 @@
                     </tr>
                     </tfoot>
                 </table>
+
+
             </div><!-- /.box-body -->
+
         </div>
-       
+        <a href="<?=base_url() . 'admin/'?>" class="btn-primary btn-lg">Go back to run more queries</a>
     </div>
 </div>
 
