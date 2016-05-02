@@ -118,7 +118,7 @@ class Admin extends CI_Controller
         //echo "hello";
         $this->load->helper('url');
         $data['notification_links']=$this->notification();
-        $data['active'] ='home';
+        $data['active'] ='';
         $this->load->view('admin/index',$data);
     }
     
@@ -596,25 +596,16 @@ $graph = $this->opengraph->fetch(trim($this->input->post('url')));
             $data['start_date'] = $start_date;
             $data['end_date'] = $end_date;
          
-          $query=  $this->db->query('select `final`.`name`,`final`.`utm`,sum(`final`.`revenue_generated`) as revenue_generated,`final`.`payment_checkout`
-from
-
-(SELECT (`times`.`waqt`) as time,`inf`.`name`,`inf`.`utm`,`rh`.`influencer_id` ,(`rh`.`revenue_generated`) revenue_generated,`chk`.`payment_checkout` FROM `revenue_history` rh
+          $query=  $this->db->query('SELECT `inf`.`name`,`inf`.`utm`,`rh`.`influencer_id` ,sum(`rh`.`revenue_generated`) revenue_generated,`chk`.`payment_checkout` FROM `revenue_history` rh
 
 left join `influencer` as inf 
 
-on  `inf`.`id` =`rh`.`influencer_id` 
-join (SELECT max(`time`)  waqt ,`influencer_id`  FROM `revenue_history`   group by `influencer_id`,date(`time`) ) as times
-	on `times`.`waqt`=`rh`.`time`
+on `rh`.`influencer_id` = `inf`.`id`
 left join (select `inf_id`,sum(`payment_checkout`) as payment_checkout from `checkout` group by `inf_id`) as chk
-on  `chk`.`inf_id`=`rh`.`influencer_id`
+on `rh`.`influencer_id`=  `chk`.`inf_id`
 
-            where 
-			 date(`rh`.`time`) >=\''.$start_date.'\' and date(`rh`.`time`) <=  \''.$end_date.'\' 
-group by `rh`.`influencer_id`,date(`time`) ) as final
-
-
-group by `final`.`name`,`final`.`utm`,`final`.`influencer_id`');
+            where `rh`.`date` >= \''.$start_date.'\' and  `rh`.`date` <= \''.$end_date.'\' 
+group by `rh`.`influencer_id`');
         
         }
        
@@ -622,27 +613,17 @@ group by `final`.`name`,`final`.`utm`,`final`.`influencer_id`');
       
 
   
-      $query=  $this->db->query('select `final`.`name`,`final`.`utm`,sum(`final`.`revenue_generated`) as revenue_generated,`final`.`payment_checkout`
-from
-
-(SELECT (`times`.`waqt`) as time,`inf`.`name`,`inf`.`utm`,`rh`.`influencer_id` ,(`rh`.`revenue_generated`) revenue_generated,`chk`.`payment_checkout` FROM `revenue_history` rh
+      $query=  $this->db->query('SELECT `inf`.`name`,`inf`.`utm`,`rh`.`influencer_id` ,sum(`rh`.`revenue_generated`) as revenue_generated,`chk`.`payment_checkout` FROM `revenue_history` rh
 
 left join `influencer` as inf 
 
-on  `inf`.`id` =`rh`.`influencer_id` 
-join (SELECT max(`time`)  waqt ,`influencer_id`  FROM `revenue_history`   group by `influencer_id`,date(`time`) ) as times
-	on `times`.`waqt`=`rh`.`time`
+on `rh`.`influencer_id` = `inf`.`id`
 left join (select `inf_id`,sum(`payment_checkout`) as payment_checkout from `checkout` group by `inf_id`) as chk
-on  `chk`.`inf_id`=`rh`.`influencer_id`
-
-            where 
-			 date(`rh`.`time`) >= \'2016-04-01\' and  date(`rh`.`time`) <=  CURDATE() 
-group by `rh`.`influencer_id`,date(`time`) ) as final
+on `rh`.`influencer_id`=  `chk`.`inf_id`
 
 
-group by `final`.`name`,`final`.`utm`,`final`.`influencer_id`
-
-');
+            
+group by `rh`.`influencer_id`,`inf`.`name`,`inf`.`utm`');
        }
        
        
@@ -651,8 +632,6 @@ group by `final`.`name`,`final`.`utm`,`final`.`influencer_id`
         
      
          $data['rows'] = $query->result();
-          $payment_left = 0;
-          if ($query->num_rows() > 0){
          for($i=0;$i<sizeof($data['rows']);$i++)
                {
            
@@ -662,10 +641,10 @@ group by `final`.`name`,`final`.`utm`,`final`.`influencer_id`
        
           $payment_left= $total_earning-$payment_checkedout;           
         $data['rows'][$i]->payment_left=$this->clean($payment_left);
-       
                  }
-          }
       
+     //   var_dump( $data['rows']);
+      //  die();
         //Get total premium
       //  $total_premium = $this->getTotal('premium_visit', $start_date, $end_date);
         //Get total normal

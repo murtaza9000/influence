@@ -260,8 +260,11 @@ class Googleanalytics
                 $amount = $this->calculate_amount($sessions, $normalRates);
 
                 $this->update_amount($name,$profile['url'],$amount,$sessions, 'update');
-
-                $this->normalProcessedForToday[$name]["normalDone"] = 1;
+                
+                if(isset($this->normalProcessedForToday[$name]["normalDone"]) )
+                {
+               $this->normalProcessedForToday[$name]["normalDone"] = 1;
+                }
                 //echo $result[0] . ", ";
             }
         }
@@ -426,7 +429,7 @@ class Googleanalytics
 
 
                 //die();
-                echo "[.] Normal Processed :" . $this->normalProcessedForToday[$name];
+              //  echo "[.] Normal Processed :" . $this->normalProcessedForToday[$name];
                 if (isset($this->normalProcessedForToday[$name]) && $this->normalProcessedForToday[$name]["normalDone"] == 0){
                     $data = array(
                         'normal_visit' => $sessions,

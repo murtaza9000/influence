@@ -1,5 +1,4 @@
 
-
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
         <div class="box box-danger">
@@ -17,7 +16,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <button class="btn btn-default pull-right" id="daterange-btnearning">
-                                    <i class="fa fa-calendar"></i> Select Date Range
+                                    <i class="fa fa-calendar"></i><span>Select Date Range</span>
                                     <i class="fa fa-caret-down"></i>
                                 </button>
                             </div>
@@ -45,9 +44,13 @@
                         <td><?=$row->utm?></td>
                         
                         <td>$<?=number_format($row->revenue_generated, 3, '.', '');?></td>
-                        
+                       
                         <td>$<?=$row->payment_checkout?></td>
+                        <?php if (isset($row->payment_left)){ ?>
                          <td>$<?=$row->payment_left?></td>
+                         <?php }else {?>
+                          <td>0</td>
+                          <?php }?>
                     </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -70,6 +73,7 @@
         <a href="<?=base_url() . 'admin/'?>" class="btn-primary btn-lg">Go back to run more queries</a>
     </div>
 </div>
+ 
 
 
 <!--script>
