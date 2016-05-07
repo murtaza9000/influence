@@ -51,6 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     <script src="<?= base_url() ?>plugins/daterangepicker/daterangepicker.js"></script>
     <script src="<?= base_url() ?>dist/clipboard.min.js"></script>
+    
  <style>
       .modal {
         position: relative;
@@ -63,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       }
        .modal {
         background: transparent !important;
-      }
+      
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -374,7 +375,7 @@ desired effect
             
             $(".copyentry").click(function(){
                             $(this).val("Link Copied");
-                           $(this).attr( "disabled", 'disabled' )
+                         
                             var serial = $(this).attr('id');
                           var divid="div." + serial;
                         //  var link=$("#link" + serial).val();

@@ -243,7 +243,7 @@ class Influencer extends CI_Controller
       }
        else
        
-               $data['rss'] = $this->Rss_model->get_influencer_lim(10,0);
+               $data['rss'] = $this->Rss_model->get_influencer_lim(12,0);
               for($i=0;$i<sizeof($data['rss']);$i++)
                {
                     $data['rss'][$i]['copied'] = $this->isLinkCopied( $data['rss'][$i]['links'], $this->session->userdata('user_id'));
@@ -274,10 +274,10 @@ class Influencer extends CI_Controller
     
     public function inf_ajax($offset){
          if((is_null($this->input->post('search'))))
-       if( $this->Rss_model->get_influencer_lim(10,$offset))
+       if( $this->Rss_model->get_influencer_lim(12,$offset))
        {
          
-        $data['rss'] = $this->Rss_model->get_influencer_lim(10,$offset);
+        $data['rss'] = $this->Rss_model->get_influencer_lim(12,$offset);
          for($i=0;$i<sizeof($data['rss']);$i++)
                {
                     $data['rss'][$i]['copied'] = $this->isLinkCopied( $data['rss'][$i]['links'], $this->session->userdata('user_id'));

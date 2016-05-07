@@ -11,13 +11,9 @@
        .label {
            font-size: 96%;
        }
-      .attachment-block 
-       {
-           margin-top: 10px;
-               padding-bottom: 20px;
-       }
+ 
        .viral{
-               padding-left: 150px;
+             
                 
        }
        .viralcopy{
@@ -25,27 +21,25 @@
                 opacity: .70;
        }
        a .latest{
-          font-size: 12px;
+          font-size: 8px;
        }
        
        
-.btn-sm {
-    padding: 1px 12px;
-    float:right;
-}  
 
-img{
-    height: 67px;
-    width: 116px;
-        margin-top: 5px;
-}
+
+
     p{
-            margin: 4px 0px 22px;
+          
+             text-overflow: ellipsis;
     }
     
-    .push_button{
-        float: right;
-    }
+     
+    
+    .bordered  {
+     
+         border: 1px solid grey;
+          background: transparent;
+}
 
             </style>
 
@@ -73,6 +67,11 @@ img{
         endif;
 ?>
    <div class="viral">
+       <div class="row">                    <!-- Master row-->
+    
+
+      <div class="col-sm-12" >
+            <div class="row" >
 <?php
 
  //
@@ -81,80 +80,69 @@ img{
 
 
 foreach ($rss as $inf):
-      if(isset($inf['description'])) { ?>
+?>
 
-    <div <?php echo ($inf['copied'] != "copied") ? "" : "class=viralcopy" ?> >
-
-
-        <div class="row" id="latest">
-            <div class="col-md-8">
+      
+  <?php   // if(isset($inf['description'])) { ?>
 
 
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8">
-                 <?php if ($inf['copied'] != "copied"): ?>
-               
-               
+  <div id="latest">                               
+  <div <?php echo ($inf['copied'] != "copied") ? "" : "class=\"viralcopy\"" ?> >
+        <div class="col-sm-4">
+
+            <div class="thumbnail">
+            <?= $inf['description'] ?>     
+
+                <div class="caption">
+
+                <p><a class="latest" href="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name?>"
+                target="blank"><?php echo substr($inf['title'],0,40); ?> </a></p>
+                
+                <?php if ($inf['copied'] != "copied"): ?>
                     <div class="<?=$serial?>" >  
-                     <form>              
+                    <form>              
                     <input type="hidden" name="link" id="link<?=$serial?>" value="<?= $inf['links'] ?>" >
                     <input type="hidden" name="id"   id="id<?=$serial?>" value="<?= $inf['id'] ?>">
                     <input type="hidden" name="flag" id="flag<?=$serial?>" value="1">
-                    <span
-                        class="label label-danger"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
-                    <span class="label label-danger"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
-                    
-                 
-                  
-                                <input type="button" id="<?=$serial?>" class="copyit push_button copyentry" data-clipboard-action="copy"
-                                        data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" value="Copy Link" />
-                        </form>          
+                    <input type="button" id="<?=$serial?>" class="copyit btn btn-sm btn-danger copyentry" data-clipboard-action="copy"
+                    data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" value="Copy Link" />
+                    </br></br>
+                    </form>          
                     <?php $serial=rand();?>
+                    <span  class="label label-danger"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
+                <span class="label label-danger"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
                     </div>
-                    <?php else: ?>
-                    <span
-        class="label label-danger"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
-                    <span class="label label-danger"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
-                    
-        
-                        <button  class="copyit push_button disabled"  disabled>Link is copied</button>
-                    <?php endif; ?>
-                    
-                       </div>
-                    </div>
-                    
-                    <div class="attachment-block clearfix bg-grey image_latest">
-
-                        <div class="row">
-                             
-                            <div class="col-md-8">
-                               
-                                <h3 class="attachment-heading">
-                                    <a class="latest"
-                                       href="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?= $name?>"
-                                       target="blank"><?= $inf['title'] ?></a>
-                                </h3>
-                              
-                                 <?= $inf['description'] ?>
-
-                            </div>
-                        </div>
-
-
-                    </div>
+                <?php else: ?>
+                
+                    <input type="button" id="<?=$serial?>" class="copyit btn btn-sm btn-danger" data-clipboard-action="copy"
+                    data-clipboard-text="<?= $inf['links'] ?>?utm_source=Social&utm_medium=AS&utm_campaign=<?=$name?>" value="Link Copied" />
+                    </br></br>
+                    <span  class="label label-danger"><b>Premium Rate</b>: $<?= $inf['click_ratepre'] ?></span>
+                <span class="label label-danger"><b>Non-Premium Rate</b>: $<?= $inf['click_rate'] ?></span>
+                <?php endif; ?>  
+                
                 
 
-        
+                </div>
+            </div>
     </div>
+    </div>
+</div>
+										  
+               
+        
     <?php
             $index++;
-      }
-        endforeach;
+     // } 
+      
+     
+   endforeach;
     
 
     ?>
+            </div>  
+         </div>
+    </div>     <!-- Master row end-->
    </div>
             
          <script src="<?=base_url()?>/plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -165,12 +153,13 @@ foreach ($rss as $inf):
                $(document).ready(function(){
                     $(".copyentry").click(function(){
                             $(this).val("Link Copied");
-                           $(this).attr( "disabled", 'disabled' )
+                           
                             var serial = $(this).attr('id');
                           var divid="div." + serial;
                           var link=$("#link" + serial).val();
                           var id=$("#id" + serial).val();
                           var flag=$("#flag" + serial).val();
+                          
                           var  url= '<?=base_url()?>' + "influencer/docopy" ;
                           var posts=  "link="+link+"&id="+id+"&flag="+flag ;
                               
@@ -188,7 +177,6 @@ foreach ($rss as $inf):
                });
        </script> 
             
- 
  
  
  
