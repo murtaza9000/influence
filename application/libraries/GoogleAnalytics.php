@@ -26,6 +26,7 @@ class Googleanalytics
         $this->dimensionString = 'ga:campaign';//,ga:dateHour';
         $this->normalProcessedForToday = array();
         $this->urlToAccountMap['Premium Buzztache'] = 'buzztache.com';
+        $this->urlToAccountMap['All Web Site Data'] = 'buzztache.com';
     }
 
     private function getService()
@@ -91,7 +92,7 @@ class Googleanalytics
                     ->listManagementProfiles($firstAccountId, $firstPropertyId);
 
                 for ($k = 0; $k < count($profiles->getItems()); $k++) {
-                    //echo $profiles[$k]->getName();
+                    echo '[x] Profile Name: '.$profiles[$k]->getName() . PHP_EOL;
 
                     foreach($this->urlToAccountMap as $key => $value){
                         if ($profiles[$k]->getName() == $key){
@@ -268,7 +269,7 @@ class Googleanalytics
                 //echo $result[0] . ", ";
             }
         }
-        echo '</pre>';
+
     }
     public function execute(){
 
@@ -288,7 +289,7 @@ class Googleanalytics
         $profiles = $this->getFirstProfileId($analytics);
         echo '[-] getFirstProfileId' . print_r($profiles) . PHP_EOL;
 
-        echo '<pre>';
+
 
 
         if ($_GET['from'] && $_GET['today']){
@@ -297,7 +298,7 @@ class Googleanalytics
         }
 
         foreach($profiles as $profile){
-            //$this->execute_per_profile($analytics, $profile);
+            $this->execute_per_profile($analytics, $profile);
 
             //Load old facebook ones too
             $this->execute_per_profile($analytics, $profile, 'facebook');
