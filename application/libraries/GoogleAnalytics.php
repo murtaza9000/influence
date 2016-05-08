@@ -383,11 +383,13 @@ class Googleanalytics
 
         if (!$inf){
             //die('found nothing');
-            return;
+            $data = array(
+                'utm' => $name
+            );
+            $this->CI->db->insert('influencer', $data);
         }else{
             //print_r($inf);
             //echo $inf->id;
-
         }
         echo PHP_EOL . '[-] Processing UTM: ' . $name . PHP_EOL;
         echo "Sessions: " . $sessions . PHP_EOL;
