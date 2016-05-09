@@ -273,11 +273,11 @@ class Googleanalytics
     }
     public function execute(){
 
-        if ($_GET['from'] && $_GET['today']) {
+        //if (isset($_GET['from']) && isset($_GET['today'])) {
             echo '<h1>';
             echo anchor(base_url() . 'admin/earning_history', 'See The Results!');
             echo '</h1>';
-        }
+        //}
         echo '<pre>';
 
 
