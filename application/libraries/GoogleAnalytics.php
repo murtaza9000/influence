@@ -31,7 +31,7 @@ class Googleanalytics
 
         $this->amountMap = array();
 
-        $this->urlToAccountMap['Premium Buzztache'] = 'buzztache.com';
+        //$this->urlToAccountMap['Premium Buzztache'] = 'buzztache.com';
         $this->urlToAccountMap['All Web Site Data'] = 'buzztache.com';
     }
 
